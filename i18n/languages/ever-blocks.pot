@@ -1,0 +1,52 @@
+# Copyright (c) 2019 PluginEver. All Rights Reserved.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ever Blocks 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/pluginever/ever-blocks/issues\n"
+"Last-Translator: support@pluginever.com\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-12-04T14:49:59+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.2.0\n"
+"X-Domain: ever-blocks\n"
+
+#: src/blocks/alert/index.js:10
+msgid "Add a profile box with bio info and social media links."
+msgstr ""
+
+#: src/blocks/alert/index.js:14
+msgid "author"
+msgstr ""
+
+#: src/blocks/alert/index.js:15
+msgid "profile"
+msgstr ""
+
+#: src/blocks/alert/index.js:16
+msgid "atomic"
+msgstr ""
+
+#: src/blocks/alert/index.js:9
+msgid "Alert"
+msgstr ""
+
+#. Plugin Name of the plugin
+#. Description of the plugin
+#: includes/class-everblocks-register-blocks.php:80
+msgid "Ever Blocks"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://www.pluginever.com/plugins/ever-blocks/"
+msgstr ""
+
+#. Author of the plugin
+msgid "pluginever"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://pluginever.com"
+msgstr ""

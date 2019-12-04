@@ -1,0 +1,23 @@
+.block-editor-block-styles .wp-block-ever-blocks-alert {
+	background-color: $alert-default-background-color !important;
+	border: 1px solid $alert-default-border-color !important;
+	color: $alert-default-color !important;
+
+	&.is-style-warning {
+		background-color: $alert-warning-background-color !important;
+		border: 1px solid $alert-warning-border-color !important;
+		color: $alert-warning-color !important;
+	}
+
+	&.is-style-error {
+		background-color: $alert-error-background-color !important;
+		border: 1px solid $alert-error-border-color !important;
+		color: $alert-error-color !important;
+	}
+
+	&.is-style-success {
+		background-color: $alert-success-background-color !important;
+		border: 1px solid $alert-success-border-color !important;
+		color: $alert-success-color !important;
+	}
+}
