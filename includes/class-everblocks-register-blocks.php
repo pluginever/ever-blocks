@@ -64,6 +64,16 @@ class EverBlocks_Register_Blocks {
 				'style'         => $slug . '-frontend',
 			)
 		);
+
+		//author block
+		register_block_type(
+			$slug . '/author',
+			array(
+				'editor_script' => $slug . '-editor',
+				'editor_style'  => $slug . '-editor',
+				'style'         => $slug . '-frontend',
+			)
+		);
 	}
 
 

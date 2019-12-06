@@ -34,7 +34,7 @@ const attributes = {
 
 registerBlockType('ever-blocks/alert', {
 	title: __('Alert', 'ever-blocks'),
-	description: __('Add a profile box with bio info and social media links.', 'ever-blocks'),
+	description: __('Add a notice block.', 'ever-blocks'),
 	icon: icon,
 	category: 'ever-blocks',
 	keywords: [
