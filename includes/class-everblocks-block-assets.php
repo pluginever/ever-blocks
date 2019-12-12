@@ -5,7 +5,7 @@
  * @package Ever Blocks
  */
 
-defined('ABSPATH') || exit();
+defined( 'ABSPATH' ) || exit();
 
 /**
  * Load general assets for our blocks.
@@ -98,7 +98,6 @@ class EverBlocks_Block_Assets {
 			false
 		);
 
-
 	}
 
 	/**
@@ -108,7 +107,6 @@ class EverBlocks_Block_Assets {
 	 * @since 1.0.0
 	 */
 	public function frontend_scripts() {
-
 
 		// Define where the asset is loaded from.
 		$dir = ever_blocks()->asset_source( 'js' );

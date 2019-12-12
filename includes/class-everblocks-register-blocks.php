@@ -1,5 +1,11 @@
 <?php
-defined('ABSPATH') || exit();
+/**
+ * Register our blocks.
+ *
+ * @package Ever Blocks
+ */
+
+defined( 'ABSPATH' ) || exit();
 
 /**
  * Load registration for our blocks.
@@ -69,23 +75,26 @@ class EverBlocks_Register_Blocks {
 
 
 	/**
-	 * since 1.0.0
-	 * @param $categories
-	 * @param $post
+	 * Register our block category
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array  $categories array block categories.
+	 * @param object $post post object.
 	 *
 	 * @return array
 	 */
-	public function register_category($categories, $post){
-		if ( $post->post_type !== 'post' ) {
+	public function register_category( $categories, $post ) {
+		if ( 'post' !== $post->post_type ) {
 			return $categories;
 		}
-	
+
 		return array_merge(
 			$categories,
 			array(
 				array(
-					'slug' => 'ever-blocks',
-					'title' => __( 'Ever Blocks', 'ever-blocks' )
+					'slug'  => 'ever-blocks',
+					'title' => __( 'Ever Blocks', 'ever-blocks' ),
 				),
 			)
 		);

@@ -33,134 +33,140 @@
 
 defined( 'ABSPATH' ) || exit();
 
+/**
+ * Main plugin class.
+ * Class EverBlocks
+ * @package Ever Blocks
+ */
 final class EverBlocks {
-    /**
-     * The single instance of the class.
-     *
-     * @var self
-     * @since  1.0.0
-     */
-    private static $instance = null;
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var self
+	 * @since  1.0.0
+	 */
+	private static $instance = null;
 
-    /**
-     * Main EverBlocks Instance.
-     *
-     * Ensures only one instance of EverBlocks is loaded or can be loaded.
-     *
-     * @return EverBlocks
-     * @see EverBlocks()
-     * @since  1.0.0
-     * @static
-     */
-    public static function instance() {
-        if ( is_null( self::$instance ) ) {
-            self::$instance = new self();
-            self::$instance->define_constants();
-            self::$instance->init();
-            self::$instance->includes();
-        }
+	/**
+	 * Main EverBlocks Instance.
+	 *
+	 * Ensures only one instance of EverBlocks is loaded or can be loaded.
+	 *
+	 * @return EverBlocks
+	 * @see EverBlocks()
+	 * @since  1.0.0
+	 * @static
+	 */
+	public static function instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+			self::$instance->define_constants();
+			self::$instance->init();
+			self::$instance->includes();
+		}
 
-        return self::$instance;
-    }
+		return self::$instance;
+	}
 
-    /**
-     * Cloning is forbidden.
-     *
-     * @return void
-     * @since 1.0.0
-     */
-    public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'ever-blocks' ), '1.0.0' );
-    }
+	/**
+	 * Cloning is forbidden.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'ever-blocks' ), '1.0.0' ); // phpcs:disable
+	}
 
-    /**
-     * Universalizing instances of this class is forbidden.
-     *
-     * @return void
-     * @since 1.0.0
-     */
-    public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'ever-blocks' ), '1.0.0' );
-    }
+	/**
+	 * Universalizing instances of this class is forbidden.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'ever-blocks' ), '1.0.0' );
+	}
 
-    /**
-     *  Define constants.
-     *
-     * since 1.0.0
-     *
-     * @return void
-     */
-    private function define_constants() {
-        define( 'EVER_BLOCKS_VERSION', '1.0.0' );
-        define( 'EVER_BLOCKS_FILE', __FILE__ );
-        define( 'EVER_BLOCKS_ABSPATH', dirname( EVER_BLOCKS_FILE ) );
-        define( 'EVER_BLOCKS_BASENAME', plugin_basename( __FILE__ ) );
-        define( 'EVER_BLOCKS_INCLUDES', EVER_BLOCKS_ABSPATH . '/includes' );
-        define( 'EVER_BLOCKS_URL', plugins_url( '', EVER_BLOCKS_FILE ) );
-        define( 'EVER_BLOCKS_ASSETS_URL', EVER_BLOCKS_URL . '/assets' );
-        define( 'EVER_BLOCKS_ASSETS_SUFFIX', SCRIPT_DEBUG ? null : '.min' );
-    }
+	/**
+	 *  Define constants.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function define_constants() {
+		define( 'EVER_BLOCKS_VERSION', '1.0.0' );
+		define( 'EVER_BLOCKS_FILE', __FILE__ );
+		define( 'EVER_BLOCKS_ABSPATH', dirname( EVER_BLOCKS_FILE ) );
+		define( 'EVER_BLOCKS_BASENAME', plugin_basename( __FILE__ ) );
+		define( 'EVER_BLOCKS_INCLUDES', EVER_BLOCKS_ABSPATH . '/includes' );
+		define( 'EVER_BLOCKS_URL', plugins_url( '', EVER_BLOCKS_FILE ) );
+		define( 'EVER_BLOCKS_ASSETS_URL', EVER_BLOCKS_URL . '/assets' );
+		define( 'EVER_BLOCKS_ASSETS_SUFFIX', SCRIPT_DEBUG ? null : '.min' );
+	}
 
-    /**
-     * Includes.
-     *
-     * since 1.0.0
-     * @return void
-     */
-    protected function includes() {
-	    require_once EVER_BLOCKS_ABSPATH . '/includes/class-everblocks-block-assets.php';
-	    require_once EVER_BLOCKS_ABSPATH . '/includes/class-everblocks-register-blocks.php';
-    }
+	/**
+	 * Includes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected function includes() {
+		require_once EVER_BLOCKS_ABSPATH . '/includes/class-everblocks-block-assets.php';
+		require_once EVER_BLOCKS_ABSPATH . '/includes/class-everblocks-register-blocks.php';
+	}
 
-    /**
-     * Load actions
-     *
-     * @return void
-     */
-    private function init() {
-        add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 99 );
-        add_action( 'enqueue_block_editor_assets', array( $this, 'block_localization' ) );
-    }
+	/**
+	 * Load actions
+	 *
+	 * @return void
+	 */
+	private function init() {
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ), 99 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'block_localization' ) );
+	}
 
-    /**
-     * If debug is on, serve unminified source assets.
-     *
-     * @since 1.0.0
-     * @param string $type
-     * @param null $directory
-     *
-     * @return string
-     */
-    public function asset_source( $type = 'js', $directory = null ) {
+	/**
+	 * If debug is on, serve unminified source assets.
+	 *
+	 * since 1.0.0
+	 * @param string $type
+	 * @param string $directory
+	 *
+	 * @return string
+	 */
+	public function asset_source( $type = 'js', $directory = null ) {
 
-        if ( 'js' === $type ) {
-            return SCRIPT_DEBUG ? EVER_BLOCKS_URL . 'src/' . $type . '/' . $directory : EVER_BLOCKS_URL . 'dist/' . $type . '/' . $directory;
-        } else {
-            return EVER_BLOCKS_URL . 'dist/css/' . $directory;
-        }
-    }
+		if ( 'js' === $type ) {
+			return SCRIPT_DEBUG ? EVER_BLOCKS_URL . 'src/' . $type . '/' . $directory : EVER_BLOCKS_URL . 'dist/' . $type . '/' . $directory;
+		} else {
+			return EVER_BLOCKS_URL . 'dist/css/' . $directory;
+		}
+	}
 
-    /**
-     * Loads the plugin language files.
-     *
-     * @access public
-     * @return void
-     * @since 1.0.0
-     */
-    public function load_textdomain() {
-        load_plugin_textdomain( 'ever-blocks', false, basename( EVER_BLOCKS_ABSPATH ) . '/languages' );
-    }
+	/**
+	 * Loads the plugin language files.
+	 *
+	 * @access public
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function load_textdomain() {
+		load_plugin_textdomain( 'ever-blocks', false, basename( EVER_BLOCKS_ABSPATH ) . '/languages' );
+	}
 
-    /**
-     * Enqueue localization data for our blocks.
-     *
-     * @access public
-     */
-    public function block_localization() {
-        if ( function_exists( 'wp_set_script_translations' ) ) {
-            wp_set_script_translations( 'ever-blocks-editor', 'ever-blocks', EVER_BLOCKS_ABSPATH . '/languages' );
-        }
-    }
+	/**
+	 * Enqueue localization data for our blocks.
+	 *
+	 * @access public
+	 */
+	public function block_localization() {
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'ever-blocks-editor', 'ever-blocks', EVER_BLOCKS_ABSPATH . '/languages' );
+		}
+	}
 
 }
 
@@ -173,12 +179,12 @@ final class EverBlocks {
  * @since  1.0.0
  */
 function ever_blocks() {
-    if ( ! is_multisite() ) {
-        return EverBlocks::instance();
-    }
+	if ( ! is_multisite() ) {
+		return EverBlocks::instance();
+	}
 
-    return false;
+	return false;
 }
 
-//do magic
+// do magic .
 ever_blocks();

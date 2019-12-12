@@ -18,6 +18,7 @@
 	},
 	"scripts": {
 		"lint": "@php ./vendor/bin/phpcs",
-		"test": "@php ./vendor/bin/phpunit"
+		"test": "@php ./vendor/bin/phpunit",
+		"phpcbf": "phpcbf -p"
 	}
 }
