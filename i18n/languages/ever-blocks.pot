@@ -8,39 +8,22 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-04T14:49:59+00:00\n"
+"POT-Creation-Date: 2019-12-12T13:34:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.2.0\n"
 "X-Domain: ever-blocks\n"
 
-#: src/blocks/alert/index.js:10
-msgid "Add a profile box with bio info and social media links."
-msgstr ""
-
-#: src/blocks/alert/index.js:14
-msgid "author"
-msgstr ""
-
-#: src/blocks/alert/index.js:15
-msgid "profile"
-msgstr ""
-
-#: src/blocks/alert/index.js:16
-msgid "atomic"
-msgstr ""
-
-#: src/blocks/alert/index.js:9
-msgid "Alert"
-msgstr ""
-
 #. Plugin Name of the plugin
-#. Description of the plugin
-#: includes/class-everblocks-register-blocks.php:80
+#: includes/class-everblocks-register-blocks.php:97
 msgid "Ever Blocks"
 msgstr ""
 
 #. Plugin URI of the plugin
 msgid "https://www.pluginever.com/plugins/ever-blocks/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Ever Blocks is a professional page building blocks for the WordPress Gutenberg block editor."
 msgstr ""
 
 #. Author of the plugin
@@ -49,4 +32,85 @@ msgstr ""
 
 #. Author URI of the plugin
 msgid "http://pluginever.com"
+msgstr ""
+
+#: src/blocks/alert/edit.js:42
+msgid "Alert Title…"
+msgstr ""
+
+#: src/blocks/alert/edit.js:51
+msgid "Alert message content..."
+msgstr ""
+
+#: src/blocks/alert/index.js:36
+msgid "Alert"
+msgstr ""
+
+#: src/blocks/alert/index.js:37
+msgid "Add a notice block."
+msgstr ""
+
+#: src/blocks/alert/index.js:41
+#: src/blocks/author/index.js:43
+msgid "ever blocks"
+msgstr ""
+
+#: src/blocks/alert/index.js:42
+msgid "notice"
+msgstr ""
+
+#: src/blocks/alert/index.js:43
+msgid "message"
+msgstr ""
+
+#: src/blocks/alert/index.js:48
+msgid "Info"
+msgstr ""
+
+#: src/blocks/alert/index.js:53
+msgid "Success"
+msgstr ""
+
+#: src/blocks/alert/index.js:57
+msgid "Warning"
+msgstr ""
+
+#: src/blocks/alert/index.js:61
+msgid "Error"
+msgstr ""
+
+#: src/blocks/alert/index.js:66
+#: src/blocks/author/index.js:49
+msgid "Well done!"
+msgstr ""
+
+#: src/blocks/alert/index.js:67
+#: src/blocks/author/index.js:50
+msgid "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content."
+msgstr ""
+
+#: src/blocks/author/edit.js:120
+#: src/blocks/author/index.js:99
+msgid "Author name…"
+msgstr ""
+
+#: src/blocks/author/edit.js:135
+#: src/blocks/author/index.js:114
+msgid "Write a biography that distills objective credibility and authority to your readers…"
+msgstr ""
+
+#: src/blocks/author/index.js:38
+msgid "Author"
+msgstr ""
+
+#: src/blocks/author/index.js:39
+msgid "Add a author box with bio info and social media links."
+msgstr ""
+
+#: src/blocks/author/index.js:44
+msgid "author"
+msgstr ""
+
+#: src/blocks/author/index.js:45
+msgid "bio"
 msgstr ""

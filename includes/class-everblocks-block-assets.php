@@ -1,4 +1,10 @@
 <?php
+/**
+ * Load assets for our blocks.
+ *
+ * @package Ever Blocks
+ */
+
 defined('ABSPATH') || exit();
 
 /**
@@ -7,7 +13,6 @@ defined('ABSPATH') || exit();
  * @since 1.0.0
  */
 class EverBlocks_Block_Assets {
-
 
 	/**
 	 * This plugin's instance.

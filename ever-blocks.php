@@ -10,7 +10,7 @@
  * License:     GPLv2+
  * Text Domain: ever-blocks
  * Domain Path: /i18n/languages/
- * Tested up to: 5.2.2
+ * Tested up to: 5.3
  */
 
 /**
@@ -42,7 +42,6 @@ final class EverBlocks {
      */
     private static $instance = null;
 
-
     /**
      * Main EverBlocks Instance.
      *
@@ -64,7 +63,6 @@ final class EverBlocks {
         return self::$instance;
     }
 
-
     /**
      * Cloning is forbidden.
      *
@@ -72,7 +70,7 @@ final class EverBlocks {
      * @since 1.0.0
      */
     public function __clone() {
-        _doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'wp-job-listings' ), '1.0.0' );
+        _doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'ever-blocks' ), '1.0.0' );
     }
 
     /**
@@ -82,7 +80,7 @@ final class EverBlocks {
      * @since 1.0.0
      */
     public function __wakeup() {
-        _doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'wp-job-listings' ), '1.0.0' );
+        _doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'ever-blocks' ), '1.0.0' );
     }
 
     /**

@@ -4,7 +4,7 @@ defined('ABSPATH') || exit();
 /**
  * Load registration for our blocks.
  *
- * @since 1.6.0
+ * @since 1.0.0
  */
 class EverBlocks_Register_Blocks {
 
@@ -65,15 +65,6 @@ class EverBlocks_Register_Blocks {
 			)
 		);
 
-		//author block
-		register_block_type(
-			$slug . '/author',
-			array(
-				'editor_script' => $slug . '-editor',
-				'editor_style'  => $slug . '-editor',
-				'style'         => $slug . '-frontend',
-			)
-		);
 	}
 
 
