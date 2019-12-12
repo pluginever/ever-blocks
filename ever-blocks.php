@@ -9,7 +9,7 @@
  * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: ever-blocks
- * Domain Path: /i18n/languages/
+ * Domain Path: /languages/
  * Tested up to: 5.3
  */
 

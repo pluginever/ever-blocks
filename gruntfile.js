@@ -35,7 +35,7 @@ module.exports = function( grunt ) {
 					{
 						expand: true,
 						src: [
-							'class-' + pkg.name + '.php',
+							'ever-blocks.php',
 							'LICENSE',
 							'readme.txt',
 							'src/**/*.php',
@@ -105,7 +105,7 @@ module.exports = function( grunt ) {
 		replace: {
 			php: {
 				src: [
-					'class-' + pkg.name + '.php',
+					'ever-blocks.php',
 					'includes/**/*.php',
 				],
 				overwrite: true,

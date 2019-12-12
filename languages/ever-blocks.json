@@ -1,0 +1,22 @@
+{
+  "2f390101c62561ee3c35ce5643b0f9b7": "Ever Blocks",
+  "d6fcb4c97b9e0a70592335e9b257b661": "https:\/\/www.pluginever.com\/plugins\/ever-blocks\/",
+  "c69930b2204d7b84a908f506b7cb1c42": "Ever Blocks is a professional page building blocks for the WordPress Gutenberg block editor.",
+  "f98366e0eab2c3482f0d567380a812f7": "pluginever",
+  "30661b6189414a9f036cc8ea6fc55c53": "http:\/\/pluginever.com",
+  "9a31b99b535d876abd567f9bf02237e8": "Cloning is forbidden.",
+  "dc71d4ca4756e993207b12b4a365fcdc": "Unserializing instances of this class is forbidden.",
+  "3553bedf47cbeaadad6a3522a15773f7": "Alert Title…",
+  "a7400dac60ec17a7d91a16bee1aebabb": "Alert message content...",
+  "b92071d61c88498171928745ca53078b": "Alert",
+  "b71c12b6e11e11e8c69461df8f9c7fa1": "Add a notice block.",
+  "4852e1670360151a85c942132247514c": "ever blocks",
+  "efd2af60c8501931cb9c736b5ad74f65": "notice",
+  "78e731027d8fd50ed642340b7c9a63b3": "message",
+  "4059b0251f66a18cb56f544728796875": "Info",
+  "505a83f220c02df2f85c3810cd9ceb38": "Success",
+  "0eaadb4fcb48a0a0ed7bc9868be9fbaa": "Warning",
+  "902b0d55fddef6f8d651fe1035b7d4bd": "Error",
+  "60e2016ddc5fc624739607e22b531cda": "Well done!",
+  "b5c3291bf5dbb6c6ba51d744252a9b91": "Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content."
+}
