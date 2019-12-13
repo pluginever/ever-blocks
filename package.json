@@ -14,6 +14,8 @@
 	"scripts": {
 		"start": "node .build/scripts/start.js",
 		"build": "node .build/scripts/build.js",
+		"version": "grunt version && npm run babel:build && git add -A .",
+		"postversion": "git push && git push --tags",
 		"makepot": "wp i18n make-pot . --merge=languages/ever-blocks-js.pot --skip-audit --exclude=build,dist --headers='{\"Last-Translator\":\"support@pluginever.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/pluginever/ever-blocks/issues\"}' --file-comment='Copyright (c) 2019 PluginEver. All Rights Reserved.' && rm -f languages/ever-blocks-js.pot && grunt replace:languages && npm run pot2json",
 		"babel:json": "wp i18n make-json languages",
 		"babel:build": "npm run makepot",
@@ -92,7 +94,10 @@
 		"style-loader": "^0.19.1",
 		"styled-components": "^3.4.10",
 		"update-notifier": "^2.5.0",
-		"webpack": "^3.12.0"
+		"webpack": "^3.12.0",
+		"@babel/plugin-transform-runtime": "^7.7.6",
+		"@babel/preset-env": "^7.7.6",
+		"husky": "^3.1.0"
 	},
 	"eslintConfig": {
 		"extends": "wordpress"
@@ -115,9 +120,5 @@
 		"*.js": [
 			"eslint"
 		]
-	},
-	"dependencies": {
-		"@babel/plugin-transform-runtime": "^7.7.6",
-		"@babel/preset-env": "^7.7.6"
 	}
 }

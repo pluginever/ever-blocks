@@ -40,6 +40,7 @@ module.exports = function( grunt ) {
 							'readme.txt',
 							'src/**/*.php',
 							'dist/**',
+							'languages/**',
 							'includes/**',
 							'!**/*.{ai,eps,psd}',
 						],
