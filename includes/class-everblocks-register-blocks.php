@@ -77,15 +77,15 @@ class EverBlocks_Register_Blocks {
 	/**
 	 * Register our block category
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param array  $categories array block categories.
+	 * @param array $categories array block categories.
 	 * @param object $post post object.
 	 *
 	 * @return array
+	 * @since 1.0.0
+	 *
 	 */
 	public function register_category( $categories, $post ) {
-		if ( 'post' !== $post->post_type ) {
+		if ( ! in_array( $post->post_type, array( 'page', 'post' ) ) ) {
 			return $categories;
 		}
 
