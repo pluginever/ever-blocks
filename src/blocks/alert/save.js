@@ -6,6 +6,13 @@ const save = ( { attributes } ) => {
 		textAlign,
 		title,
 		value,
+		backgroundColor,
+		titleColor,
+		descriptionColor,
+		borderColor,
+		borderWidth,
+		borderStyle,
+		borderRadius,
 	} = attributes;
 
 	const classes = classnames( {
@@ -15,12 +22,23 @@ const save = ( { attributes } ) => {
 	return (
 		<div
 			className={ classes }
+			style={{
+				backgroundColor: backgroundColor ? backgroundColor : undefined,
+				borderWidth: borderWidth ? borderWidth : 1,
+				borderStyle: borderStyle ? borderStyle : undefined,
+				borderRadius: borderRadius ? borderRadius : undefined,
+				borderColor: borderColor ? borderColor : undefined,
+			}}
+
 		>
 			{ ! RichText.isEmpty( title ) &&
 			<RichText.Content
 				tagName="p"
 				className="wp-block-ever-blocks-alert__title"
 				value={ title }
+				style={{
+					color: titleColor
+				}}
 			/>
 			}
 			{ ! RichText.isEmpty( value ) &&
@@ -28,6 +46,9 @@ const save = ( { attributes } ) => {
 				tagName="p"
 				className="wp-block-ever-blocks-alert__text"
 				value={ value }
+				style={{
+					color: descriptionColor
+				}}
 			/>
 			}
 		</div>

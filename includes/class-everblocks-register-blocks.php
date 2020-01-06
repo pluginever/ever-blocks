@@ -67,7 +67,26 @@ class EverBlocks_Register_Blocks {
 
 		//author block
 		register_block_type(
-			$slug . '/author',
+			$slug . '/testimonial',
+			array(
+				'editor_script' => $slug . '-editor',
+				'editor_style'  => $slug . '-editor',
+				'style'         => $slug . '-frontend',
+			)
+		);
+
+		//card block
+		register_block_type(
+			$slug . '/card',
+			array(
+				'editor_script' => $slug . '-editor',
+				'editor_style'  => $slug . '-editor',
+				'style'         => $slug . '-frontend',
+			)
+		);
+		//card block
+		register_block_type(
+			$slug . '/team',
 			array(
 				'editor_script' => $slug . '-editor',
 				'editor_style'  => $slug . '-editor',
@@ -88,7 +107,7 @@ class EverBlocks_Register_Blocks {
 		if ( $post->post_type !== 'post' ) {
 			return $categories;
 		}
-	
+
 		return array_merge(
 			$categories,
 			array(

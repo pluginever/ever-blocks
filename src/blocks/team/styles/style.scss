@@ -1,0 +1,84 @@
+.wp-block-ever-blocks-team {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  &__image-wrap{
+	margin-bottom: 20px;
+	position: relative;
+  }
+
+  &__avatar{
+	width: 100%;
+	border-radius: 5px 5px 0 0;
+	object-fit: cover;
+	display: inline-block;
+	height: 100% !important;
+	-o-object-fit: cover;
+  }
+
+  &__body{
+	padding-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+  }
+
+  &__name{
+	font-size: 1.2em;
+	font-weight: 500;
+	margin: 0 !important;
+	padding: 0 !important;
+  }
+
+  &__position{
+	font-size: 1em;
+	font-weight: normal;
+	color: #333333;
+  }
+
+  &__content{
+	margin-top: 10px;
+	p:first-child{
+	  margin-top: 0;
+	  padding-top: 0;
+	}
+
+	p:last-child{
+	  margin-bottom: 0;
+	  padding-bottom: 0;
+	}
+  }
+
+  &.is-style-rounded{
+	.wp-block-ever-blocks-team__image-wrap{
+	  height: 250px;
+	  width: 250px;
+	}
+	.wp-block-ever-blocks-team__avatar{
+	  border-radius: 100%
+	}
+  }
+
+  &.is-style-side{
+	display: flex;
+	align-items: center;
+	.wp-block-ever-blocks-team__image-wrap{
+	  margin-bottom: 0;
+	  float: left;
+	  width: 40%;
+
+	  img{
+		border-radius: 0;
+	  }
+	}
+
+	.wp-block-ever-blocks-team__body{
+	  overflow: hidden;
+	  position: relative;
+	  width: 60%;
+	  padding-left: 30px;
+	}
+  }
+
+}

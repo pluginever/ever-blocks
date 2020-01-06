@@ -1,57 +1,83 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Component, Fragment } from '@wordpress/element';
-import { compose } from '@wordpress/compose';
-import { RichText } from '@wordpress/block-editor';
+import {__} from '@wordpress/i18n';
+import {Component, Fragment} from '@wordpress/element';
+import {compose} from '@wordpress/compose';
+import {RichText} from '@wordpress/block-editor';
 import classnames from 'classnames';
-
+import Inspector from "./inspector";
 import Controls from "./controls";
 
 class Edit extends Component {
-    render() {
+	render() {
 		const {
 			attributes,
 			className,
 			isSelected,
 			setAttributes,
 		} = this.props;
+
 		const {
 			textAlign,
 			title,
 			value,
+			backgroundColor,
+			titleColor,
+			descriptionColor,
+			borderColor,
+			borderWidth,
+			borderStyle,
+			borderRadius,
 		} = attributes;
 
-		return(
+		return (
+
 			<Fragment>
-				{ isSelected && (
+				{isSelected && (
 					<Controls
-						{ ...this.props }
+						{...this.props}
 					/>
-				) }
+				)}
+				<Inspector
+					{...{setAttributes, ...this.props}}
+				/>
+
 				<div
-					className={ classnames(
+					className={classnames(
 						className, {
-							[ `has-text-align-${ textAlign }` ]: textAlign,
+							[`has-text-align-${textAlign}`]: textAlign,
 						}
-					) }
-					>
-					{ ( ! RichText.isEmpty( title ) || isSelected ) && (
+					)}
+					style={{
+						backgroundColor: backgroundColor ? backgroundColor : undefined,
+						borderWidth: borderWidth ? borderWidth : 1,
+						borderStyle: borderStyle ? borderStyle : undefined,
+						borderRadius: borderRadius ? borderRadius : undefined,
+						borderColor: borderColor ? borderColor : undefined,
+					}}
+				>
+					{(!RichText.isEmpty(title) || isSelected) && (
 						<RichText
-							placeholder={ __( 'Alert Title…', 'ever-blocks' ) }
-							value={ title }
+							placeholder={__('Alert Title…', 'ever-blocks')}
+							value={title}
 							className="wp-block-ever-blocks-alert__title"
-							onChange={ ( value ) => setAttributes( { title: value } ) }
+							onChange={(value) => setAttributes({title: value})}
+							style={{
+								color: titleColor
+							}}
 							keepPlaceholderOnFocus
 						/>
-					) }
+					)}
 
 					<RichText
-						placeholder={ __( 'Alert message content...', 'ever-blocks' ) }
-						value={ value }
+						placeholder={__('Alert message content...', 'ever-blocks')}
+						value={value}
 						className="wp-block-ever-blocks-alert__text"
-						onChange={ ( value ) => setAttributes( { value: value } ) }
+						onChange={(value) => setAttributes({value: value})}
+						style={{
+							color: descriptionColor
+						}}
 						keepPlaceholderOnFocus
 					/>
 
@@ -59,7 +85,7 @@ class Edit extends Component {
 
 			</Fragment>
 		)
-    }
+	}
 }
 
 export default Edit;

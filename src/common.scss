@@ -11,3 +11,48 @@ $alert-error-color: #000000a6;
 $alert-success-background-color: #f6ffed;
 $alert-success-border-color: #b7eb8f;
 $alert-success-color: #000000a6;
+
+
+.wp-block-ever-blocks-timeline{
+  list-style-type: none;
+  position: relative;
+
+  &::before{
+	content: '';
+	position: absolute;
+	left: 16px;
+	height: 100%;
+	z-index: 2;
+	top: 0;
+	bottom: 0;
+	border-left: 3px dashed #777;
+  }
+
+  &__item{
+	margin: 3em 2em 3em 5em;
+  }
+
+  &__icon{
+	background-color: #261e41;
+	position: absolute;
+	border-radius: 50%;
+	left: 0;
+	width: 34px;
+	height: 34px;
+	z-index: 3;
+	color: #ffffff;
+	text-align: center;
+	padding: 5px;
+	font-size: 18px;
+  }
+  &__item-title{
+	margin: 0 !important;
+	padding: 0;
+	line-height: 1;
+  }
+
+  &__item-date{
+	font-size: .9em;
+	margin-bottom: 30px;
+  }
+}

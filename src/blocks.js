@@ -1,2 +1,4 @@
 import './blocks/alert';
-import './blocks/author';
+import './blocks/testimonial';
+import './blocks/card';
+import './blocks/team';

@@ -17,18 +17,47 @@ import './styles/editor.scss';
 import './styles/style.scss';
 
 const attributes = {
-	"title": {
-		"type": "string",
-		"selector": ".wp-block-ever-blocks-alert__title"
+	title: {
+		type: "string",
+		selector: ".wp-block-ever-blocks-alert__title"
 	},
-	"value": {
-		"type": "string",
-		"source": "html",
-		"selector": ".wp-block-ever-blocks-alert__text",
-		"default": ""
+	value: {
+		type: "string",
+		source: "html",
+		selector: ".wp-block-ever-blocks-alert__text",
+		default: ""
 	},
-	"textAlign": {
-		"type": "string"
+	textAlign: {
+		type: "string",
+		default: "",
+	},
+	backgroundColor: {
+		type: "string",
+		default: "",
+	},
+	borderWidth: {
+		type: "numeric",
+		default: 1,
+	},
+	titleColor: {
+		type: "string",
+		default: "",
+	},
+	descriptionColor: {
+		type: "string",
+		default: "",
+	},
+	borderColor: {
+		type: "string",
+		default: "",
+	},
+	borderRadius: {
+		type: "numeric",
+		default: 4,
+	},
+	borderStyle: {
+		type: "string",
+		default: "solid",
 	}
 };
 
@@ -63,8 +92,8 @@ registerBlockType('ever-blocks/alert', {
 	],
 	example: {
 		attributes: {
-			title: __( 'Well done!', 'ever-blocks' ),
-			value: __( 'Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.', 'ever-blocks' ),
+			title: __('Well done!', 'ever-blocks'),
+			value: __('Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.', 'ever-blocks'),
 		},
 	},
 	supports: {
