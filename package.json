@@ -81,7 +81,7 @@
 		"md5": "^2.2.1",
 		"memize": "^1.0.5",
 		"moment": "^2.24.0",
-		"node-sass": "^4.13.0",
+		"node-sass": "^4.13.1",
 		"ora": "^1.4.0",
 		"postcss-loader": "^2.1.6",
 		"querystringify": "^2.1.1",
