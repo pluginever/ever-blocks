@@ -24,7 +24,7 @@ done
 
 if [ -z "${VERSION}" ]
 then
-echo 'Version not specified using develop branch'.
+echo 'ℹ︎ Version not specified using develop branch'.
 VERSION='develop'
 pwd
 fi
@@ -32,7 +32,7 @@ fi
 if [ -z "${SLUG}" ]
 then
 SLUG=${PWD##*/}
-echo "Slug not specified using $SLUG".
+echo "ℹ︎ Slug not specified using $SLUG".
 pwd
 fi
 
