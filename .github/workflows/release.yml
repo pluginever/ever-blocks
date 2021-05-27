@@ -18,7 +18,7 @@ jobs:
 #        run: |
 #          npm install
 #          npm run build
-      - name: Release to Stable
+      - name: Docker
         uses: ./.github/action-release/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
