@@ -25,7 +25,7 @@ const webpack = require( 'webpack' );
 const externals = require( './externals' );
 const postcssOptions = require( './post-css-config' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
 
@@ -104,6 +104,7 @@ module.exports = {
 	},
 	// Add plugins.
 	plugins: [
+		new CleanWebpackPlugin(),
 		blocksCSSPlugin,
 		editBlocksCSSPlugin,
 		// Minify the code.
