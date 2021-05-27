@@ -14,7 +14,7 @@
 	"scripts": {
 		"start": "node .build/scripts/start.js",
 		"build": "node .build/scripts/build.js",
-		"makepot": "wp i18n make-pot . --merge=languages/ever-blocks-js.pot --skip-audit --exclude=build,dist --headers='{\"Last-Translator\":\"support@pluginever.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/pluginever/ever-blocks/issues\"}' --file-comment='Copyright (c) 2019 PluginEver. All Rights Reserved.' && rm -f languages/ever-blocks-js.pot && grunt replace:languages && npm run pot2json"
+		"makepot": "wp i18n make-pot . --merge=i18n/languages/ever-blocks-js.pot --skip-audit --exclude=build,dist --headers='{\"Last-Translator\":\"support@pluginever.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/pluginever/ever-blocks/issues\"}' --file-comment='Copyright (c) 2019 PluginEver. All Rights Reserved.' && rm -f i18n/languages/ever-blocks-js.pot && grunt replace:languages && npm run pot2json"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.7.4",
