@@ -35,7 +35,7 @@ echo "ℹ︎ Slug not specified using '$SLUG'".
 fi
 ROOT_DIR=$(pwd)
 SVN_URL="http://plugins.svn.wordpress.org/${SLUG}/"
-SVN_DIR="$(dirname "$(pwd)")/$SLUG-svn"
+SVN_DIR="$(dirname "$(pwd)")/svn-$SLUG"
 
 #remove old directory
 if [ -d "$SVN_DIR" ]; then rm -Rf $SVN_DIR; fi
