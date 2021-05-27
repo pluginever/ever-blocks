@@ -10,15 +10,5 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
 	exit 1
 fi
 
-TMP="/github/tmp"
-mkdir $TMP
-
-# I think we are already here but just in case
-cd "$GITHUB_WORKSPACE"
-
-echo "ℹ︎ Configuring git"
-git config --global user.email "byteeverbot+github@byteever.com"
-git config --global user.name "byteeverbot on GitHub"
-
-git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+echo "HELLO WORLD"
 
