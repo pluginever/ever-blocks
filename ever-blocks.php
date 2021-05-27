@@ -3,14 +3,14 @@
  * Plugin Name: Ever Blocks
  * Plugin URI:  https://www.pluginever.com/plugins/ever-blocks/
  * Description: Ever Blocks is a professional page building blocks for the WordPress Gutenberg block editor.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      pluginever
  * Author URI:  http://pluginever.com
  * Donate link: https://pluginever.com/contact
  * License:     GPLv2+
  * Text Domain: ever-blocks
  * Domain Path: /i18n/languages/
- * Tested up to: 5.2.2
+ * Tested up to: 5.7.2
  */
 
 /**
@@ -93,7 +93,7 @@ final class EverBlocks {
      * @return void
      */
     private function define_constants() {
-        define( 'EVER_BLOCKS_VERSION', '1.0.0' );
+        define( 'EVER_BLOCKS_VERSION', '1.0.1' );
         define( 'EVER_BLOCKS_FILE', __FILE__ );
         define( 'EVER_BLOCKS_ABSPATH', dirname( EVER_BLOCKS_FILE ) );
         define( 'EVER_BLOCKS_BASENAME', plugin_basename( __FILE__ ) );
