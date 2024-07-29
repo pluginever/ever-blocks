@@ -1,20 +1,22 @@
 <?php
 /**
- * Plugin Name: Ever Blocks
- * Plugin URI:  https://www.pluginever.com/plugins/ever-blocks/
- * Description: Ever Blocks is a professional page building blocks for the WordPress Gutenberg block editor.
- * Version:     1.0.1
- * Author:      pluginever
- * Author URI:  http://pluginever.com
- * Donate link: https://pluginever.com/contact
- * License:     GPLv2+
- * Text Domain: ever-blocks
- * Domain Path: /i18n/languages/
- * Tested up to: 5.7.2
+ * Plugin Name:          Ever Blocks
+ * Plugin URI:           https://www.pluginever.com/plugins/ever-blocks/
+ * Description:          Ever Blocks is a professional page building blocks for the WordPress Gutenberg block editor.
+ * Version:              1.0.2
+ * Author:               pluginever
+ * Author URI:           http://pluginever.com
+ * Donate link:          https://pluginever.com/contact
+ * License:              GPLv2+
+ * Text Domain:          ever-blocks
+ * Domain Path:          /i18n/languages/
+ * Requires at least:    5.2
+ * Tested up to:         6.6
+ * Requires PHP:         7.4
  */
 
 /**
- * Copyright (c) 2019 pluginever (email : support@pluginever.com)
+ * Copyright (c) 2024 pluginever (email : support@pluginever.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2 or, at
