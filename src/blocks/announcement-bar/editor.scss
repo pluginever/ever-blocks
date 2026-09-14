@@ -1,0 +1,30 @@
+.eb-announcement-bar {
+
+	&__track {
+		flex-wrap: wrap;
+	}
+
+	&.is-animation-rotate &__track {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		overflow: visible;
+	}
+
+	&.is-animation-ticker &__track {
+		justify-content: center;
+		gap: var(--gap);
+		overflow: visible;
+		mask: none;
+	}
+
+	&__track > .block-list-appender {
+		flex: none;
+	}
+
+	&__close {
+		display: inline-flex;
+		flex: none;
+		opacity: 0.8;
+	}
+}
