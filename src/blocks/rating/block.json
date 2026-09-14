@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/rating",
+	"title": "Rating",
+	"category": "ever-blocks",
+	"icon": "star-filled",
+	"description": "Shows a score as a row of stars or any icon.",
+	"keywords": [
+		"stars",
+		"review",
+		"score"
+	],
+	"textdomain": "ever-blocks",
+	"attributes": {
+		"value": {
+			"type": "number",
+			"default": 5
+		},
+		"max": {
+			"type": "number",
+			"default": 5
+		},
+		"icon": {
+			"type": "string",
+			"default": "core/star-filled"
+		},
+		"showLabel": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"textAlign": true
+		},
+		"everBlocks": {
+			"elements": {
+				"filled": ".eb-rating__filled",
+				"empty": ".eb-rating__empty",
+				"label": ".eb-rating__label"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-rating"
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": [
+		"ever-blocks-common",
+		"file:./style-index.css"
+	]
+}

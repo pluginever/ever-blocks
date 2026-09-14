@@ -41,6 +41,7 @@ final class Plugin {
 		Assets::class,
 		Blocks\Blocks::class,
 		Blocks\Faq::class,
+		Blocks\Rating::class,
 		Blocks\SearchModal::class,
 		Blocks\TableOfContents::class,
 		Patterns::class,
