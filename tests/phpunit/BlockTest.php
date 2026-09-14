@@ -6,26 +6,37 @@ namespace EverBlocks\Tests;
 use EverBlocks\Blocks\Block;
 
 /**
- * The base block binds the render seam on construction; `register()` is the plugin's call.
+ * The block base class.
  */
 class BlockTest extends TestCase {
 
 	/**
-	 * `register()` is left to the plugin, so construction alone hooks nothing else.
+	 * A subclass with `markup()` becomes its block's render callback; one without leaves the block alone.
 	 *
 	 * @return void
 	 */
-	public function test_register_is_not_run_on_construction(): void {
-		$block = new class() extends Block {
-			public string $name = 'ever-blocks/plain';
-			public bool $registered = false;
+	public function test_markup_becomes_the_render_callback(): void {
+		$renders = new class() extends Block {
+			public string $name = 'ever-blocks/test-renders';
 
-			public function register(): void {
-				$this->registered = true;
+			public function markup(): string {
+				return 'rendered';
 			}
 		};
+		$listens = new class() extends Block {
+			public string $name = 'ever-blocks/test-listens';
+		};
 
-		$this->assertFalse( $block->registered );
+		$renders->register();
+		$listens->register();
+
+		$settings = apply_filters( 'block_type_metadata_settings', array(), array( 'name' => 'ever-blocks/test-renders' ) );
+		$this->assertSame( array( $renders, 'markup' ), $settings['render_callback'] );
+
+		$settings = apply_filters( 'block_type_metadata_settings', array(), array( 'name' => 'ever-blocks/test-listens' ) );
+		$this->assertArrayNotHasKey( 'render_callback', $settings );
+
+		remove_filter( 'block_type_metadata_settings', array( $renders, 'add_render_callback' ) );
+		remove_filter( 'block_type_metadata_settings', array( $listens, 'add_render_callback' ) );
 	}
-
 }

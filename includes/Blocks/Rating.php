@@ -20,31 +20,6 @@ class Rating extends Block {
 	 */
 	public string $name = 'ever-blocks/rating';
 
-	/**
-	 * Registers hooks.
-	 *
-	 * @since 2.0.0
-	 * @return void
-	 */
-	public function register(): void {
-		add_filter( 'block_type_metadata_settings', array( $this, 'add_render_callback' ), 10, 2 );
-	}
-
-	/**
-	 * Points the block at `markup()`.
-	 *
-	 * @since 2.0.0
-	 * @param array<string, mixed> $settings Block type settings.
-	 * @param array<string, mixed> $metadata Block metadata.
-	 * @return array<string, mixed> Block type settings.
-	 */
-	public function add_render_callback( array $settings, array $metadata ): array {
-		if ( ( $metadata['name'] ?? '' ) === $this->name ) {
-			$settings['render_callback'] = array( $this, 'markup' );
-		}
-
-		return $settings;
-	}
 
 	/**
 	 * Builds the block's markup: an empty row of icons with a filled row clipped over it.

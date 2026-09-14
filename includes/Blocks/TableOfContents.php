@@ -43,7 +43,9 @@ class TableOfContents extends Block {
 	 * @return void
 	 */
 	public function register(): void {
-		add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 10, 2 );
+		parent::register();
+
+		add_filter( 'block_type_metadata_settings', array( $this, 'add_heading_settings' ), 10, 2 );
 		add_filter( 'the_content', array( $this, 'release_anchors' ), 8 );
 		add_filter( 'render_block_core/heading', array( $this, 'add_anchor' ), 10, 3 );
 	}
@@ -70,21 +72,15 @@ class TableOfContents extends Block {
 	}
 
 	/**
-	 * Points the block at `markup()` and gives the core heading block the attribute and context the scan needs.
+	 * Gives the core heading block the attribute and context the scan needs.
 	 *
 	 * @since 2.0.0
 	 * @param array<string, mixed> $settings Block type settings.
 	 * @param array<string, mixed> $metadata Block metadata.
 	 * @return array<string, mixed> Block type settings.
 	 */
-	public function add_settings( array $settings, array $metadata ): array {
-		$name = $metadata['name'] ?? '';
-
-		if ( $name === $this->name ) {
-			$settings['render_callback'] = array( $this, 'markup' );
-		}
-
-		if ( 'core/heading' === $name ) {
+	public function add_heading_settings( array $settings, array $metadata ): array {
+		if ( 'core/heading' === ( $metadata['name'] ?? '' ) ) {
 			$settings['attributes'][ self::EXCLUDED ] = array(
 				'type'    => 'boolean',
 				'default' => false,
