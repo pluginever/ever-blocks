@@ -31,7 +31,7 @@ abstract class Block {
 		}
 
 		add_filter( 'render_block_' . $this->name, array( $this, 'render' ), 10, 2 );
-		add_filter( 'ever_blocks_block_styles_' . $this->name, array( $this, 'compile' ), 10, 2 );
+		add_filter( 'ever_blocks_block_styles_' . $this->name, array( $this, 'style' ), 10, 2 );
 
 		$this->register();
 	}
@@ -59,14 +59,14 @@ abstract class Block {
 	}
 
 	/**
-	 * Adds this block's rules to the instance's generated CSS.
+	 * Runs the style pipeline for one instance of the block.
 	 *
 	 * @since 2.0.0
 	 * @param array<int, array<string, mixed>> $rules      Rules gathered so far.
 	 * @param array<string, mixed>             $attributes Block attributes.
 	 * @return array<int, array<string, mixed>> Rules.
 	 */
-	public function compile( array $rules, array $attributes ): array {
+	public function style( array $rules, array $attributes ): array {
 		return array_merge( $rules, $this->styles( $attributes ) );
 	}
 

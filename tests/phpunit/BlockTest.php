@@ -21,7 +21,7 @@ class BlockTest extends TestCase {
 		};
 
 		$this->assertNotFalse( has_filter( 'render_block_ever-blocks/plain', array( $block, 'render' ) ) );
-		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'compile' ) ) );
+		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'style' ) ) );
 	}
 
 	/**
@@ -86,9 +86,9 @@ class BlockTest extends TestCase {
 			}
 		};
 
-		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'compile' ) ) );
+		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'style' ) ) );
 		$this->assertFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/other' ) );
-		$this->assertCount( 2, $block->compile( array( array( 'declarations' => array( 'gap' => '1rem' ) ) ), array() ) );
+		$this->assertCount( 2, $block->style( array( array( 'declarations' => array( 'gap' => '1rem' ) ) ), array() ) );
 	}
 
 	/**
