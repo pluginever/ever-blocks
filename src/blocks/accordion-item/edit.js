@@ -97,13 +97,13 @@ export default function Edit( {
 				elements={ {
 					summary: {
 						label: __( 'Header', 'ever-blocks' ),
-						color: { text: true, background: true },
+						color: { text: 'default', background: 'default' },
 						spacing: { padding: true },
 					},
 					title: {
 						label: __( 'Title', 'ever-blocks' ),
 						typography: {
-							fontSize: true,
+							fontSize: 'default',
 							fontAppearance: true,
 							lineHeight: true,
 							letterSpacing: true,
@@ -118,6 +118,7 @@ export default function Edit( {
 								control: 'unit',
 								label: __( 'Size', 'ever-blocks' ),
 								min: 8,
+								isShownByDefault: true,
 							},
 						},
 						color: { text: true, background: true },
@@ -126,7 +127,7 @@ export default function Edit( {
 					},
 					panel: {
 						label: __( 'Panel', 'ever-blocks' ),
-						color: { text: true, background: true },
+						color: { text: true, background: 'default' },
 						spacing: { padding: true },
 						typography: { fontSize: true },
 					},

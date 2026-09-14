@@ -185,7 +185,7 @@ export default function Edit( {
 				setAttributes={ setAttributes }
 				elements={ {
 					trigger: {
-						label: __( 'Trigger button', 'ever-blocks' ),
+						label: __( 'Trigger', 'ever-blocks' ),
 						values: {
 							iconSize: ICON_SIZE(
 								__( 'Icon size', 'ever-blocks' )
@@ -207,7 +207,7 @@ export default function Edit( {
 						values: {
 							maxWidth: {
 								control: 'unit',
-								label: __( 'Content width', 'ever-blocks' ),
+								label: __( 'Width', 'ever-blocks' ),
 								min: 240,
 							},
 						},
@@ -220,7 +220,7 @@ export default function Edit( {
 						color: { background: true, gradient: true },
 					},
 					input: {
-						label: __( 'Search field', 'ever-blocks' ),
+						label: __( 'Field', 'ever-blocks' ),
 						typography: {
 							fontSize: true,
 							fontAppearance: true,
@@ -234,11 +234,11 @@ export default function Edit( {
 						color: { text: true },
 					},
 					form: {
-						label: __( 'Field row', 'ever-blocks' ),
+						label: __( 'Form', 'ever-blocks' ),
 						border: { color: true, width: true },
 					},
 					submit: {
-						label: __( 'Submit button', 'ever-blocks' ),
+						label: __( 'Submit', 'ever-blocks' ),
 						values: {
 							iconSize: ICON_SIZE(
 								__( 'Icon size', 'ever-blocks' )
@@ -249,7 +249,7 @@ export default function Edit( {
 						border: { radius: true },
 					},
 					close: {
-						label: __( 'Close button', 'ever-blocks' ),
+						label: __( 'Close', 'ever-blocks' ),
 						values: {
 							iconSize: ICON_SIZE(
 								__( 'Icon size', 'ever-blocks' )
@@ -260,7 +260,7 @@ export default function Edit( {
 						border: { radius: true },
 					},
 					content: {
-						label: __( 'Content area', 'ever-blocks' ),
+						label: __( 'Content', 'ever-blocks' ),
 						spacing: { padding: true, margin: true },
 						color: { text: true, background: true },
 					},

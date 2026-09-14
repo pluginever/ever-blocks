@@ -13,10 +13,10 @@ import { useStyleState } from './use-style-state';
 import type { StyleObject } from '../types';
 
 /**
- * Reads and writes a block's own values at the state the inspector is editing.
+ * Reads and writes a block's own values at the viewport the editor is previewing.
  *
- * The values ride core's `style` attribute, so switching device or state moves
- * the write target exactly as it does for every core control — the block never
+ * The values ride core's `style` attribute, so switching device moves the
+ * write target exactly as it does for every core control — the block never
  * sees a breakpoint.
  *
  * @since 0.1.0
@@ -33,10 +33,13 @@ export function useStyleValues(
 ) {
 	const { name } = useBlockEditContext();
 	const namespace = getNamespace( name );
-	const { viewport, pseudo } = useStyleState( element );
+	const { viewport } = useStyleState( element );
 	const path = useMemo(
-		() => [ ...getStylePath( { viewport, pseudo }, element ), namespace ],
-		[ viewport, pseudo, element, namespace ]
+		() => [
+			...getStylePath( { viewport, pseudo: 'default' }, element ),
+			namespace,
+		],
+		[ viewport, element, namespace ]
 	);
 	const values = readStyle( attributes.style, path );
 
@@ -71,6 +74,6 @@ export function useStyleValues(
 		values,
 		setValue,
 		resetValues,
-		isDefault: 'default' === viewport && 'default' === pseudo,
+		isDefault: 'default' === viewport,
 	};
 }

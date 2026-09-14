@@ -18,31 +18,23 @@ const VIEWPORTS: Record< string, Viewport > = {
 	Mobile: '@mobile',
 };
 
-const DEVICES: Record< Viewport, string > = {
-	default: 'Desktop',
-	'@tablet': 'Tablet',
-	'@mobile': 'Mobile',
-};
-
 interface Result extends StyleState {
 	setPseudo: ( pseudo: Pseudo ) => void;
-	setViewport: ( viewport: Viewport ) => void;
 }
 
 /**
- * Returns the style state a panel is editing for one element of the current block.
+ * Returns the style state the controls of one part are editing.
  *
- * The viewport is the editor's device preview, so choosing one in a panel also
- * moves the canvas; the pseudo or custom state is the block's own selection.
+ * The viewport follows the editor's device preview; the state is the part's
+ * own selection.
  *
  * @since 0.1.0
- * @param element Element name, or an empty string for the block root.
- * @return Selected style state, and setters for both parts.
+ * @param element Part name, or an empty string for the block root.
+ * @return Selected style state and the state setter.
  */
 export function useStyleState( element = '' ): Result {
 	const { clientId } = useBlockEditContext();
 	const { setStyleState } = useDispatch( store );
-	const { setDeviceType } = useDispatch( editorStore );
 	const { device, pseudo } = useSelect(
 		(
 			select: (
@@ -65,15 +57,9 @@ export function useStyleState( element = '' ): Result {
 		[ setStyleState, clientId, element ]
 	);
 
-	const setViewport = useCallback(
-		( next: Viewport ) => setDeviceType( DEVICES[ next ] ?? 'Desktop' ),
-		[ setDeviceType ]
-	);
-
 	return {
 		viewport: VIEWPORTS[ device ?? 'Desktop' ] ?? 'default',
 		pseudo,
 		setPseudo,
-		setViewport,
 	};
 }

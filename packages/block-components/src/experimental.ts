@@ -7,6 +7,7 @@
  */
 export {
 	__experimentalBorderControl as BorderControl,
+	__experimentalDropdownContentWrapper as DropdownContentWrapper,
 	__experimentalBoxControl as BoxControl,
 	__experimentalGrid as Grid,
 	__experimentalHStack as HStack,
@@ -23,6 +24,7 @@ export {
 
 export {
 	__experimentalBorderRadiusControl as BorderRadiusControl,
+	__experimentalColorGradientControl as ColorGradientControl,
 	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
 	__experimentalFontAppearanceControl as FontAppearanceControl,
 	__experimentalLetterSpacingControl as LetterSpacingControl,

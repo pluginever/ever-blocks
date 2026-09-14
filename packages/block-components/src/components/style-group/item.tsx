@@ -12,23 +12,6 @@ interface Props {
 	children: React.ReactNode;
 }
 
-/**
- * A ToolsPanel item that derives its own set state and reset behaviour.
- *
- * Rendered without a surrounding ToolsPanel so it slot-fills into the core
- * panel its `InspectorControls` group belongs to, and joins that panel's
- * "Reset all".
- *
- * @since 0.1.0
- * @param props                  Item props.
- * @param props.label
- * @param props.panelId
- * @param props.value
- * @param props.onReset
- * @param props.isShownByDefault
- * @param props.children
- * @return The item.
- */
 export function Item( {
 	label,
 	panelId,
@@ -42,7 +25,6 @@ export function Item( {
 
 	return (
 		<ToolsPanelItem
-			className="b8-style-item"
 			label={ label }
 			panelId={ panelId }
 			hasValue={ hasValue }

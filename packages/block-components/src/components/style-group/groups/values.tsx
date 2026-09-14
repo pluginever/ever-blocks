@@ -13,12 +13,11 @@ import {
  * Internal dependencies
  */
 import {
-	ColorGradientSettingsDropdown,
 	NumberControl,
 	UnitControl,
 	useCustomUnits,
-	useMultipleOriginColorsAndGradients,
 } from '../../../experimental';
+import { ColorItem } from '../color-item';
 import { Item } from '../item';
 import type { ValueControl, ValuesProps } from '../types';
 
@@ -27,26 +26,29 @@ const DEFAULT_UNITS = [ 'px', '%', 'em', 'rem', 'vw', 'vh' ];
 /**
  * A block's own values for one element, from a declaration.
  *
- * Each value is written to one key under the block's namespace in `style`, at
- * the state and viewport the panel is editing, and reaches the page as one
- * custom property.
+ * Each value is written to one key under the block's namespace in `style` and
+ * reaches the page as one custom property. Colours follow the part's selected
+ * state; everything else is written at the default state.
  *
  * @since 0.1.0
- * @param props          Component props.
- * @param props.values   Values at the current state.
- * @param props.onChange Receives the merged values.
- * @param props.controls Control declarations keyed by value name.
- * @param props.panelId  ToolsPanel the items belong to.
+ * @param props                Component props.
+ * @param props.values         Values at the default state.
+ * @param props.onChange       Receives the merged values.
+ * @param props.colors         Colours at the selected state.
+ * @param props.onColorsChange Receives the merged colours.
+ * @param props.controls       Control declarations keyed by value name.
+ * @param props.panelId        ToolsPanel the items belong to.
  * @return The controls.
  */
 export function ValuesGroup( {
 	values,
 	onChange,
+	colors: colorValues,
+	onColorsChange,
 	controls,
 	panelId,
 }: ValuesProps ) {
 	const [ available ] = useSettings( 'spacing.units' );
-	const colorSettings = useMultipleOriginColorsAndGradients();
 	const units: Units = useCustomUnits( {
 		availableUnits: ( available as string[] ) ?? DEFAULT_UNITS,
 	} );
@@ -84,21 +86,23 @@ export function ValuesGroup( {
 
 			{ colors.length > 0 && (
 				<div className="b8-style-group__colors">
-					<ColorGradientSettingsDropdown
-						__experimentalIsRenderedInSidebar
-						panelId={ panelId }
-						settings={ colors.map( ( [ key, control ] ) => ( {
-							label: control.label,
-							colorValue: values[ key ],
-							onColorChange: ( next: unknown ) =>
-								set( key, next ),
-							resetAllFilter: () => set( key, undefined ),
-							isShownByDefault: control.isShownByDefault ?? false,
-							enableAlpha: true,
-							clearable: true,
-						} ) ) }
-						{ ...colorSettings }
-					/>
+					{ colors.map( ( [ key, control ] ) => (
+						<ColorItem
+							key={ key }
+							label={ control.label }
+							panelId={ panelId }
+							value={ colorValues[ key ] as string | undefined }
+							onChange={ ( next ) =>
+								onColorsChange( {
+									...colorValues,
+									[ key ]: next,
+								} )
+							}
+							isShownByDefault={
+								control.isShownByDefault ?? false
+							}
+						/>
+					) ) }
 				</div>
 			) }
 		</>
