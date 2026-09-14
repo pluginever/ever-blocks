@@ -10,11 +10,8 @@ import { useCallback, useMemo } from '@wordpress/element';
  */
 import { ToolsPanel } from '../../experimental';
 import { ItemContext } from './context';
-import { BackgroundGroup } from './groups/background';
 import { BorderGroup } from './groups/border';
 import { ColorGroup } from './groups/color';
-import { ShadowGroup } from './groups/shadow';
-import { SizeGroup } from './groups/size';
 import { SpacingGroup } from './groups/spacing';
 import { TypographyGroup } from './groups/typography';
 import { ValuesGroup } from './groups/values';
@@ -33,12 +30,9 @@ import type { ValueControl } from './types';
 import './editor.scss';
 
 const GROUPS = {
-	background: BackgroundGroup,
 	typography: TypographyGroup,
 	spacing: SpacingGroup,
 	border: BorderGroup,
-	shadow: ShadowGroup,
-	size: SizeGroup,
 } as const;
 
 export type GroupName = keyof typeof GROUPS;

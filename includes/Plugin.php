@@ -40,7 +40,6 @@ final class Plugin {
 	protected array $components = array(
 		Assets::class,
 		Blocks\Blocks::class,
-		Blocks\Accordion::class,
 		Styles::class,
 		Extensions\Extensions::class,
 		Icons::class,
