@@ -76,11 +76,13 @@ export function ColorGroup( {
 	}
 
 	return (
-		<ColorGradientSettingsDropdown
-			__experimentalIsRenderedInSidebar
-			panelId={ panelId }
-			settings={ items }
-			{ ...settings }
-		/>
+		<div className="b8-style-group__colors">
+			<ColorGradientSettingsDropdown
+				__experimentalIsRenderedInSidebar
+				panelId={ panelId }
+				settings={ items }
+				{ ...settings }
+			/>
+		</div>
 	);
 }

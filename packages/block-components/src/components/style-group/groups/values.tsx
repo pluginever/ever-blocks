@@ -83,20 +83,23 @@ export function ValuesGroup( {
 			) ) }
 
 			{ colors.length > 0 && (
-				<ColorGradientSettingsDropdown
-					__experimentalIsRenderedInSidebar
-					panelId={ panelId }
-					settings={ colors.map( ( [ key, control ] ) => ( {
-						label: control.label,
-						colorValue: values[ key ],
-						onColorChange: ( next: unknown ) => set( key, next ),
-						resetAllFilter: () => set( key, undefined ),
-						isShownByDefault: control.isShownByDefault ?? false,
-						enableAlpha: true,
-						clearable: true,
-					} ) ) }
-					{ ...colorSettings }
-				/>
+				<div className="b8-style-group__colors">
+					<ColorGradientSettingsDropdown
+						__experimentalIsRenderedInSidebar
+						panelId={ panelId }
+						settings={ colors.map( ( [ key, control ] ) => ( {
+							label: control.label,
+							colorValue: values[ key ],
+							onColorChange: ( next: unknown ) =>
+								set( key, next ),
+							resetAllFilter: () => set( key, undefined ),
+							isShownByDefault: control.isShownByDefault ?? false,
+							enableAlpha: true,
+							clearable: true,
+						} ) ) }
+						{ ...colorSettings }
+					/>
+				</div>
 			) }
 		</>
 	);
