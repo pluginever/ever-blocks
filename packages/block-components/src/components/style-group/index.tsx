@@ -8,6 +8,7 @@ import { useCallback, useMemo } from '@wordpress/element';
 /**
  * Internal dependencies
  */
+import { ToolsPanel } from '../../experimental';
 import { StateControl } from '../state-control';
 import { BackgroundGroup } from './groups/background';
 import { BorderGroup } from './groups/border';
@@ -19,7 +20,12 @@ import { TypographyGroup } from './groups/typography';
 import { ValuesGroup } from './groups/values';
 import { getDeclaration } from '../../utils/block-declaration';
 import { getNamespace } from '../../utils/style-css';
-import { getStylePath, readStyle, writeStyle } from '../../utils/style-path';
+import {
+	getStylePath,
+	readStyle,
+	stripStyle,
+	writeStyle,
+} from '../../utils/style-path';
 import { isCustomState } from '../../utils/selectors';
 import { useStyleState } from '../../hooks/use-style-state';
 import type { StyleObject } from '../../types';
@@ -47,24 +53,22 @@ export type GroupControls = Partial<
 
 interface Props {
 	controls: GroupControls;
-	/** ToolsPanel the items belong to; core's Elements panel uses the client id. */
 	panelId: string;
 	attributes: { style?: StyleObject };
 	setAttributes: ( next: { style?: StyleObject } ) => void;
 	/** Element name from the block's declaration, or empty for the root. */
 	element?: string;
-	/** Section heading; omit to render the items alone. */
+	/** Panel label; without one the items slot into the enclosing panel. */
 	label?: string;
 }
 
 /**
- * Renders one element's style controls as a section of the enclosing ToolsPanel.
+ * Renders one element's style controls, bound to the block's `style` attribute.
  *
- * Values are written at the path for the editor's current device and the state
- * chosen in the section, so a single call covers every viewport and state
- * without the block knowing which one is active. On the root, core's own panels
- * own the default state, so only the block's own values render there until a
- * state is chosen.
+ * Values are written at the path for the viewport and state chosen in the
+ * panel, so a single call covers every viewport and state without the block
+ * knowing which one is active. On the root, core's own panels own the default
+ * state, so only the block's own values render there until a state is chosen.
  *
  * @since 0.1.0
  * @param props               Component props.
@@ -73,7 +77,7 @@ interface Props {
  * @param props.attributes    Block attributes.
  * @param props.setAttributes Attribute setter.
  * @param props.element       Element name, or empty for the root.
- * @param props.label         Section heading.
+ * @param props.label         Panel label.
  * @return The controls.
  */
 export function StyleGroup( {
@@ -85,7 +89,8 @@ export function StyleGroup( {
 	label = '',
 }: Props ) {
 	const { name } = useBlockEditContext();
-	const { viewport, pseudo, setPseudo } = useStyleState( element );
+	const { viewport, pseudo, setPseudo, setViewport } =
+		useStyleState( element );
 	const declaration = useMemo(
 		() => getDeclaration( getBlockType( name ) ),
 		[ name ]
@@ -111,18 +116,30 @@ export function StyleGroup( {
 		[ attributes.style, path.join( '.' ), setAttributes ]
 	);
 
+	const resetAll = () =>
+		setAttributes( {
+			style: stripStyle(
+				attributes.style,
+				element
+					? { elements: [ element ] }
+					: {
+							namespace,
+							states: Object.keys( declaration.states ),
+					  }
+			),
+		} );
+
 	const { values, ...groups } = controls;
 	const showGroups = Boolean( element ) || 'default' !== pseudo;
 
-	return (
+	const items = (
 		<>
-			{ label && (
-				<div className="b8-style-group__heading">{ label }</div>
-			) }
 			<StateControl
 				states={ states }
 				value={ pseudo }
 				onChange={ setPseudo }
+				viewport={ viewport }
+				onViewportChange={ setViewport }
 			/>
 			{ values && (
 				<ValuesGroup
@@ -149,5 +166,15 @@ export function StyleGroup( {
 					) : null;
 				} ) }
 		</>
+	);
+
+	if ( ! label ) {
+		return items;
+	}
+
+	return (
+		<ToolsPanel label={ label } panelId={ panelId } resetAll={ resetAll }>
+			{ items }
+		</ToolsPanel>
 	);
 }

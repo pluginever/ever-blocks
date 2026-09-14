@@ -11,7 +11,7 @@ import {
 	ToggleGroupControl,
 	ToggleGroupControlOption,
 } from '../../experimental';
-import type { Pseudo } from '../../types';
+import type { Pseudo, Viewport } from '../../types';
 import './editor.scss';
 
 const LABELS: Record< string, string > = {
@@ -26,11 +26,19 @@ const LABELS: Record< string, string > = {
 	'::placeholder': _x( 'Placeholder', 'CSS pseudo-element', 'ever-blocks' ),
 };
 
+const VIEWPORTS: Array< { value: Viewport; label: string } > = [
+	{ value: 'default', label: __( 'Desktop', 'ever-blocks' ) },
+	{ value: '@tablet', label: __( 'Tablet', 'ever-blocks' ) },
+	{ value: '@mobile', label: __( 'Mobile', 'ever-blocks' ) },
+];
+
 interface Props {
 	/** State names the block or element declares, without the default. */
 	states: string[];
 	value: Pseudo;
 	onChange: ( next: Pseudo ) => void;
+	viewport: Viewport;
+	onViewportChange: ( next: Viewport ) => void;
 }
 
 function getStateLabel( state: string ): string {
@@ -48,25 +56,48 @@ function getStateLabel( state: string ): string {
 }
 
 /**
- * Chooses the state a panel's controls write to.
+ * Chooses the viewport and state a panel's controls write to.
  *
  * @since 0.1.0
- * @param props          Component props.
- * @param props.states   State names the block or element declares.
- * @param props.value    Selected state.
- * @param props.onChange Called with the next state.
- * @return The control, or null when there is nothing to choose.
+ * @param props                  Component props.
+ * @param props.states           State names the block or element declares.
+ * @param props.value            Selected state.
+ * @param props.onChange         Called with the next state.
+ * @param props.viewport         Selected viewport.
+ * @param props.onViewportChange Called with the next viewport.
+ * @return The controls.
  */
-export function StateControl( { states, value, onChange }: Props ) {
-	if ( ! states.length ) {
-		return null;
-	}
-
+export function StateControl( {
+	states,
+	value,
+	onChange,
+	viewport,
+	onViewportChange,
+}: Props ) {
 	const options = [ 'default', ...states ];
 
 	return (
 		<div className="b8-state-control">
-			{ options.length <= 4 ? (
+			<ToggleGroupControl
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+				isBlock
+				label={ __( 'Viewport', 'ever-blocks' ) }
+				value={ viewport }
+				onChange={ ( next: unknown ) =>
+					onViewportChange( ( next ?? 'default' ) as Viewport )
+				}
+			>
+				{ VIEWPORTS.map( ( option ) => (
+					<ToggleGroupControlOption
+						key={ option.value }
+						value={ option.value }
+						label={ option.label }
+					/>
+				) ) }
+			</ToggleGroupControl>
+
+			{ states.length > 0 && options.length <= 4 && (
 				<ToggleGroupControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -85,7 +116,9 @@ export function StateControl( { states, value, onChange }: Props ) {
 						/>
 					) ) }
 				</ToggleGroupControl>
-			) : (
+			) }
+
+			{ states.length > 0 && options.length > 4 && (
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize

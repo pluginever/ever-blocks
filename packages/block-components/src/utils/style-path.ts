@@ -126,24 +126,27 @@ export function writeStyle(
 }
 
 /**
- * Removes everything this engine wrote to a style attribute, at every viewport.
+ * Removes what this engine wrote to a style attribute, in every viewport and state.
  *
  * Core's Reset all hands each fill the attributes in turn; this leaves core's
- * own features untouched and drops the block's namespace, its declared states
- * and its declared elements.
+ * own features untouched and drops only the parts named: the block's own values
+ * under `namespace`, the declared `states`, and the declared `elements`.
  *
  * @since 0.1.0
- * @param style     Style attribute.
- * @param namespace Key holding the block's own values.
- * @param elements  Declared element names.
- * @param states    Declared root state names.
+ * @param style           Style attribute.
+ * @param parts           What to drop.
+ * @param parts.namespace Key holding the block's own values.
+ * @param parts.elements  Element names.
+ * @param parts.states    Root state names.
  * @return Style attribute, or undefined when nothing is left.
  */
 export function stripStyle(
 	style: StyleObject | undefined,
-	namespace: string,
-	elements: string[],
-	states: string[]
+	{
+		namespace = '',
+		elements = [],
+		states = [],
+	}: { namespace?: string; elements?: string[]; states?: string[] }
 ): StyleObject | undefined {
 	if ( ! style ) {
 		return undefined;
@@ -152,14 +155,16 @@ export function stripStyle(
 	const strip = ( scope: StyleObject ): StyleObject => {
 		const next = { ...scope };
 
-		delete next[ namespace ];
+		if ( namespace ) {
+			delete next[ namespace ];
+		}
 
 		for ( const state of states ) {
 			delete next[ state ];
 		}
 
-		if ( next.elements && 'object' === typeof next.elements ) {
-			const remaining = { ...( next.elements as StyleObject ) };
+		if ( elements.length && isRecord( next.elements ) ) {
+			const remaining = { ...next.elements };
 
 			for ( const element of elements ) {
 				delete remaining[ element ];
@@ -168,20 +173,22 @@ export function stripStyle(
 			next.elements = remaining;
 		}
 
+		for ( const key of Object.keys( next ) ) {
+			if (
+				( key.startsWith( '@' ) ||
+					key.startsWith( '-' ) ||
+					key.startsWith( ':' ) ) &&
+				isRecord( next[ key ] )
+			) {
+				next[ key ] = strip( next[ key ] as StyleObject );
+			}
+		}
+
 		return next;
 	};
 
-	const next = strip( style );
-
-	for ( const key of Object.keys( next ) ) {
-		if (
-			key.startsWith( '@' ) &&
-			next[ key ] &&
-			'object' === typeof next[ key ]
-		) {
-			next[ key ] = strip( next[ key ] as StyleObject );
-		}
-	}
-
-	return clean( next ) as StyleObject | undefined;
+	return clean( strip( style ) ) as StyleObject | undefined;
 }
+
+const isRecord = ( value: unknown ): value is StyleObject =>
+	Boolean( value ) && 'object' === typeof value && ! Array.isArray( value );

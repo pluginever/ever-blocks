@@ -6,7 +6,6 @@ import {
 	useBlockEditContext,
 } from '@wordpress/block-editor';
 import { getBlockType } from '@wordpress/blocks';
-import { useCallback, useMemo } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -14,77 +13,68 @@ import { useCallback, useMemo } from '@wordpress/element';
 import { StyleGroup } from '../style-group';
 import type { GroupControls } from '../style-group';
 import { getDeclaration } from '../../utils/block-declaration';
-import { getNamespace } from '../../utils/style-css';
-import { stripStyle } from '../../utils/style-path';
 import type { StyleObject } from '../../types';
 
-type Element = { label: string } & GroupControls;
+type Element = { label?: string } & GroupControls;
 
 interface Props {
+	/** Defaults to the block's own client id, which is what a `ToolsPanel` needs. */
+	panelId?: string;
 	attributes: Record< string, unknown > & { style?: StyleObject };
 	setAttributes: ( next: Record< string, unknown > ) => void;
-	/** One section per element declared in block.json, plus `root` for the block itself. */
+	/** One panel per element declared in block.json, plus `root` for the block itself. */
 	elements?: Record< string, Element >;
 }
 
 /**
- * Renders a block's style controls from a single declaration.
+ * Renders a block's style panels from a single declaration.
  *
- * Every section fills core's Elements panel, the one slot the inspector keeps
- * in both its normal and its responsive-editing layout. Every element named
- * here must be declared in the block's `block.json` under
- * `supports.everBlocks.elements`, or its section is not rendered — there would
- * be nothing on the page for its values to reach.
+ * The root panel takes the block's title; every other element named here must
+ * be declared in the block's `block.json` under `supports.everBlocks.elements`,
+ * or its panel is not rendered — there would be nothing on the page for its
+ * values to reach.
  *
  * @since 0.1.0
  * @param props               Component props.
+ * @param props.panelId       ToolsPanel id prefix.
  * @param props.attributes    Block attributes.
  * @param props.setAttributes Attribute setter.
- * @param props.elements      Sections keyed by element name.
- * @return The sections.
+ * @param props.elements      Panels keyed by element name.
+ * @return The panels.
  */
 export function StylePanels( {
+	panelId,
 	attributes,
 	setAttributes,
 	elements = {},
 }: Props ) {
 	const { clientId, name } = useBlockEditContext();
-	const declaration = useMemo(
-		() => getDeclaration( getBlockType( name ) ),
-		[ name ]
-	);
-	const namespace = getNamespace( name );
+	const blockType = getBlockType( name );
+	const declared = getDeclaration( blockType ).elements;
+	const id = panelId ?? clientId;
 
-	const resetAllFilter = useCallback(
-		( next: { style?: StyleObject } ) => ( {
-			...next,
-			style: stripStyle(
-				next.style,
-				namespace,
-				Object.keys( declaration.elements ),
-				Object.keys( declaration.states )
-			),
-		} ),
-		[ namespace, declaration ]
+	const panels = Object.entries( elements ).filter(
+		( [ element ] ) => 'root' === element || element in declared
 	);
 
-	const sections = Object.entries( elements ).filter(
-		( [ element ] ) => 'root' === element || element in declaration.elements
-	);
-
-	if ( ! sections.length ) {
+	if ( ! panels.length ) {
 		return null;
 	}
 
 	return (
-		<InspectorControls group="elements" resetAllFilter={ resetAllFilter }>
-			{ sections.map( ( [ element, { label, ...controls } ] ) => (
+		<InspectorControls group="styles">
+			{ panels.map( ( [ element, { label, ...controls } ] ) => (
 				<StyleGroup
 					key={ element }
 					element={ 'root' === element ? '' : element }
-					label={ label }
+					label={
+						label ??
+						( 'root' === element
+							? String( blockType?.title ?? '' )
+							: element )
+					}
 					controls={ controls }
-					panelId={ clientId }
+					panelId={ `${ id }-${ element }` }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

@@ -1,0 +1,97 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/search-modal",
+	"title": "Search Modal",
+	"category": "ever-blocks",
+	"icon": "search",
+	"description": "A search button that opens the site search in a dialog.",
+	"keywords": [ "search", "modal", "popup", "dialog", "header" ],
+	"textdomain": "ever-blocks",
+	"attributes": {
+		"placeholder": {
+			"type": "string",
+			"role": "content",
+			"default": "Search"
+		},
+		"triggerLabel": {
+			"type": "string",
+			"role": "content",
+			"default": ""
+		},
+		"triggerIcon": {
+			"type": "string",
+			"default": "core/search"
+		},
+		"submitIcon": {
+			"type": "string",
+			"default": "core/search"
+		},
+		"closeIcon": {
+			"type": "string",
+			"default": "heroicons/x-mark"
+		},
+		"layout": {
+			"type": "string",
+			"default": "full",
+			"enum": [ "full", "center", "top" ]
+		},
+		"shortcut": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [ "left", "center", "right" ],
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"interactivity": true,
+		"everBlocks": {
+			"elements": {
+				"trigger": {
+					"selector": ".eb-search-modal__trigger",
+					"states": [ ":hover", ":focus-visible" ]
+				},
+				"dialog": ".eb-search-modal__dialog",
+				"backdrop": ".eb-search-modal__dialog::backdrop",
+				"close": {
+					"selector": ".eb-search-modal__close",
+					"states": [ ":hover", ":focus-visible" ]
+				},
+				"form": {
+					"selector": ".eb-search-modal__form",
+					"states": [ ":focus-within" ]
+				},
+				"input": {
+					"selector": ".eb-search-modal__input",
+					"states": [ ":focus" ]
+				},
+				"placeholder": ".eb-search-modal__input::placeholder",
+				"submit": {
+					"selector": ".eb-search-modal__submit",
+					"states": [ ":hover", ":focus-visible" ]
+				},
+				"content": ".eb-search-modal__content"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-search-modal",
+		"states": {
+			"-open": ".eb-search-modal.is-open"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js",
+	"render": "file:./render.php"
+}

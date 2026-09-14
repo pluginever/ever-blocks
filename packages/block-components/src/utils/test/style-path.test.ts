@@ -192,6 +192,7 @@ describe( 'stripStyle', () => {
 		color: { text: '#f00' },
 		everBlocks: { gap: '1rem' },
 		':hover': { color: { text: '#0f0' }, everBlocks: { gap: '2rem' } },
+		'-open': { elements: { input: { color: { text: '#fff' } } } },
 		elements: {
 			link: { color: { text: '#00f' } },
 			input: { typography: { fontSize: '2rem' } },
@@ -203,26 +204,46 @@ describe( 'stripStyle', () => {
 		},
 	};
 
-	it( 'drops the namespace, declared states and declared elements at every viewport', () => {
+	it( 'drops the root parts named, at every viewport and inside states', () => {
 		expect(
-			stripStyle( style, 'everBlocks', [ 'input' ], [ ':hover' ] )
+			stripStyle( style, {
+				namespace: 'everBlocks',
+				states: [ ':hover' ],
+			} )
 		).toEqual( {
 			color: { text: '#f00' },
-			elements: { link: { color: { text: '#00f' } } },
-			'@mobile': { spacing: { padding: '1rem' } },
+			'-open': { elements: { input: { color: { text: '#fff' } } } },
+			elements: {
+				link: { color: { text: '#00f' } },
+				input: { typography: { fontSize: '2rem' } },
+			},
+			'@mobile': {
+				elements: { input: { everBlocks: { size: '1rem' } } },
+				spacing: { padding: '1rem' },
+			},
 		} );
 	} );
 
-	it( 'leaves an undeclared state alone', () => {
-		expect(
-			stripStyle( style, 'everBlocks', [], [] )?.[ ':hover' ]
-		).toEqual( { color: { text: '#0f0' }, everBlocks: { gap: '2rem' } } );
+	it( 'drops one element everywhere it appears and nothing else', () => {
+		expect( stripStyle( style, { elements: [ 'input' ] } ) ).toEqual( {
+			color: { text: '#f00' },
+			everBlocks: { gap: '1rem' },
+			':hover': { color: { text: '#0f0' }, everBlocks: { gap: '2rem' } },
+			elements: { link: { color: { text: '#00f' } } },
+			'@mobile': {
+				everBlocks: { gap: '0' },
+				spacing: { padding: '1rem' },
+			},
+		} );
 	} );
 
 	it( 'returns undefined when nothing is left', () => {
 		expect(
-			stripStyle( { everBlocks: { gap: '1rem' } }, 'everBlocks', [], [] )
+			stripStyle(
+				{ everBlocks: { gap: '1rem' } },
+				{ namespace: 'everBlocks' }
+			)
 		).toBeUndefined();
-		expect( stripStyle( undefined, 'everBlocks', [], [] ) ).toBeUndefined();
+		expect( stripStyle( undefined, {} ) ).toBeUndefined();
 	} );
 } );

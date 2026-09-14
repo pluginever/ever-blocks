@@ -71,20 +71,6 @@ abstract class Block {
 	}
 
 	/**
-	 * Determines whether a post's content contains this block.
-	 *
-	 * Reads `post_content` only, as core's `has_block()` does, so a placement in a
-	 * template, template part or synced pattern is invisible to it.
-	 *
-	 * @since 2.0.0
-	 * @param int|\WP_Post|null $post Post to check. Default the current post.
-	 * @return bool Whether the content contains the block.
-	 */
-	public function has_block( $post = null ): bool {
-		return has_block( $this->name, $post );
-	}
-
-	/**
 	 * Alters the rendered content.
 	 *
 	 * @since 2.0.0

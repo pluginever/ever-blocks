@@ -122,33 +122,4 @@ class BlockTest extends TestCase {
 		$this->assertSame( '', $block->value( null ) );
 		$this->assertSame( '', $block->value( array( 'x' ) ) );
 	}
-
-	/**
-	 * The post lookup answers for a given post and for the current one.
-	 *
-	 * @return void
-	 */
-	public function test_has_block_reads_post_content(): void {
-		$block = new class() extends Block {
-			public string $name = 'ever-blocks/icon';
-		};
-
-		$with = self::factory()->post->create_and_get(
-			array( 'post_content' => '<!-- wp:ever-blocks/icon /-->' )
-		);
-
-		$sibling = self::factory()->post->create_and_get(
-			array( 'post_content' => '<!-- wp:ever-blocks/icon-list /-->' )
-		);
-
-		$this->assertTrue( $block->has_block( $with ) );
-		$this->assertFalse( $block->has_block( $sibling ), 'A longer block name is not a match.' );
-		$this->assertFalse( $block->has_block() );
-
-		$GLOBALS['post'] = $with;
-
-		$this->assertTrue( $block->has_block() );
-
-		unset( $GLOBALS['post'] );
-	}
 }

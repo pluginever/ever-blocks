@@ -10,7 +10,6 @@ import { useCallback } from '@wordpress/element';
  * Internal dependencies
  */
 import { STORE_NAME, store } from '../store';
-import { useResponsiveEditing } from './use-responsive-editing';
 import type { Pseudo, StyleState, Viewport } from '../types';
 
 const VIEWPORTS: Record< string, Viewport > = {
@@ -19,25 +18,31 @@ const VIEWPORTS: Record< string, Viewport > = {
 	Mobile: '@mobile',
 };
 
+const DEVICES: Record< Viewport, string > = {
+	default: 'Desktop',
+	'@tablet': 'Tablet',
+	'@mobile': 'Mobile',
+};
+
 interface Result extends StyleState {
 	setPseudo: ( pseudo: Pseudo ) => void;
+	setViewport: ( viewport: Viewport ) => void;
 }
 
 /**
- * Returns the style state the inspector is editing for one element of the current block.
+ * Returns the style state a panel is editing for one element of the current block.
  *
- * The viewport follows the editor's device preview while core's "Responsive
- * styles" mode is on, exactly as core's own controls do; the pseudo or custom
- * state is the block's own selection.
+ * The viewport is the editor's device preview, so choosing one in a panel also
+ * moves the canvas; the pseudo or custom state is the block's own selection.
  *
  * @since 0.1.0
  * @param element Element name, or an empty string for the block root.
- * @return Selected style state, and a setter for its pseudo part.
+ * @return Selected style state, and setters for both parts.
  */
 export function useStyleState( element = '' ): Result {
 	const { clientId } = useBlockEditContext();
-	const responsive = useResponsiveEditing();
 	const { setStyleState } = useDispatch( store );
+	const { setDeviceType } = useDispatch( editorStore );
 	const { device, pseudo } = useSelect(
 		(
 			select: (
@@ -60,11 +65,15 @@ export function useStyleState( element = '' ): Result {
 		[ setStyleState, clientId, element ]
 	);
 
+	const setViewport = useCallback(
+		( next: Viewport ) => setDeviceType( DEVICES[ next ] ?? 'Desktop' ),
+		[ setDeviceType ]
+	);
+
 	return {
-		viewport: responsive
-			? VIEWPORTS[ device ?? 'Desktop' ] ?? 'default'
-			: 'default',
+		viewport: VIEWPORTS[ device ?? 'Desktop' ] ?? 'default',
 		pseudo,
 		setPseudo,
+		setViewport,
 	};
 }
