@@ -40,6 +40,8 @@ final class Plugin {
 	protected array $components = array(
 		Assets::class,
 		Blocks\Blocks::class,
+		Blocks\Faq::class,
+		Blocks\SearchModal::class,
 		Styles::class,
 		Supports\Supports::class,
 		Icons::class,

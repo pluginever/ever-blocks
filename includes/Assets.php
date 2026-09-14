@@ -20,6 +20,7 @@ class Assets {
 	 */
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_assets' ), 5 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 	}
 
 	/**
@@ -45,5 +46,31 @@ class Assets {
 				(string) filemtime( $common )
 			);
 		}
+	}
+
+	/**
+	 * Enqueues the editor bundle: block variations and block supports.
+	 *
+	 * @since 2.0.0
+	 * @return void
+	 */
+	public function enqueue_editor_assets(): void {
+		$asset = EVER_BLOCKS_DIR . 'build/editor.asset.php';
+
+		if ( ! is_readable( $asset ) ) {
+			return;
+		}
+
+		$meta = require $asset;
+
+		wp_enqueue_script(
+			'ever-blocks-editor',
+			EVER_BLOCKS_URL . 'build/editor.js',
+			$meta['dependencies'] ?? array(),
+			$meta['version'] ?? EVER_BLOCKS_VERSION,
+			true
+		);
+
+		wp_set_script_translations( 'ever-blocks-editor', 'ever-blocks', EVER_BLOCKS_DIR . 'languages' );
 	}
 }

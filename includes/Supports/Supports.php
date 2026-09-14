@@ -13,14 +13,6 @@ defined( 'ABSPATH' ) || exit;
 class Supports {
 
 	/**
-	 * Editor bundle handle.
-	 *
-	 * @since 2.0.0
-	 * @var string
-	 */
-	private const HANDLE = 'ever-blocks-editor';
-
-	/**
 	 * Available supports.
 	 *
 	 * @since 2.0.0
@@ -46,7 +38,7 @@ class Supports {
 	 */
 	public function register(): void {
 		add_action( 'init', array( $this, 'register_supports' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'add_editor_data' ), 20 );
 	}
 
 	/**
@@ -62,30 +54,12 @@ class Supports {
 	}
 
 	/**
-	 * Enqueues the editor half and tells it which supports are on.
+	 * Tells the editor bundle which supports are on.
 	 *
 	 * @since 2.0.0
 	 * @return void
 	 */
-	public function enqueue_editor_assets(): void {
-		$asset = EVER_BLOCKS_DIR . 'build/editor.asset.php';
-
-		if ( ! is_readable( $asset ) ) {
-			return;
-		}
-
-		$meta = require $asset;
-
-		wp_enqueue_script(
-			self::HANDLE,
-			EVER_BLOCKS_URL . 'build/editor.js',
-			$meta['dependencies'] ?? array(),
-			$meta['version'] ?? EVER_BLOCKS_VERSION,
-			true
-		);
-
-		wp_set_script_translations( self::HANDLE, 'ever-blocks', EVER_BLOCKS_DIR . 'languages' );
-
+	public function add_editor_data(): void {
 		$active = array();
 
 		foreach ( $this->enabled() as $support ) {
@@ -93,7 +67,7 @@ class Supports {
 		}
 
 		wp_add_inline_script(
-			self::HANDLE,
+			'ever-blocks-editor',
 			'window.everBlocksSupports = ' . wp_json_encode( $active ) . ';',
 			'before'
 		);

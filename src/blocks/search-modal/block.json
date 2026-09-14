@@ -93,6 +93,5 @@
 		"ever-blocks-common",
 		"file:./style-index.css"
 	],
-	"viewScriptModule": "file:./view.js",
-	"render": "file:./render.php"
+	"viewScriptModule": "file:./view.js"
 }
