@@ -46,7 +46,10 @@ function Placeholder( { clientId, setAttributes } ) {
 					'Choose a layout to start with.',
 					'ever-blocks'
 				) }
-				variations={ variations }
+				variations={ variations.map( ( variation ) => ( {
+					...variation,
+					title: variation.description,
+				} ) ) }
 				onSelect={ ( variation = variations[ 0 ] ) => {
 					setAttributes( variation.attributes );
 					replaceInnerBlocks(

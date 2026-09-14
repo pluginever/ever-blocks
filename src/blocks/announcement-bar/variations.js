@@ -57,7 +57,8 @@ export const ANIMATIONS = [
 
 export default ANIMATIONS.map( ( option ) => ( {
 	name: option.value,
-	title: option.label,
+	title: __( 'Announcement Bar', 'ever-blocks' ),
+	description: option.label,
 	icon: option.icon,
 	attributes: option.attributes,
 	innerBlocks: option.innerBlocks,

@@ -50,7 +50,10 @@ function Placeholder( { clientId, setAttributes } ) {
 					'How should the messages appear?',
 					'ever-blocks'
 				) }
-				variations={ variations }
+				variations={ variations.map( ( variation ) => ( {
+					...variation,
+					title: variation.description,
+				} ) ) }
 				onSelect={ ( variation = variations[ 0 ] ) => {
 					setAttributes( variation.attributes );
 					replaceInnerBlocks(

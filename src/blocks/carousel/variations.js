@@ -27,7 +27,8 @@ export const LAYOUTS = [
 
 export default LAYOUTS.map( ( option ) => ( {
 	name: option.value,
-	title: option.label,
+	title: __( 'Carousel', 'ever-blocks' ),
+	description: option.label,
 	icon: option.icon,
 	attributes: option.attributes,
 	innerBlocks: slides( 'columns' === option.value ? 6 : 4 ),
