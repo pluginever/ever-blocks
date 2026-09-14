@@ -94,7 +94,6 @@ export function ColorItem( {
 								</FlexItem>
 							</HStack>
 						</Button>
-						<StateToggle />
 						{ hasValue() && (
 							<Button
 								size="small"
@@ -104,6 +103,7 @@ export function ColorItem( {
 								onClick={ clear }
 							/>
 						) }
+						<StateToggle />
 					</HStack>
 				) }
 				renderContent={ () => (
