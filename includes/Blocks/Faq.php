@@ -77,10 +77,44 @@ class Faq extends Block {
 	 * @return void
 	 */
 	public function register(): void {
+		add_action( 'init', array( $this, 'register_style' ) );
 		add_filter( 'block_type_metadata_settings', array( $this, 'add_attribute' ), 10, 2 );
 		add_filter( 'render_block_core/accordion-heading', array( $this, 'collect_question' ), 10, 3 );
 		add_filter( 'render_block_core/accordion-panel', array( $this, 'collect_answer' ), 10, 3 );
 		add_action( 'wp_footer', array( $this, 'print_schema' ) );
+	}
+
+	/**
+	 * Registers the Divided style and the stylesheet that draws it.
+	 *
+	 * @since 2.0.0
+	 * @return void
+	 */
+	public function register_style(): void {
+		$path = EVER_BLOCKS_DIR . 'build/style-accordion.css';
+
+		if ( ! is_readable( $path ) ) {
+			return;
+		}
+
+		register_block_style(
+			$this->name,
+			array(
+				'name'  => 'divided',
+				'label' => __( 'Divided', 'ever-blocks' ),
+			)
+		);
+
+		wp_enqueue_block_style(
+			$this->name,
+			array(
+				'handle' => 'ever-blocks-accordion',
+				'src'    => EVER_BLOCKS_URL . 'build/style-accordion.css',
+				'deps'   => array( 'ever-blocks-common' ),
+				'ver'    => (string) filemtime( $path ),
+				'path'   => $path,
+			)
+		);
 	}
 
 	/**

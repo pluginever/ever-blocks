@@ -23,6 +23,7 @@ const alias = {
 // added to the ES-module config, which cannot import @wordpress/* script handles.
 const entries = {
 	common: path.resolve( __dirname, 'src/common/index.js' ),
+	accordion: path.resolve( __dirname, 'src/accordion/index.js' ),
 	editor: path.resolve( __dirname, 'src/editor/index.js' ),
 };
 

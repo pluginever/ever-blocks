@@ -1,5 +1,5 @@
 import { addFilter } from '@wordpress/hooks';
-import { registerBlockVariation } from '@wordpress/blocks';
+import { registerBlockStyle, registerBlockVariation } from '@wordpress/blocks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 import { ToggleControl } from '@wordpress/components';
@@ -20,6 +20,11 @@ const item = ( question ) => [
 	],
 ];
 
+registerBlockStyle( BLOCK, {
+	name: 'divided',
+	label: __( 'Divided', 'ever-blocks' ),
+} );
+
 registerBlockVariation( BLOCK, {
 	name: 'ever-blocks/faq',
 	title: __( 'FAQ', 'ever-blocks' ),
@@ -30,7 +35,7 @@ registerBlockVariation( BLOCK, {
 	icon: help,
 	keywords: [ __( 'faq', 'ever-blocks' ), __( 'questions', 'ever-blocks' ) ],
 	category: 'ever-blocks',
-	attributes: { [ ATTRIBUTE ]: true },
+	attributes: { [ ATTRIBUTE ]: true, className: 'is-style-divided' },
 	innerBlocks: [ item( '' ), item( '' ), item( '' ) ],
 	isActive: [ ATTRIBUTE ],
 	scope: [ 'inserter', 'transform' ],
