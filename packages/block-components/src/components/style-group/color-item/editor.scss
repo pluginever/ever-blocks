@@ -1,0 +1,49 @@
+.b8-color-item {
+	display: flex;
+	align-items: center;
+
+	&__dropdown {
+		flex: 1;
+		min-width: 0;
+		position: relative;
+	}
+
+	&__toggle.components-button {
+		width: 100%;
+		height: auto;
+		padding: 10px 8px;
+		gap: 8px;
+		text-align: left;
+
+		&[aria-expanded="true"] {
+			background: #f0f0f0;
+		}
+	}
+
+	&__name {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__reset {
+		position: absolute;
+		top: 50%;
+		right: 8px;
+		transform: translateY(-50%);
+		opacity: 0;
+
+		&:focus,
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	&__dropdown:hover &__reset {
+		opacity: 1;
+	}
+
+	.b8-state-toggle {
+		margin-right: 8px;
+	}
+}

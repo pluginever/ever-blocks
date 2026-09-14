@@ -9,16 +9,3 @@
 		display: none;
 	}
 }
-
-// Core parks the reset button over the row's right edge, which the state
-// toggle now occupies; it moves left as it does beside core's contrast warning.
-.b8-color-item {
-
-	.b8-state-toggle {
-		margin-right: 8px;
-	}
-
-	&:has(.b8-state-toggle) .block-editor-panel-color-gradient-settings__reset {
-		right: 36px;
-	}
-}

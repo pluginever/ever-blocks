@@ -26,23 +26,10 @@ import {
 import { isCustomState } from '../../utils/selectors';
 import { useStyleState } from '../../hooks/use-style-state';
 import type { Pseudo, StyleObject, Viewport } from '../../types';
-import type { ValueControl } from './types';
+import type { GroupControls } from './types';
 import './editor.scss';
 
-const GROUPS = {
-	typography: TypographyGroup,
-	spacing: SpacingGroup,
-	border: BorderGroup,
-} as const;
-
-export type GroupName = keyof typeof GROUPS;
-
-export type GroupControls = Partial<
-	Record< GroupName | 'color', Record< string, boolean | 'default' > >
-> & {
-	/** The block's own values, each one custom property. */
-	values?: Record< string, ValueControl >;
-};
+export type { GroupControls };
 
 interface Props {
 	controls: GroupControls;
@@ -146,7 +133,7 @@ export function StyleGroup( {
 			),
 		} );
 
-	const { values, color, ...groups } = controls;
+	const { values, color, typography, spacing, border } = controls;
 	const showColor = color && ( element || states.length > 0 );
 
 	const items = (
@@ -173,20 +160,30 @@ export function StyleGroup( {
 					panelId={ panelId }
 				/>
 			) }
-			{ element &&
-				( Object.keys( groups ) as GroupName[] ).map( ( group ) => {
-					const Group = GROUPS[ group ];
-
-					return Group ? (
-						<Group
-							key={ group }
-							value={ base }
-							onChange={ ( next ) => write( basePath, next ) }
-							controls={ groups[ group ] ?? {} }
-							panelId={ panelId }
-						/>
-					) : null;
-				} ) }
+			{ element && typography && (
+				<TypographyGroup
+					value={ base }
+					onChange={ ( next ) => write( basePath, next ) }
+					controls={ typography }
+					panelId={ panelId }
+				/>
+			) }
+			{ element && spacing && (
+				<SpacingGroup
+					value={ base }
+					onChange={ ( next ) => write( basePath, next ) }
+					controls={ spacing }
+					panelId={ panelId }
+				/>
+			) }
+			{ element && border && (
+				<BorderGroup
+					value={ base }
+					onChange={ ( next ) => write( basePath, next ) }
+					controls={ border }
+					panelId={ panelId }
+				/>
+			) }
 		</ItemContext.Provider>
 	);
 

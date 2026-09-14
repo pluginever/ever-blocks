@@ -1,12 +1,7 @@
 /**
  * WordPress dependencies
  */
-import {
-	Button,
-	ColorIndicator,
-	Dropdown,
-	FlexItem,
-} from '@wordpress/components';
+import { Button, ColorIndicator, Dropdown } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { reset } from '@wordpress/icons';
 
@@ -16,11 +11,11 @@ import { reset } from '@wordpress/icons';
 import {
 	ColorGradientControl,
 	DropdownContentWrapper,
-	HStack,
 	ToolsPanelItem,
 	useMultipleOriginColorsAndGradients,
 } from '../../../experimental';
 import { StateToggle } from '../../state-toggle';
+import './editor.scss';
 
 interface Props {
 	label: string;
@@ -33,14 +28,14 @@ interface Props {
 /**
  * A colour row with the state switch beside its label.
  *
- * Carries core's class names so rows join into one list, as in core's Color
- * panel, and opens core's own colour control.
+ * Carries core's list and popover classes so rows join into one list and the
+ * popover sizes as in core's Color panel, and opens core's own colour control.
  *
  * @since 0.1.0
  * @param props                  Component props.
  * @param props.label            Row label.
  * @param props.panelId          ToolsPanel the row belongs to.
- * @param props.value            Colour at the current viewport and state.
+ * @param props.value            Colour at the current state.
  * @param props.onChange         Called with the next colour, or undefined to clear.
  * @param props.isShownByDefault Whether the row shows before it has a value.
  * @return The row.
@@ -63,7 +58,6 @@ export function ColorItem( {
 			panelId={ panelId }
 			hasValue={ hasValue }
 			onDeselect={ clear }
-			resetAllFilter={ clear }
 			isShownByDefault={ isShownByDefault }
 		>
 			<Dropdown
@@ -72,39 +66,33 @@ export function ColorItem( {
 					offset: 36,
 					shift: true,
 				} }
-				className="block-editor-tools-panel-color-gradient-settings__dropdown"
+				className="b8-color-item__dropdown"
 				renderToggle={ ( { onToggle, isOpen } ) => (
-					<HStack
-						justify="space-between"
-						className="b8-color-item__row"
-					>
+					<>
 						<Button
 							__next40pxDefaultSize
-							className="block-editor-panel-color-gradient-settings__dropdown"
+							className="b8-color-item__toggle"
 							onClick={ onToggle }
 							aria-expanded={ isOpen }
 						>
-							<HStack justify="flex-start">
-								<ColorIndicator
-									className="block-editor-panel-color-gradient-settings__color-indicator"
-									colorValue={ value }
-								/>
-								<FlexItem className="block-editor-panel-color-gradient-settings__color-name">
-									{ label }
-								</FlexItem>
-							</HStack>
+							<ColorIndicator colorValue={ value } />
+							<span
+								className="b8-color-item__name"
+								title={ label }
+							>
+								{ label }
+							</span>
 						</Button>
 						{ hasValue() && (
 							<Button
 								size="small"
-								className="block-editor-panel-color-gradient-settings__reset"
+								className="b8-color-item__reset"
 								icon={ reset }
 								label={ __( 'Reset', 'ever-blocks' ) }
 								onClick={ clear }
 							/>
 						) }
-						<StateToggle />
-					</HStack>
+					</>
 				) }
 				renderContent={ () => (
 					<DropdownContentWrapper paddingSize="none">
@@ -121,6 +109,7 @@ export function ColorItem( {
 					</DropdownContentWrapper>
 				) }
 			/>
+			<StateToggle />
 		</ToolsPanelItem>
 	);
 }

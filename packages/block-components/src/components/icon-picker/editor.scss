@@ -1,16 +1,8 @@
 .b8-icon-picker {
 
 	&__header {
-		display: grid;
-		grid-template-columns: 1fr 220px;
-		gap: 24px;
-		align-items: end;
 		padding-block-end: 16px;
 		border-block-end: 1px solid #e0e0e0;
-	}
-
-	&__size {
-		margin-block-end: 0;
 	}
 
 	&__body {
@@ -63,16 +55,9 @@
 		min-height: 0;
 	}
 
-	&__count-line {
-		margin: 0 0 12px;
-		color: #757575;
-		font-size: 12px;
-	}
-
 	&__grid {
 		display: grid;
-		// Cells scale with the preview size.
-		grid-template-columns: repeat(auto-fill, minmax(calc(var(--b8-icon-size, 24px) + 24px), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
 		gap: 4px;
 		align-content: start;
 		overflow-y: auto;
@@ -84,7 +69,7 @@
 		align-items: center;
 		justify-content: center;
 		height: auto;
-		min-height: calc(var(--b8-icon-size, 24px) + 24px);
+		min-height: 48px;
 		padding: 8px;
 		border: 1px solid transparent;
 		border-radius: 4px;
@@ -110,8 +95,8 @@
 		justify-content: center;
 
 		svg {
-			height: var(--b8-icon-size, 24px);
-			width: var(--b8-icon-size, 24px);
+			height: 24px;
+			width: 24px;
 			fill: currentcolor;
 		}
 	}
@@ -141,7 +126,44 @@
 }
 
 .b8-icon-picker-control {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+
+	&.components-button {
+		width: 100%;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 0 12px;
+		border: 1px solid #949494;
+		border-radius: 2px;
+		color: #1e1e1e;
+
+		&:hover:not(:disabled) {
+			border-color: var(--wp-admin-theme-color, #3858e9);
+			color: #1e1e1e;
+		}
+	}
+
+	&__label {
+		font-weight: 500;
+	}
+
+	&__value {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		color: #757575;
+	}
+
+	&__preview {
+		display: inline-flex;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			fill: currentcolor;
+		}
+	}
 }

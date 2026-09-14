@@ -21,16 +21,13 @@ interface Props {
 /**
  * An inspector row that opens the icon library.
  *
- * A convenience preset over `IconPicker` for the common case. Use `IconPicker`
- * directly wherever the trigger needs to be something else.
- *
  * @since 0.1.0
  * @param props                  Control props.
- * @param props.label
- * @param props.value
- * @param props.panelId
- * @param props.onChange
- * @param props.isShownByDefault
+ * @param props.label            Row label.
+ * @param props.value            Name of the chosen icon.
+ * @param props.panelId          ToolsPanel the row belongs to.
+ * @param props.onChange         Receives the chosen name, or undefined to clear.
+ * @param props.isShownByDefault Whether the row shows before it has a value.
  * @return The control.
  */
 export function IconPickerControl( {
@@ -52,35 +49,31 @@ export function IconPickerControl( {
 				value={ value }
 				onSelect={ onChange }
 				render={ ( { open, icon } ) => (
-					<div className="b8-icon-picker-control">
-						<Button
-							className="b8-icon-picker-control__preview"
-							variant="secondary"
-							onClick={ open }
-							aria-haspopup="dialog"
-						>
+					<Button
+						__next40pxDefaultSize
+						className="b8-icon-picker-control"
+						onClick={ open }
+						aria-haspopup="dialog"
+					>
+						<span className="b8-icon-picker-control__label">
+							{ label }
+						</span>
+						<span className="b8-icon-picker-control__value">
 							{ icon ? (
-								<span
-									className="b8-icon-picker__icon-svg"
-									dangerouslySetInnerHTML={ {
-										__html: icon.content,
-									} }
-								/>
+								<>
+									<span
+										className="b8-icon-picker-control__preview"
+										dangerouslySetInnerHTML={ {
+											__html: icon.content,
+										} }
+									/>
+									{ icon.label }
+								</>
 							) : (
 								__( 'Select icon', 'ever-blocks' )
 							) }
-						</Button>
-						{ value && (
-							<Button
-								variant="tertiary"
-								isDestructive
-								size="small"
-								onClick={ () => onChange( undefined ) }
-							>
-								{ __( 'Remove', 'ever-blocks' ) }
-							</Button>
-						) }
-					</div>
+						</span>
+					</Button>
 				) }
 			/>
 		</ToolsPanelItem>

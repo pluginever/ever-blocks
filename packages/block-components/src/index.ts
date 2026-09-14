@@ -25,7 +25,10 @@ export { useBlockStyles } from './hooks/use-block-styles';
  * Types
  */
 export type { Icon, IconCollection, IconFilter } from './hooks/use-icons';
-export type { GroupName, GroupControls } from './components/style-group';
-export type { ValueControl } from './components/style-group/types';
+export type {
+	Control,
+	GroupControls,
+	ValueControl,
+} from './components/style-group/types';
 export type { ControlSetting } from './components/settings-group/control';
 export type { Pseudo, StyleObject, StyleState, Viewport } from './types';

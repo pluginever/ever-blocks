@@ -13,7 +13,6 @@ import type { Icon, IconCollection, IconFilter } from '../../hooks/use-icons';
 interface Props {
 	icons: Icon[];
 	collections: IconCollection[];
-	labels: Record< string, string >;
 	value: IconFilter;
 	onChange: ( filter: IconFilter ) => void;
 }
@@ -39,18 +38,11 @@ function toLabel( slug: string ): string {
  * @param props             Sidebar props.
  * @param props.icons
  * @param props.collections
- * @param props.labels
  * @param props.value
  * @param props.onChange
  * @return The sidebar.
  */
-export function IconSidebar( {
-	icons,
-	collections,
-	labels,
-	value,
-	onChange,
-}: Props ) {
+export function IconSidebar( { icons, collections, value, onChange }: Props ) {
 	const counts = useMemo( () => {
 		const totals: Record< string, number > = {};
 
@@ -80,10 +72,10 @@ export function IconSidebar( {
 			.sort()
 			.map( ( slug ) => ( {
 				slug,
-				label: labels[ slug ] ?? toLabel( slug ),
+				label: toLabel( slug ),
 				count: totals[ slug ],
 			} ) );
-	}, [ icons, labels, value.collection ] );
+	}, [ icons, value.collection ] );
 
 	return (
 		<div className="b8-icon-picker__sidebar">

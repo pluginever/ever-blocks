@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { LineHeightControl, useSettings } from '@wordpress/block-editor';
-import { FontSizePicker as BaseFontSizePicker } from '@wordpress/components';
+import { FontSizePicker } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -17,30 +17,15 @@ import {
 import { Item } from '../item';
 import type { GroupProps } from '../types';
 
-const FontSizePicker = BaseFontSizePicker as unknown as React.ComponentType<
-	Record< string, unknown >
->;
-
-/**
- * Typography controls for one element.
- *
- * @since 0.1.0
- * @param props          Group props.
- * @param props.value
- * @param props.onChange
- * @param props.controls
- * @param props.panelId
- * @return The controls.
- */
 export function TypographyGroup( {
 	value,
 	onChange,
 	controls,
 	panelId,
-}: GroupProps ) {
-	const [ sizes, fluid ] = useSettings(
+}: GroupProps< 'typography' > ) {
+	const [ sizes, customSizes ] = useSettings(
 		'typography.fontSizes',
-		'typography.fluid'
+		'typography.customFontSize'
 	);
 	const typography = ( value.typography ?? {} ) as Record< string, unknown >;
 
@@ -52,20 +37,18 @@ export function TypographyGroup( {
 			{ controls.fontSize && (
 				<Item
 					isShownByDefault={ 'default' === controls.fontSize }
-					label={ __( 'Size', 'ever-blocks' ) }
+					label={ __( 'Font size', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.fontSize }
 					onReset={ () => set( 'fontSize', undefined ) }
 				>
 					<FontSizePicker
-						__next40pxDefaultSize
-						__nextHasNoMarginBottom
 						value={ typography.fontSize as string | undefined }
 						fontSizes={ ( sizes as [] ) ?? [] }
-						fluid={ fluid }
-						onChange={ ( next: unknown ) =>
-							set( 'fontSize', next )
-						}
+						disableCustomFontSizes={ ! customSizes }
+						withReset={ false }
+						withSlider
+						onChange={ ( next ) => set( 'fontSize', next ) }
 					/>
 				</Item>
 			) }
@@ -88,7 +71,6 @@ export function TypographyGroup( {
 					}
 				>
 					<FontAppearanceControl
-						__next40pxDefaultSize
 						value={ {
 							fontStyle: typography.fontStyle,
 							fontWeight: typography.fontWeight,
@@ -112,8 +94,6 @@ export function TypographyGroup( {
 					onReset={ () => set( 'lineHeight', undefined ) }
 				>
 					<LineHeightControl
-						__next40pxDefaultSize
-						__nextHasNoMarginBottom
 						__unstableInputWidth="auto"
 						value={ typography.lineHeight }
 						onChange={ ( next: unknown ) =>
@@ -132,7 +112,6 @@ export function TypographyGroup( {
 					onReset={ () => set( 'letterSpacing', undefined ) }
 				>
 					<LetterSpacingControl
-						__next40pxDefaultSize
 						__unstableInputWidth="auto"
 						value={ typography.letterSpacing }
 						onChange={ ( next: unknown ) =>
@@ -155,8 +134,6 @@ export function TypographyGroup( {
 						onChange={ ( next: unknown ) =>
 							set( 'textTransform', next )
 						}
-						showNone
-						isBlock
 					/>
 				</Item>
 			) }

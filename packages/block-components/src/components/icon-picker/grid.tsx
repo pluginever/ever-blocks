@@ -19,7 +19,6 @@ const CHUNK = 120;
 interface Props {
 	icons: Icon[];
 	value?: string;
-	size: number;
 	isLoading: boolean;
 	onSelect: ( icon: Icon ) => void;
 }
@@ -31,12 +30,11 @@ interface Props {
  * @param props           Grid props.
  * @param props.icons
  * @param props.value
- * @param props.size
  * @param props.isLoading
  * @param props.onSelect
  * @return The grid.
  */
-export function IconGrid( { icons, value, size, isLoading, onSelect }: Props ) {
+export function IconGrid( { icons, value, isLoading, onSelect }: Props ) {
 	const [ visible, setVisible ] = useState( CHUNK );
 	const sentinel = useRef< HTMLDivElement >( null );
 
@@ -63,7 +61,7 @@ export function IconGrid( { icons, value, size, isLoading, onSelect }: Props ) {
 	if ( isLoading ) {
 		return (
 			<div className="b8-icon-picker__status">
-				<Spinner />
+				<Spinner aria-label={ __( 'Loading icons', 'ever-blocks' ) } />
 			</div>
 		);
 	}
@@ -77,10 +75,7 @@ export function IconGrid( { icons, value, size, isLoading, onSelect }: Props ) {
 	}
 
 	return (
-		<div
-			className="b8-icon-picker__grid"
-			style={ { '--b8-icon-size': `${ size }px` } as React.CSSProperties }
-		>
+		<div className="b8-icon-picker__grid">
 			{ icons.slice( 0, visible ).map( ( icon ) => (
 				<Button
 					key={ icon.name }

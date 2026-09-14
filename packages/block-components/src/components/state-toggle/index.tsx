@@ -1,7 +1,12 @@
 /**
  * WordPress dependencies
  */
-import { DropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
+import {
+	DropdownMenu,
+	MenuGroup,
+	MenuItem,
+	VisuallyHidden,
+} from '@wordpress/components';
 import { __, _x, sprintf } from '@wordpress/i18n';
 import { check } from '@wordpress/icons';
 import { SVG, Path, Circle } from '@wordpress/primitives';
@@ -61,14 +66,7 @@ const stateCustom = (
 	</SVG>
 );
 
-/**
- * Returns a readable label for a state name.
- *
- * @since 0.1.0
- * @param state State name, e.g. `:hover` or `-open`.
- * @return Label.
- */
-export function getStateLabel( state: string ): string {
+function getStateLabel( state: string ): string {
 	if ( 'default' === state ) {
 		return __( 'Default', 'ever-blocks' );
 	}
@@ -93,17 +91,20 @@ const stateIcon = ( state: string ) => {
 /**
  * The state switch shown in a colour row.
  *
- * The choice is remembered per part, so every colour of that part follows it.
- * A dot marks a state the part already has values for.
+ * The choice is remembered per element, so every colour of that element
+ * follows it. Options the element already has values for say so.
  *
  * @since 0.1.0
- * @return The switch, or null when the part declares no state.
+ * @return The switch, or null when the element declares no state.
  */
 export function StateToggle() {
 	const { options, hasValueAt, element } = useItemContext();
 	const { viewport, pseudo, setPseudo } = useStyleState( element );
 
-	if ( options.length < 2 ) {
+	if (
+		! options.length ||
+		( 1 === options.length && 'default' === pseudo )
+	) {
 		return null;
 	}
 
@@ -116,9 +117,12 @@ export function StateToggle() {
 				__( 'State: %s', 'ever-blocks' ),
 				getStateLabel( pseudo )
 			) }
+			disableOpenOnArrowDown={ 1 === options.length }
 			toggleProps={ {
 				size: 'small',
 				className: 'b8-state-toggle__button',
+				disabled: 1 === options.length,
+				showTooltip: true,
 			} }
 			popoverProps={ { placement: 'bottom-end' } }
 		>
@@ -127,13 +131,21 @@ export function StateToggle() {
 					{ options.map( ( state ) => (
 						<MenuItem
 							key={ state }
+							role="menuitemradio"
 							icon={
 								pseudo === state ? check : stateIcon( state )
 							}
 							isSelected={ pseudo === state }
 							suffix={
 								hasValueAt( viewport, state ) ? (
-									<span className="b8-state-toggle__dot" />
+									<span className="b8-state-toggle__dot">
+										<VisuallyHidden>
+											{ __(
+												'Has values',
+												'ever-blocks'
+											) }
+										</VisuallyHidden>
+									</span>
 								) : undefined
 							}
 							onClick={ () => {

@@ -29,7 +29,6 @@ export function Item( {
 			panelId={ panelId }
 			hasValue={ hasValue }
 			onDeselect={ onReset }
-			resetAllFilter={ onReset }
 			isShownByDefault={ isShownByDefault }
 		>
 			{ children }

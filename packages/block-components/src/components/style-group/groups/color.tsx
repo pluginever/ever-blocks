@@ -9,23 +9,12 @@ import { __ } from '@wordpress/i18n';
 import { ColorItem } from '../color-item';
 import type { GroupProps } from '../types';
 
-/**
- * Text and background for one part.
- *
- * @since 0.1.0
- * @param props          Group props.
- * @param props.value
- * @param props.onChange
- * @param props.controls
- * @param props.panelId
- * @return The controls.
- */
 export function ColorGroup( {
 	value,
 	onChange,
 	controls,
 	panelId,
-}: GroupProps ) {
+}: GroupProps< 'color' > ) {
 	const color = ( value.color ?? {} ) as Record< string, unknown >;
 
 	const set = ( key: string, next?: string ) =>

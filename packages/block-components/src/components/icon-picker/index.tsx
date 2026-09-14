@@ -22,29 +22,23 @@ interface RenderProps {
 interface Props {
 	/** Name of the chosen icon. */
 	value?: string;
-	/** Translated category labels, keyed by slug. Slugs are titled when absent. */
-	labels?: Record< string, string >;
 	onSelect: ( name: string ) => void;
 	/** Supplies the trigger. Anything that calls `open` will do. */
 	render: ( props: RenderProps ) => React.ReactNode;
 }
 
 /**
- * Owns the icon library and hands the trigger to the consumer.
- *
- * Follows the contract core uses for `MediaUpload`: this component holds the
- * open state and the modal, and `render` decides what opens it — a toolbar
- * button, an inspector row, a placeholder on the canvas, or anything else.
+ * Owns the icon library and hands the trigger to the consumer, as core's
+ * `MediaUpload` does.
  *
  * @since 0.1.0
  * @param props          Picker props.
- * @param props.value
- * @param props.labels
- * @param props.onSelect
- * @param props.render
+ * @param props.value    Name of the chosen icon.
+ * @param props.onSelect Receives the chosen name.
+ * @param props.render   Supplies the trigger; anything that calls `open` will do.
  * @return The consumer's trigger, plus the library while it is open.
  */
-export function IconPicker( { value, labels = {}, onSelect, render }: Props ) {
+export function IconPicker( { value, onSelect, render }: Props ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const icon = useIcon( value );
 
@@ -54,7 +48,6 @@ export function IconPicker( { value, labels = {}, onSelect, render }: Props ) {
 			{ isOpen && (
 				<IconLibrary
 					value={ value }
-					labels={ labels }
 					onClose={ () => setIsOpen( false ) }
 					onSelect={ onSelect }
 				/>

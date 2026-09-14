@@ -1,7 +1,6 @@
 /**
  * WordPress dependencies
  */
-import { useSettings } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -13,24 +12,12 @@ import type { GroupProps } from '../types';
 
 const SIDES = [ 'top', 'right', 'bottom', 'left' ];
 
-/**
- * Padding, margin and block gap for one element.
- *
- * @since 0.1.0
- * @param props          Group props.
- * @param props.value
- * @param props.onChange
- * @param props.controls
- * @param props.panelId
- * @return The controls.
- */
 export function SpacingGroup( {
 	value,
 	onChange,
 	controls,
 	panelId,
-}: GroupProps ) {
-	const [ units ] = useSettings( 'spacing.units' );
+}: GroupProps< 'spacing' > ) {
 	const spacing = ( value.spacing ?? {} ) as Record< string, unknown >;
 
 	const set = ( key: string, next: unknown ) =>
@@ -50,9 +37,6 @@ export function SpacingGroup( {
 						label={ __( 'Padding', 'ever-blocks' ) }
 						values={ spacing.padding }
 						sides={ SIDES }
-						units={ units }
-						allowReset={ false }
-						splitOnAxis
 						onChange={ ( next: unknown ) => set( 'padding', next ) }
 					/>
 				</Item>
@@ -70,32 +54,7 @@ export function SpacingGroup( {
 						label={ __( 'Margin', 'ever-blocks' ) }
 						values={ spacing.margin }
 						sides={ SIDES }
-						units={ units }
-						allowReset={ false }
-						splitOnAxis
 						onChange={ ( next: unknown ) => set( 'margin', next ) }
-					/>
-				</Item>
-			) }
-
-			{ controls.blockGap && (
-				<Item
-					isShownByDefault={ 'default' === controls.blockGap }
-					label={ __( 'Block spacing', 'ever-blocks' ) }
-					panelId={ panelId }
-					value={ spacing.blockGap }
-					onReset={ () => set( 'blockGap', undefined ) }
-				>
-					<SpacingSizesControl
-						label={ __( 'Block spacing', 'ever-blocks' ) }
-						values={ { top: spacing.blockGap } }
-						sides={ [ 'top' ] }
-						units={ units }
-						allowReset={ false }
-						showSideInLabel={ false }
-						onChange={ ( next: Record< string, unknown > ) =>
-							set( 'blockGap', next?.top )
-						}
 					/>
 				</Item>
 			) }

@@ -18,8 +18,6 @@ import type { StyleObject } from '../../types';
 type Element = { label?: string } & GroupControls;
 
 interface Props {
-	/** Defaults to the block's own client id, which is what a `ToolsPanel` needs. */
-	panelId?: string;
 	attributes: Record< string, unknown > & { style?: StyleObject };
 	setAttributes: ( next: Record< string, unknown > ) => void;
 	/** One panel per element declared in block.json, plus `root` for the block itself. */
@@ -27,23 +25,17 @@ interface Props {
 }
 
 /**
- * Renders a block's style panels from a single declaration.
- *
- * The root panel takes the block's title; every other element named here must
- * be declared in the block's `block.json` under `supports.everBlocks.elements`,
- * or its panel is not rendered — there would be nothing on the page for its
- * values to reach.
+ * Renders one style panel per element a block declares, plus `root` for the
+ * block itself; an element missing from `block.json` gets no panel.
  *
  * @since 0.1.0
  * @param props               Component props.
- * @param props.panelId       ToolsPanel id prefix.
  * @param props.attributes    Block attributes.
  * @param props.setAttributes Attribute setter.
  * @param props.elements      Panels keyed by element name.
  * @return The panels.
  */
 export function StylePanels( {
-	panelId,
 	attributes,
 	setAttributes,
 	elements = {},
@@ -51,7 +43,6 @@ export function StylePanels( {
 	const { clientId, name } = useBlockEditContext();
 	const blockType = getBlockType( name );
 	const declared = getDeclaration( blockType ).elements;
-	const id = panelId ?? clientId;
 
 	const panels = Object.entries( elements ).filter(
 		( [ element ] ) => 'root' === element || element in declared
@@ -74,7 +65,7 @@ export function StylePanels( {
 							: element )
 					}
 					controls={ controls }
-					panelId={ `${ id }-${ element }` }
+					panelId={ `${ clientId }-${ element }` }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
