@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since   2.0.0
  * @package EverBlocks
  */
-final class StyleCompiler {
+final class Styler {
 
 	/**
 	 * Style engine store the plugin's rules are registered with.

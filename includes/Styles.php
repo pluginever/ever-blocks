@@ -2,7 +2,7 @@
 
 namespace EverBlocks;
 
-use EverBlocks\Services\StyleCompiler;
+use EverBlocks\Services\Styler;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,12 +19,12 @@ defined( 'ABSPATH' ) || exit;
 class Styles {
 
 	/**
-	 * Style compiler.
+	 * Styler.
 	 *
 	 * @since 2.0.0
-	 * @var StyleCompiler
+	 * @var Styler
 	 */
-	private StyleCompiler $compiler;
+	private Styler $styler;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class Styles {
 	 * @since 2.0.0
 	 */
 	public function __construct() {
-		$this->compiler = ever_blocks()->compiler;
+		$this->styler = ever_blocks()->styler;
 	}
 
 	/**
@@ -96,6 +96,6 @@ class Styles {
 		 */
 		$own = apply_filters( "ever_blocks_block_styles_{$name}", $own, $attributes );
 
-		return $this->compiler->apply( $content, $name, $this->compiler->compile( $style, $block_type, (array) $own ) );
+		return $this->styler->apply( $content, $name, $this->styler->compile( $style, $block_type, (array) $own ) );
 	}
 }

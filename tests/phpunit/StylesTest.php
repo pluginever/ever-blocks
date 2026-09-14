@@ -8,7 +8,7 @@ namespace EverBlocks\Tests;
  *
  * Every test renders through the real `render_block` pipeline against a block
  * registered here, so the assertions cover the declaration in block.json, the
- * compiler, the store and the stamped class together.
+ * styler, the store and the stamped class together.
  */
 class StylesTest extends TestCase {
 

@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * @package EverBlocks
  * @property-read string          $file    Plugin file path.
  * @property-read string          $version Plugin version.
- * @property-read Services\StyleCompiler $compiler Style compiler.
+ * @property-read Services\Styler $styler Styler.
  */
 final class Plugin {
 
@@ -59,7 +59,7 @@ final class Plugin {
 
 			self::$instance->set( 'file', $file );
 			self::$instance->set( 'version', $version );
-			self::$instance->set( 'compiler', fn() => new Services\StyleCompiler() );
+			self::$instance->set( 'styler', fn() => new Services\Styler() );
 		}
 
 		return self::$instance;
