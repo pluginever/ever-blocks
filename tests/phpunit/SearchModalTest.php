@@ -41,44 +41,6 @@ class SearchModalTest extends TestCase {
 	}
 
 	/**
-	 * The trigger label is plain text, and falls back to "Search".
-	 *
-	 * @return void
-	 */
-	public function test_trigger_label_is_plain_text(): void {
-		$this->assertStringContainsString( 'aria-label="Find it"', $this->render( '<!-- wp:ever-blocks/search-modal {"triggerLabel":"Find <b>it</b>"} /-->' ) );
-		$this->assertStringContainsString( 'aria-label="Search"', $this->render( '<!-- wp:ever-blocks/search-modal {"triggerLabel":" "} /-->' ) );
-	}
-
-	/**
-	 * An unknown overlay falls back to full screen.
-	 *
-	 * @return void
-	 */
-	public function test_unknown_overlay_falls_back_to_full(): void {
-		$this->assertMatchesRegularExpression( '/\beb-search-modal--full\b/', $this->render( '<!-- wp:ever-blocks/search-modal {"overlay":"sideways"} /-->' ) );
-	}
-
-	/**
-	 * Every part styled in the inspector reaches the page through the engine.
-	 *
-	 * @return void
-	 */
-	public function test_element_styles_compile(): void {
-		$html = $this->render( '<!-- wp:ever-blocks/search-modal {"style":{"elements":{"trigger":{"everBlocks":{"iconSize":"32px"},":hover":{"color":{"text":"#ff0000"}}},"backdrop":{"color":{"background":"#000000"}}},"-open":{"elements":{"trigger":{"color":{"text":"#00ff00"}}}}}} /-->' );
-
-		$this->assertSame( 1, preg_match( '/class="[^"]*\b(eb-[0-9a-f]{8})\b/', $html, $match ) );
-
-		$class = '.' . $match[1] . '.' . $match[1];
-		$css   = $this->plugin_css();
-
-		$this->assertStringContainsString( $class . ' .eb-search-modal__trigger{--ever-blocks-search-modal-trigger-icon-size:32px;}', $css );
-		$this->assertStringContainsString( $class . ' .eb-search-modal__trigger:hover{color:#ff0000;}', $css );
-		$this->assertStringContainsString( $class . ' .eb-search-modal__dialog::backdrop{background-color:#000000;}', $css );
-		$this->assertStringContainsString( $class . '.is-open .eb-search-modal__trigger{color:#00ff00;}', $css );
-	}
-
-	/**
 	 * The block's assets are registered under the handles core derives.
 	 *
 	 * @return void

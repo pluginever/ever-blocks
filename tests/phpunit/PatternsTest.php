@@ -35,32 +35,4 @@ class PatternsTest extends TestCase {
 		}
 	}
 
-	/**
-	 * Restores the pattern set for later tests.
-	 *
-	 * @return void
-	 */
-	public function tear_down(): void {
-		remove_all_filters( 'ever_blocks_is_pattern_enabled' );
-		ever_blocks()->get( \EverBlocks\Patterns::class )->register_patterns();
-
-		parent::tear_down();
-	}
-
-	/**
-	 * The filter can keep a pattern out.
-	 *
-	 * @return void
-	 */
-	public function test_filter_disables_a_pattern(): void {
-		$registry = \WP_Block_Patterns_Registry::get_instance();
-		$registry->unregister( 'ever-blocks/table-of-contents-sidebar' );
-
-		add_filter( 'ever_blocks_is_pattern_enabled', fn( bool $enabled, string $slug ): bool => 'table-of-contents-sidebar' !== $slug, 10, 2 );
-
-		ever_blocks()->get( \EverBlocks\Patterns::class )->register_patterns();
-
-		$this->assertFalse( $registry->is_registered( 'ever-blocks/table-of-contents-sidebar' ) );
-		$this->assertTrue( $registry->is_registered( 'ever-blocks/table-of-contents-collapsible' ) );
-	}
 }

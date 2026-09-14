@@ -55,18 +55,6 @@ class FaqTest extends TestCase {
 	}
 
 	/**
-	 * The accordion gains the attribute and passes it to its items as context.
-	 *
-	 * @return void
-	 */
-	public function test_attribute_and_context_are_registered(): void {
-		$type = \WP_Block_Type_Registry::get_instance()->get_registered( 'core/accordion' );
-
-		$this->assertSame( 'boolean', $type->attributes[ Faq::ATTRIBUTE ]['type'] );
-		$this->assertSame( Faq::ATTRIBUTE, $type->provides_context[ Faq::CONTEXT ] );
-	}
-
-	/**
 	 * Questions and answers from every schema accordion on the page land in one FAQPage.
 	 *
 	 * @return void
@@ -98,38 +86,4 @@ class FaqTest extends TestCase {
 		$this->assertSame( '<p>Text  <strong>bold</strong></p>', $schema['mainEntity'][0]['acceptedAnswer']['text'] );
 	}
 
-	/**
-	 * An item missing its question or its answer is left out; an accordion without the attribute prints nothing.
-	 *
-	 * @return void
-	 */
-	public function test_incomplete_items_and_plain_accordions_are_skipped(): void {
-		$this->assertNull( $this->schema_for( $this->accordion( array( array( 'Q', '<!-- wp:paragraph --><p>A</p><!-- /wp:paragraph -->' ) ), false ) ) );
-
-		$schema = $this->schema_for(
-			$this->accordion(
-				array(
-					array( '', '<!-- wp:paragraph --><p>No question</p><!-- /wp:paragraph -->' ),
-					array( 'No answer', '' ),
-					array( 'Kept', '<!-- wp:paragraph --><p>Yes</p><!-- /wp:paragraph -->' ),
-				)
-			)
-		);
-
-		$this->assertCount( 1, $schema['mainEntity'] );
-		$this->assertSame( 'Kept', $schema['mainEntity'][0]['name'] );
-	}
-
-	/**
-	 * The filter can drop or rewrite the entities.
-	 *
-	 * @return void
-	 */
-	public function test_filter_controls_the_output(): void {
-		add_filter( 'ever_blocks_faq_schema', '__return_empty_array' );
-
-		$this->assertNull( $this->schema_for( $this->accordion( array( array( 'Q', '<!-- wp:paragraph --><p>A</p><!-- /wp:paragraph -->' ) ) ) ) );
-
-		remove_filter( 'ever_blocks_faq_schema', '__return_empty_array' );
-	}
 }

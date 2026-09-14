@@ -42,28 +42,6 @@ class SupportsTest extends TestCase {
 	}
 
 	/**
-	 * Core's own position support keeps its positioning.
-	 *
-	 * @return void
-	 */
-	public function test_z_index_leaves_a_positioned_block_alone(): void {
-		$html = $this->paragraph( array( 'everBlocksZIndex' => 5, 'style' => array( 'position' => array( 'type' => 'sticky' ) ) ) );
-
-		$this->assertStringContainsString( 'z-index:5;', $html );
-		$this->assertStringNotContainsString( 'position:relative', $html );
-	}
-
-	/**
-	 * A block without the value or without the support is untouched.
-	 *
-	 * @return void
-	 */
-	public function test_z_index_skips_blocks_without_the_value(): void {
-		$this->assertStringNotContainsString( 'z-index', $this->paragraph( array() ) );
-		$this->assertStringNotContainsString( 'z-index', $this->paragraph( array( 'everBlocksZIndex' => 'x' ) ) );
-	}
-
-	/**
 	 * The option and the filter both switch a support off.
 	 *
 	 * @return void

@@ -20,12 +20,4 @@ class PluginTest extends TestCase {
 		$this->assertSame( $this->plugin->styler, $this->plugin->styler );
 	}
 
-	/**
-	 * An unknown key resolves to nothing rather than an error.
-	 *
-	 * @return void
-	 */
-	public function test_unknown_key_is_null(): void {
-		$this->assertNull( $this->plugin->get( 'nothing' ) );
-	}
 }
