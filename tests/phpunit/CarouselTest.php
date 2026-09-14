@@ -40,7 +40,7 @@ class CarouselTest extends TestCase {
 	 * @return void
 	 */
 	public function test_slider_renders_chrome_and_slides(): void {
-		$html = $this->carousel( '{"autoplay":true,"delay":3}' );
+		$html = $this->carousel( '{"autoplay":true,"speed":"fast"}' );
 
 		$this->assertMatchesRegularExpression( '/<div class="eb-carousel is-layout-slider[^"]*"[^>]*data-wp-interactive="ever-blocks\/carousel"[^>]*role="region"/', $html );
 		$this->assertStringContainsString( '&quot;autoplay&quot;:true', $html );

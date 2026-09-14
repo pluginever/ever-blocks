@@ -26,9 +26,6 @@ import {
 import { LAYOUTS } from './variations';
 import './editor.scss';
 
-const seconds = ( values ) =>
-	values.map( ( n ) => ( { label: `${ n } s`, value: String( n ) } ) );
-
 function Placeholder( { clientId, setAttributes } ) {
 	const variations = useSelect(
 		( select ) =>
@@ -102,31 +99,24 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 			),
 			isShownByDefault: true,
 		},
-		...( isSlider && autoplay
-			? {
-					delay: {
-						type: 'select',
-						label: __( 'Delay', 'ever-blocks' ),
-						isShownByDefault: true,
-						options: seconds( [ 3, 5, 8, 10 ] ),
-					},
-			  }
-			: {} ),
-		...( isMoving
+		...( autoplay
 			? {
 					speed: {
 						type: 'select',
 						label: __( 'Speed', 'ever-blocks' ),
 						isShownByDefault: true,
 						options: [
-							{ label: __( 'Slow', 'ever-blocks' ), value: '30' },
+							{
+								label: __( 'Slow', 'ever-blocks' ),
+								value: 'slow',
+							},
 							{
 								label: __( 'Normal', 'ever-blocks' ),
-								value: '60',
+								value: 'normal',
 							},
 							{
 								label: __( 'Fast', 'ever-blocks' ),
-								value: '120',
+								value: 'fast',
 							},
 						],
 					},
@@ -183,7 +173,7 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 			: {} ),
 	};
 
-	const numeric = [ 'columns', 'speed', 'delay' ];
+	const numeric = [ 'columns' ];
 
 	return (
 		<>

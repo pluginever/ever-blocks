@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:ever-blocks/carousel {"layout":"row","autoplay":true,"speed":30,"align":"full","style":{"everBlocks":{"slideWidth":"160px","gap":"48px"}}} -->
+<!-- wp:ever-blocks/carousel {"layout":"row","autoplay":true,"speed":"slow","align":"full","style":{"everBlocks":{"slideWidth":"160px","gap":"48px"}}} -->
 <?php for ( $eb_i = 0; $eb_i < 6; $eb_i++ ) : ?>
 <!-- wp:ever-blocks/carousel-slide {"layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
 <!-- wp:image {"aspectRatio":"3","scale":"contain","sizeSlug":"medium"} -->

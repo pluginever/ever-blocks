@@ -22,6 +22,12 @@ $eb_moving   = $eb_autoplay && 'slider' !== $eb_layout;
 $eb_columns  = min( 4, max( 1, (int) ( $attributes['columns'] ?? 3 ) ) );
 $eb_count    = count( $block->parsed_block['innerBlocks'] ?? array() );
 $eb_loop     = ! isset( $attributes['loop'] ) || $attributes['loop'];
+$eb_speeds   = array(
+	'slow'   => array( 8, 30 ),
+	'normal' => array( 5, 60 ),
+	'fast'   => array( 3, 120 ),
+);
+$eb_speed    = $eb_speeds[ $attributes['speed'] ?? 'normal' ] ?? $eb_speeds['normal'];
 $eb_arrows   = 'slider' === $eb_layout && ( ! isset( $attributes['arrows'] ) || $attributes['arrows'] ) && $eb_count > 1;
 $eb_dots     = 'slider' === $eb_layout && ( ! isset( $attributes['dots'] ) || $attributes['dots'] ) && $eb_count > 1;
 $eb_icon     = static function ( $name, string $fallback ): string {
@@ -38,9 +44,9 @@ $eb_wrapper = array(
 			'count'    => $eb_count,
 			'layout'   => $eb_layout,
 			'autoplay' => $eb_autoplay,
-			'delay'    => max( 1, (float) ( $attributes['delay'] ?? 5 ) ),
+			'delay'    => $eb_speed[0],
 			'loop'     => $eb_loop,
-			'speed'    => max( 10, (int) ( $attributes['speed'] ?? 60 ) ),
+			'speed'    => $eb_speed[1],
 			'reverse'  => 'right' === ( $attributes['direction'] ?? 'left' ),
 		)
 	),

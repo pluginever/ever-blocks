@@ -1,0 +1,222 @@
+.eb-testimonial {
+	--avatar: var(--ever-blocks-testimonial-avatar-size, 48px);
+	--gap: var(--ever-blocks-testimonial-gap, var(--eb-spacing-xs));
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+	margin: 0;
+	padding: var(--eb-spacing-md);
+	border: var(--eb-border-width) solid var(--eb-color-border);
+	border-radius: 8px;
+	box-sizing: border-box;
+	line-height: var(--eb-line-height-normal);
+
+	&__rating {
+		--ever-blocks-rating-size: var(--ever-blocks-testimonial-rating-size, 18px);
+	}
+
+	&__quote {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: none;
+		font-size: var(--eb-font-size);
+		font-style: normal;
+		font-weight: 400;
+		line-height: var(--eb-line-height-normal);
+		text-align: inherit;
+
+		p {
+			margin: 0;
+		}
+
+		p + p {
+			margin-top: var(--eb-spacing-2xs);
+		}
+	}
+
+	&__author {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--eb-spacing-2xs) * 1.5);
+		margin: 0;
+	}
+
+	&__avatar {
+		display: block;
+		flex: none;
+		width: var(--avatar);
+		height: var(--avatar);
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	&__who {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		min-width: 0;
+		line-height: var(--eb-line-height-snug);
+	}
+
+	&__name {
+		font-size: calc(var(--eb-font-size) * 0.9375);
+		font-weight: var(--eb-font-weight-medium);
+	}
+
+	&__role {
+		font-size: calc(var(--eb-font-size) * 0.875);
+		color: var(--eb-color-muted);
+	}
+
+	&__logo {
+		display: block;
+		flex: none;
+		width: var(--ever-blocks-testimonial-logo-width, 96px);
+		height: auto;
+		margin-left: auto;
+		object-fit: contain;
+	}
+
+	&__mark {
+		position: absolute;
+		top: var(--eb-spacing-2xs);
+		right: var(--eb-spacing-sm);
+		font-family: Georgia, "Times New Roman", serif;
+		font-size: 5em;
+		font-weight: 700;
+		line-height: 1;
+		color: var(--eb-color-border);
+		pointer-events: none;
+	}
+
+	&--side {
+		flex-direction: row;
+		align-items: flex-start;
+
+		.eb-testimonial__rating {
+			order: 2;
+		}
+
+		.eb-testimonial__quote {
+			order: 3;
+			flex: 1 1 100%;
+		}
+
+		.eb-testimonial__author {
+			display: contents;
+		}
+
+		.eb-testimonial__avatar {
+			--avatar: var(--ever-blocks-testimonial-avatar-size, 64px);
+
+			order: 1;
+			align-self: flex-start;
+		}
+
+		.eb-testimonial__who {
+			order: 4;
+			flex: 1 1 100%;
+		}
+
+		.eb-testimonial__logo {
+			order: 5;
+		}
+
+		@media (width > 480px) {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr);
+			column-gap: var(--eb-spacing-sm);
+
+			.eb-testimonial__avatar {
+				grid-row: 1 / span 3;
+			}
+		}
+	}
+
+	&--centered {
+		align-items: center;
+		text-align: center;
+
+		.eb-testimonial__quote {
+			font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+			font-weight: var(--eb-font-weight-medium);
+			line-height: var(--eb-line-height-snug);
+			letter-spacing: -0.01em;
+		}
+
+		.eb-testimonial__author {
+			flex-direction: column;
+			gap: var(--eb-spacing-2xs);
+		}
+
+		.eb-testimonial__who {
+			align-items: center;
+			flex: none;
+		}
+
+		.eb-testimonial__logo {
+			margin-left: 0;
+		}
+	}
+
+	&.is-style-plain {
+		padding: 0 0 0 var(--eb-spacing-sm);
+		border: 0;
+		border-left: 2px solid var(--eb-color-border);
+		border-radius: 0;
+
+		&.eb-testimonial--centered {
+			padding: 0;
+			border: 0;
+		}
+	}
+
+	&.is-style-bubble {
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+
+		.eb-testimonial__quote {
+			position: relative;
+			padding: var(--eb-spacing-sm) var(--eb-spacing-md);
+			border-radius: 12px;
+			background: color-mix(in srgb, currentcolor 6%, transparent);
+
+			&::after {
+				content: "";
+				position: absolute;
+				top: 100%;
+				left: var(--eb-spacing-md);
+				width: 20px;
+				height: 10px;
+				background: color-mix(in srgb, currentcolor 6%, transparent);
+				clip-path: polygon(0 0, 100% 0, 50% 100%);
+			}
+		}
+
+		.eb-testimonial__author {
+			padding-left: var(--eb-spacing-2xs);
+		}
+	}
+
+	&.is-style-dark {
+		background: #171717;
+		color: #fff;
+		border-color: #171717;
+
+		.eb-testimonial__role {
+			color: rgba(255, 255, 255, 0.65);
+		}
+
+		.eb-rating__empty {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.eb-testimonial__mark {
+			color: rgba(255, 255, 255, 0.12);
+		}
+	}
+}

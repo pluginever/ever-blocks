@@ -41,17 +41,18 @@
 			"type": "boolean",
 			"default": false
 		},
-		"delay": {
-			"type": "number",
-			"default": 5
-		},
 		"loop": {
 			"type": "boolean",
 			"default": true
 		},
 		"speed": {
-			"type": "number",
-			"default": 60
+			"type": "string",
+			"default": "normal",
+			"enum": [
+				"slow",
+				"normal",
+				"fast"
+			]
 		},
 		"direction": {
 			"type": "string",

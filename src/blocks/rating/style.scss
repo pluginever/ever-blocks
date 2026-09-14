@@ -1,10 +1,7 @@
 .eb-rating {
-	--size: var(--ever-blocks-rating-size, var(--eb-icon-size));
-
 	display: flex;
 	align-items: center;
 	gap: calc(var(--size) * 0.4);
-	line-height: 1;
 
 	&.has-text-align-center {
 		justify-content: center;
@@ -12,38 +9,6 @@
 
 	&.has-text-align-right {
 		justify-content: flex-end;
-	}
-
-	&__icons {
-		position: relative;
-		display: inline-flex;
-		line-height: 0;
-	}
-
-	&__empty,
-	&__filled {
-		display: inline-flex;
-		gap: var(--ever-blocks-rating-gap, calc(var(--size) * 0.1));
-		white-space: nowrap;
-
-		svg {
-			display: block;
-			flex: none;
-			width: var(--size);
-			height: var(--size);
-			fill: currentcolor;
-		}
-	}
-
-	&__empty {
-		color: var(--eb-color-border);
-	}
-
-	&__filled {
-		position: absolute;
-		inset: 0 auto 0 0;
-		overflow: hidden;
-		color: inherit;
 	}
 
 	&__label {

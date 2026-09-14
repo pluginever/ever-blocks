@@ -21,7 +21,7 @@ export const LAYOUTS = [
 		value: 'columns',
 		label: __( 'Columns', 'ever-blocks' ),
 		icon: scrollColumns,
-		attributes: { layout: 'columns', autoplay: true, speed: 30 },
+		attributes: { layout: 'columns', autoplay: true, speed: 'slow' },
 	},
 ];
 
@@ -32,4 +32,5 @@ export default LAYOUTS.map( ( option ) => ( {
 	attributes: option.attributes,
 	innerBlocks: slides( 'columns' === option.value ? 6 : 4 ),
 	scope: [ 'block' ],
+	isActive: ( attributes ) => attributes.layout === option.value,
 } ) );

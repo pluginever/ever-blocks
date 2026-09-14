@@ -44,6 +44,7 @@ final class Plugin {
 		Blocks\Rating::class,
 		Blocks\SearchModal::class,
 		Blocks\TableOfContents::class,
+		Blocks\Testimonial::class,
 		Patterns::class,
 		Styles::class,
 		Supports\Supports::class,

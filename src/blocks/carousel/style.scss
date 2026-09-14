@@ -110,6 +110,14 @@
 		}
 	}
 
+	@media (width <= 782px) {
+		--per-view: var(--ever-blocks-carousel-per-view, 2);
+	}
+
+	@media (width <= 480px) {
+		--per-view: var(--ever-blocks-carousel-per-view, 1);
+	}
+
 	&__status {
 		position: absolute;
 		width: 1px;
