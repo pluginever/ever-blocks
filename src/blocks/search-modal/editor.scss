@@ -4,7 +4,6 @@
 	position: relative;
 	width: 100%;
 	margin-top: 16px;
-	line-height: 1.5;
 
 	&::before {
 		content: attr(data-label);
@@ -27,22 +26,8 @@
 		margin: 0;
 		inset: auto;
 	}
-
-	.eb-search-modal__input {
-		display: block;
-		width: 100%;
-		flex: 1;
-	}
-
-	.eb-search-modal__content {
-		min-height: 24px;
-	}
 }
 
 .wp-block-ever-blocks-search-modal {
-	display: block;
-}
-
-.wp-block-ever-blocks-search-modal .eb-search-modal {
 	display: block;
 }

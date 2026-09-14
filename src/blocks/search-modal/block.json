@@ -15,11 +15,6 @@
 	],
 	"textdomain": "ever-blocks",
 	"attributes": {
-		"placeholder": {
-			"type": "string",
-			"role": "content",
-			"default": "Search"
-		},
 		"triggerLabel": {
 			"type": "string",
 			"role": "content",
@@ -29,15 +24,11 @@
 			"type": "string",
 			"default": "core/search"
 		},
-		"submitIcon": {
-			"type": "string",
-			"default": "core/search"
-		},
 		"closeIcon": {
 			"type": "string",
 			"default": "heroicons/x-mark"
 		},
-		"layout": {
+		"overlay": {
 			"type": "string",
 			"default": "full",
 			"enum": [
@@ -79,34 +70,14 @@
 				},
 				"dialog": ".eb-search-modal__dialog",
 				"backdrop": ".eb-search-modal__dialog::backdrop",
+				"content": ".eb-search-modal__content",
 				"close": {
 					"selector": ".eb-search-modal__close",
 					"states": [
 						":hover",
 						":focus-visible"
 					]
-				},
-				"form": {
-					"selector": ".eb-search-modal__form",
-					"states": [
-						":focus-within"
-					]
-				},
-				"input": {
-					"selector": ".eb-search-modal__input",
-					"states": [
-						":focus"
-					]
-				},
-				"placeholder": ".eb-search-modal__input::placeholder",
-				"submit": {
-					"selector": ".eb-search-modal__submit",
-					"states": [
-						":hover",
-						":focus-visible"
-					]
-				},
-				"content": ".eb-search-modal__content"
+				}
 			}
 		}
 	},

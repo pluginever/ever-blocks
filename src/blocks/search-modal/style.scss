@@ -1,29 +1,36 @@
+%eb-search-modal-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	line-height: 0;
+	cursor: pointer;
+	transition: opacity var(--eb-transition-duration) var(--eb-transition-timing-function), color var(--eb-transition-duration) var(--eb-transition-timing-function);
+
+	svg {
+		display: block;
+		fill: currentcolor;
+		height: auto;
+	}
+
+	&:focus-visible {
+		outline: var(--eb-focus-outline);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+}
+
 .eb-search-modal {
 	display: inline-flex;
 	line-height: 0;
 
-	&__trigger,
-	&__close,
-	&__submit {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 6px;
-		border: 0;
-		background: transparent;
-		color: inherit;
-		line-height: 0;
-		cursor: pointer;
-		transition: opacity var(--eb-transition-duration) var(--eb-transition-timing-function), color var(--eb-transition-duration) var(--eb-transition-timing-function);
-
-		svg {
-			display: block;
-			fill: currentcolor;
-			height: auto;
-		}
-	}
-
 	&__trigger {
+
+		@extend %eb-search-modal-button;
+
 		opacity: var(--ever-blocks-search-modal-trigger-opacity, 1);
 
 		svg {
@@ -31,13 +38,7 @@
 		}
 
 		&:hover {
-			opacity: var(--ever-blocks-search-modal-trigger-hover-opacity, 0.6);
-		}
-
-		&:focus-visible {
-			outline: var(--eb-focus-outline);
-			outline-offset: 2px;
-			border-radius: 2px;
+			opacity: var(--ever-blocks-search-modal-trigger-opacity, 0.6);
 		}
 	}
 
@@ -47,6 +48,7 @@
 		padding: var(--eb-spacing-lg);
 		background: rgba(23, 23, 23, 0.97);
 		color: #fff;
+		line-height: var(--eb-line-height-normal);
 
 		&::backdrop {
 			background: var(--eb-color-backdrop);
@@ -71,7 +73,7 @@
 	}
 
 	&--center &__dialog {
-		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, var(--wp--style--global--content-size, 640px)));
+		width: min(100% - 2rem, var(--ever-blocks-search-modal-content-max-width, var(--wp--style--global--content-size, 640px)));
 		border-radius: 8px;
 	}
 
@@ -81,7 +83,16 @@
 		margin-top: 0;
 	}
 
+	&__content {
+		width: 100%;
+		max-width: var(--ever-blocks-search-modal-content-max-width, var(--wp--style--global--content-size, 640px));
+		margin: 0 auto;
+	}
+
 	&__close {
+
+		@extend %eb-search-modal-button;
+
 		position: absolute;
 		top: var(--eb-spacing-sm);
 		right: var(--eb-spacing-sm);
@@ -95,81 +106,67 @@
 		&:focus-visible {
 			opacity: 1;
 		}
-
-		&:focus-visible {
-			outline: var(--eb-focus-outline);
-			outline-offset: 2px;
-			border-radius: 2px;
-		}
 	}
 
-	&__inner {
-		width: 100%;
-		max-width: var(--ever-blocks-search-modal-dialog-max-width, var(--wp--style--global--content-size, 640px));
-		margin: 0 auto;
-		line-height: var(--eb-line-height-normal);
-	}
+	// The search block inside the dialog: a large field on a hairline, no box.
+	&__dialog .wp-block-search {
+		margin-bottom: var(--eb-spacing-md);
 
-	&__form {
-		display: flex;
-		align-items: center;
-		gap: var(--eb-spacing-xs);
-		padding-bottom: var(--eb-spacing-xs);
-		border-bottom: var(--eb-border-width) solid color-mix(in srgb, currentcolor 30%, transparent);
-		transition: border-color var(--eb-transition-duration) var(--eb-transition-timing-function);
+		.wp-block-search__inside-wrapper {
+			padding: 0 0 var(--eb-spacing-xs);
+			border: 0;
+			background: transparent;
+			border-bottom: var(--eb-border-width) solid var(--eb-color-border);
+			border-radius: 0;
+			transition: border-color var(--eb-transition-duration) var(--eb-transition-timing-function);
 
-		&:focus-within {
-			border-bottom-color: currentcolor;
+			&:focus-within {
+				border-bottom-color: currentcolor;
+			}
+		}
+
+		.wp-block-search__input {
+			padding: 0;
+			border: 0;
+			background: transparent;
+			color: inherit;
+			font-size: clamp(1.75rem, 5vw, 2.75rem);
+			font-weight: 300;
+			line-height: var(--eb-line-height-tight);
+
+			&::placeholder {
+				color: var(--eb-color-muted);
+				opacity: 1;
+			}
+
+			&::-webkit-search-cancel-button {
+				display: none;
+			}
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.wp-block-search__button {
+
+			@extend %eb-search-modal-button;
+
+			margin: 0;
+			opacity: 0.7;
+
+			svg {
+				width: var(--eb-icon-size-lg);
+			}
+
+			&:hover,
+			&:focus-visible {
+				opacity: 1;
+			}
 		}
 	}
+}
 
-	&__input {
-		flex: 1;
-		min-width: 0;
-		padding: 0;
-		border: 0;
-		appearance: none;
-		background: transparent;
-		color: inherit;
-		font-family: inherit;
-		font-size: var(--ever-blocks-search-modal-input-font-size, clamp(1.75rem, 5vw, 2.75rem));
-		font-weight: 300;
-		line-height: var(--eb-line-height-tight);
-
-		&::placeholder {
-			color: var(--eb-color-muted);
-			opacity: 1;
-		}
-
-		&::-webkit-search-cancel-button {
-			display: none;
-		}
-
-		&:focus {
-			outline: none;
-		}
-	}
-
-	&__submit {
-		opacity: 0.7;
-
-		svg {
-			width: var(--ever-blocks-search-modal-submit-icon-size, var(--eb-icon-size-lg));
-		}
-
-		&:hover,
-		&:focus-visible {
-			opacity: 1;
-		}
-
-		&:focus-visible {
-			outline: var(--eb-focus-outline);
-			outline-offset: 2px;
-			border-radius: 2px;
-		}
-	}
-
-	&__content {
-		margin-top: var(--eb-spacing-md);
-	}
+html:has(.eb-search-modal__dialog:modal) {
+	overflow: hidden;
 }

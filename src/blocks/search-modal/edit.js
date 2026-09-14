@@ -1,7 +1,6 @@
 import {
 	BlockControls,
 	InspectorControls,
-	RichText,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
@@ -12,7 +11,6 @@ import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
 	IconDisplay,
-	IconPicker,
 	IconPickerControl,
 	SettingsPanels,
 	StylePanels,
@@ -21,14 +19,15 @@ import {
 } from '@byteever/block-components';
 import './editor.scss';
 
-const ALLOWED_BLOCKS = [
-	'core/heading',
-	'core/paragraph',
-	'core/list',
-	'core/buttons',
-];
-
 const TEMPLATE = [
+	[
+		'core/search',
+		{
+			showLabel: false,
+			buttonPosition: 'button-inside',
+			buttonUseIcon: true,
+		},
+	],
 	[
 		'core/heading',
 		{
@@ -39,12 +38,12 @@ const TEMPLATE = [
 	[ 'core/buttons', {}, [ [ 'core/button' ], [ 'core/button' ] ] ],
 ];
 
-const ICON_SIZE = ( label ) => ( {
+const ICON_SIZE = {
 	control: 'unit',
-	label,
+	label: __( 'Icon size', 'ever-blocks' ),
 	min: 8,
 	max: 96,
-} );
+};
 
 export default function Edit( {
 	attributes,
@@ -59,20 +58,13 @@ export default function Edit( {
 		[ clientId ]
 	);
 	const showDialog = pinned || isSelected || hasSelectedChild;
-	const {
-		placeholder,
-		triggerLabel,
-		triggerIcon,
-		submitIcon,
-		closeIcon,
-		layout,
-	} = attributes;
+	const { triggerLabel, triggerIcon, closeIcon, overlay } = attributes;
 	const blockProps = useBlockProps( {
-		className: `eb-search-modal eb-search-modal--${ layout }`,
+		className: `eb-search-modal eb-search-modal--${ overlay }`,
 	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'eb-search-modal__content' },
-		{ allowedBlocks: ALLOWED_BLOCKS, template: TEMPLATE }
+		{ template: TEMPLATE }
 	);
 
 	useBlockStyles( attributes );
@@ -87,17 +79,6 @@ export default function Edit( {
 					>
 						{ __( 'Dialog', 'ever-blocks' ) }
 					</ToolbarButton>
-					<IconPicker
-						value={ triggerIcon }
-						onSelect={ ( next ) =>
-							setAttributes( { triggerIcon: next } )
-						}
-						render={ ( { open } ) => (
-							<ToolbarButton onClick={ open }>
-								{ __( 'Trigger icon', 'ever-blocks' ) }
-							</ToolbarButton>
-						) }
-					/>
 				</ToolbarGroup>
 			</BlockControls>
 
@@ -106,9 +87,9 @@ export default function Edit( {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				controls={ {
-					layout: {
+					overlay: {
 						type: 'select',
-						label: __( 'Layout', 'ever-blocks' ),
+						label: __( 'Overlay', 'ever-blocks' ),
 						isShownByDefault: true,
 						options: [
 							{
@@ -148,7 +129,6 @@ export default function Edit( {
 					resetAll={ () =>
 						setAttributes( {
 							triggerIcon: undefined,
-							submitIcon: undefined,
 							closeIcon: undefined,
 						} )
 					}
@@ -159,14 +139,6 @@ export default function Edit( {
 						panelId={ `${ clientId }-icons` }
 						onChange={ ( next ) =>
 							setAttributes( { triggerIcon: next } )
-						}
-					/>
-					<IconPickerControl
-						label={ __( 'Submit', 'ever-blocks' ) }
-						value={ submitIcon }
-						panelId={ `${ clientId }-icons` }
-						onChange={ ( next ) =>
-							setAttributes( { submitIcon: next } )
 						}
 					/>
 					<IconPickerControl
@@ -187,9 +159,7 @@ export default function Edit( {
 					trigger: {
 						label: __( 'Trigger', 'ever-blocks' ),
 						values: {
-							iconSize: ICON_SIZE(
-								__( 'Icon size', 'ever-blocks' )
-							),
+							iconSize: ICON_SIZE,
 							opacity: {
 								control: 'range',
 								label: __( 'Opacity', 'ever-blocks' ),
@@ -200,10 +170,20 @@ export default function Edit( {
 						},
 						color: { text: true, background: true },
 						spacing: { padding: true },
-						border: { radius: true, width: true, color: true },
+						border: { color: true, width: true, radius: true },
 					},
 					dialog: {
 						label: __( 'Dialog', 'ever-blocks' ),
+						color: { text: true, background: true },
+						spacing: { padding: true },
+						border: { radius: true },
+					},
+					backdrop: {
+						label: __( 'Backdrop', 'ever-blocks' ),
+						color: { background: true },
+					},
+					content: {
+						label: __( 'Content', 'ever-blocks' ),
 						values: {
 							maxWidth: {
 								control: 'unit',
@@ -211,58 +191,14 @@ export default function Edit( {
 								min: 240,
 							},
 						},
-						color: { text: true, background: true, gradient: true },
 						spacing: { padding: true },
-						border: { radius: true },
-					},
-					backdrop: {
-						label: __( 'Backdrop', 'ever-blocks' ),
-						color: { background: true, gradient: true },
-					},
-					input: {
-						label: __( 'Field', 'ever-blocks' ),
-						typography: {
-							fontSize: true,
-							fontAppearance: true,
-							letterSpacing: true,
-						},
-						color: { text: true, background: true },
-						spacing: { padding: true },
-					},
-					placeholder: {
-						label: __( 'Placeholder', 'ever-blocks' ),
-						color: { text: true },
-					},
-					form: {
-						label: __( 'Form', 'ever-blocks' ),
-						border: { color: true, width: true },
-					},
-					submit: {
-						label: __( 'Submit', 'ever-blocks' ),
-						values: {
-							iconSize: ICON_SIZE(
-								__( 'Icon size', 'ever-blocks' )
-							),
-						},
-						color: { text: true, background: true },
-						spacing: { padding: true },
-						border: { radius: true },
 					},
 					close: {
 						label: __( 'Close', 'ever-blocks' ),
-						values: {
-							iconSize: ICON_SIZE(
-								__( 'Icon size', 'ever-blocks' )
-							),
-						},
+						values: { iconSize: ICON_SIZE },
 						color: { text: true, background: true },
 						spacing: { padding: true },
 						border: { radius: true },
-					},
-					content: {
-						label: __( 'Content', 'ever-blocks' ),
-						spacing: { padding: true, margin: true },
-						color: { text: true, background: true },
 					},
 				} }
 			/>
@@ -282,6 +218,7 @@ export default function Edit( {
 					hidden={ ! showDialog }
 				>
 					<div className="eb-search-modal__dialog">
+						<div { ...innerBlocksProps } />
 						<span
 							className="eb-search-modal__close"
 							role="img"
@@ -289,39 +226,6 @@ export default function Edit( {
 						>
 							<IconDisplay name={ closeIcon } />
 						</span>
-						<div className="eb-search-modal__inner">
-							<div className="eb-search-modal__form">
-								<RichText
-									tagName="span"
-									className="eb-search-modal__input"
-									value={ placeholder }
-									onChange={ ( next ) =>
-										setAttributes( { placeholder: next } )
-									}
-									placeholder={ __(
-										'Search',
-										'ever-blocks'
-									) }
-									aria-label={ __(
-										'Placeholder text',
-										'ever-blocks'
-									) }
-									allowedFormats={ [] }
-									withoutInteractiveFormatting
-								/>
-								<span
-									className="eb-search-modal__submit"
-									role="img"
-									aria-label={ __(
-										'Submit search',
-										'ever-blocks'
-									) }
-								>
-									<IconDisplay name={ submitIcon } />
-								</span>
-							</div>
-							<div { ...innerBlocksProps } />
-						</div>
 					</div>
 				</div>
 			</div>

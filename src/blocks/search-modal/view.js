@@ -15,9 +15,8 @@ const { actions } = store( 'ever-blocks/search-modal', {
 		},
 	},
 	callbacks: {
-		// Escape closes a modal dialog natively. Newer browsers report that
-		// through `toggle`, older ones through `close`; both are covered so
-		// the state never drifts from the element.
+		// Escape closes a modal dialog natively; Chrome reports it through
+		// `toggle`, other browsers through `close`.
 		dialog() {
 			const { ref } = getElement();
 			const context = getContext();
@@ -43,12 +42,9 @@ const { actions } = store( 'ever-blocks/search-modal', {
 
 			if ( isOpen && ! ref.open ) {
 				ref.showModal();
-				ref.querySelector( 'input' )?.focus();
 			} else if ( ! isOpen && ref.open ) {
 				ref.close();
 			}
-
-			ref.ownerDocument.body.style.overflow = isOpen ? 'hidden' : '';
 		},
 		shortcut() {
 			const context = getContext();
@@ -59,12 +55,15 @@ const { actions } = store( 'ever-blocks/search-modal', {
 
 			const onKeydown = ( event ) => {
 				if (
-					( event.metaKey || event.ctrlKey ) &&
-					'k' === event.key.toLowerCase()
+					event.defaultPrevented ||
+					! ( event.metaKey || event.ctrlKey ) ||
+					'k' !== event.key.toLowerCase()
 				) {
-					event.preventDefault();
-					context.isOpen = true;
+					return;
 				}
+
+				event.preventDefault();
+				context.isOpen = true;
 			};
 
 			document.addEventListener( 'keydown', onKeydown );
