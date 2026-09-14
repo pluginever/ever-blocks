@@ -14,7 +14,7 @@
 		color: inherit;
 		line-height: 0;
 		cursor: pointer;
-		transition: opacity var(--eb-duration) var(--eb-easing), color var(--eb-duration) var(--eb-easing);
+		transition: opacity var(--eb-transition-duration) var(--eb-transition-timing-function), color var(--eb-transition-duration) var(--eb-transition-timing-function);
 
 		svg {
 			display: block;
@@ -35,7 +35,7 @@
 		}
 
 		&:focus-visible {
-			outline: var(--eb-focus-ring);
+			outline: var(--eb-focus-outline);
 			outline-offset: 2px;
 			border-radius: 2px;
 		}
@@ -44,7 +44,7 @@
 	&__dialog {
 		box-sizing: border-box;
 		border: 0;
-		padding: var(--eb-space-lg);
+		padding: var(--eb-spacing-lg);
 		background: rgba(23, 23, 23, 0.97);
 		color: #fff;
 
@@ -71,7 +71,7 @@
 	}
 
 	&--center &__dialog {
-		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, var(--eb-content-width)));
+		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, var(--wp--style--global--content-size, 640px)));
 		border-radius: 8px;
 	}
 
@@ -83,8 +83,8 @@
 
 	&__close {
 		position: absolute;
-		top: var(--eb-space-sm);
-		right: var(--eb-space-sm);
+		top: var(--eb-spacing-sm);
+		right: var(--eb-spacing-sm);
 		opacity: 0.7;
 
 		svg {
@@ -97,7 +97,7 @@
 		}
 
 		&:focus-visible {
-			outline: var(--eb-focus-ring);
+			outline: var(--eb-focus-outline);
 			outline-offset: 2px;
 			border-radius: 2px;
 		}
@@ -105,18 +105,18 @@
 
 	&__inner {
 		width: 100%;
-		max-width: var(--ever-blocks-search-modal-dialog-max-width, var(--eb-content-width));
+		max-width: var(--ever-blocks-search-modal-dialog-max-width, var(--wp--style--global--content-size, 640px));
 		margin: 0 auto;
-		line-height: var(--eb-leading-normal);
+		line-height: var(--eb-line-height-normal);
 	}
 
 	&__form {
 		display: flex;
 		align-items: center;
-		gap: var(--eb-space-xs);
-		padding-bottom: var(--eb-space-xs);
-		border-bottom: var(--eb-border-width) solid var(--eb-color-border-strong);
-		transition: border-color var(--eb-duration) var(--eb-easing);
+		gap: var(--eb-spacing-xs);
+		padding-bottom: var(--eb-spacing-xs);
+		border-bottom: var(--eb-border-width) solid color-mix(in srgb, currentcolor 30%, transparent);
+		transition: border-color var(--eb-transition-duration) var(--eb-transition-timing-function);
 
 		&:focus-within {
 			border-bottom-color: currentcolor;
@@ -134,10 +134,10 @@
 		font-family: inherit;
 		font-size: var(--ever-blocks-search-modal-input-font-size, clamp(1.75rem, 5vw, 2.75rem));
 		font-weight: 300;
-		line-height: var(--eb-leading-tight);
+		line-height: var(--eb-line-height-tight);
 
 		&::placeholder {
-			color: var(--eb-color-subtle);
+			color: var(--eb-color-muted);
 			opacity: 1;
 		}
 
@@ -163,13 +163,13 @@
 		}
 
 		&:focus-visible {
-			outline: var(--eb-focus-ring);
+			outline: var(--eb-focus-outline);
 			outline-offset: 2px;
 			border-radius: 2px;
 		}
 	}
 
 	&__content {
-		margin-top: var(--eb-space-md);
+		margin-top: var(--eb-spacing-md);
 	}
 }

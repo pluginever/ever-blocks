@@ -1,23 +1,23 @@
 .eb-accordion-item {
-	border-top: var(--eb-border-width) solid var(--eb-border-color);
+	border-top: var(--eb-border-width) solid var(--eb-color-border);
 	interpolate-size: allow-keywords;
 
 	&__summary {
 		display: flex;
 		align-items: center;
-		gap: var(--eb-space-2xs);
-		padding: var(--eb-space-xs) 0;
+		gap: var(--eb-spacing-2xs);
+		padding: var(--eb-spacing-xs) 0;
 		cursor: pointer;
 		list-style: none;
 		user-select: none;
-		transition: color var(--eb-duration) var(--eb-easing), background-color var(--eb-duration) var(--eb-easing);
+		transition: color var(--eb-transition-duration) var(--eb-transition-timing-function), background-color var(--eb-transition-duration) var(--eb-transition-timing-function);
 
 		&::-webkit-details-marker {
 			display: none;
 		}
 
 		&:focus-visible {
-			outline: var(--eb-focus-ring);
+			outline: var(--eb-focus-outline);
 			outline-offset: -2px;
 			border-radius: 2px;
 		}
@@ -26,9 +26,9 @@
 	&__title {
 		flex: 1;
 		margin: 0;
-		font-size: var(--ever-blocks-accordion-item-title-font-size, var(--eb-text-base));
-		font-weight: var(--eb-weight-medium);
-		line-height: var(--eb-leading-snug);
+		font-size: var(--ever-blocks-accordion-item-title-font-size, var(--eb-font-size));
+		font-weight: var(--eb-font-weight-medium);
+		line-height: var(--eb-line-height-snug);
 	}
 
 	&__icon {
@@ -36,7 +36,7 @@
 		flex: none;
 		color: var(--eb-color-muted);
 		line-height: 0;
-		transition: rotate var(--eb-duration) var(--eb-easing), color var(--eb-duration) var(--eb-easing);
+		transition: rotate var(--eb-transition-duration) var(--eb-transition-timing-function), color var(--eb-transition-duration) var(--eb-transition-timing-function);
 
 		svg {
 			display: block;
@@ -68,8 +68,8 @@
 	}
 
 	&__panel {
-		padding-bottom: var(--eb-space-xs);
-		line-height: var(--eb-leading-relaxed);
+		padding-bottom: var(--eb-spacing-xs);
+		line-height: var(--eb-line-height-relaxed);
 	}
 
 	&__content {
@@ -86,7 +86,7 @@
 	&::details-content {
 		height: 0;
 		overflow: hidden;
-		transition: height var(--eb-duration) var(--eb-easing), content-visibility var(--eb-duration) allow-discrete;
+		transition: height var(--eb-transition-duration) var(--eb-transition-timing-function), content-visibility var(--eb-transition-duration) allow-discrete;
 	}
 
 	&[open]::details-content {
