@@ -3,6 +3,35 @@
 // inside template parts and synced patterns, which a post-content scan would
 // miss.
 
+// Design tokens. Each one reads its theme.json `settings.custom.everBlocks`
+// counterpart first, so a theme retunes the whole library in one place.
+:root {
+	--eb-text-xs: var(--wp--custom--ever-blocks--text-xs, 0.75em);
+	--eb-text-sm: var(--wp--custom--ever-blocks--text-sm, 0.875em);
+	--eb-text-base: var(--wp--custom--ever-blocks--text-base, 1em);
+	--eb-text-md: var(--wp--custom--ever-blocks--text-md, 1.25em);
+	--eb-text-lg: var(--wp--custom--ever-blocks--text-lg, 1.5em);
+	--eb-weight-normal: var(--wp--custom--ever-blocks--weight-normal, 400);
+	--eb-weight-medium: var(--wp--custom--ever-blocks--weight-medium, 500);
+	--eb-weight-semibold: var(--wp--custom--ever-blocks--weight-semibold, 600);
+	--eb-leading-tight: var(--wp--custom--ever-blocks--leading-tight, 1.15);
+	--eb-leading-snug: var(--wp--custom--ever-blocks--leading-snug, 1.3);
+	--eb-leading-normal: var(--wp--custom--ever-blocks--leading-normal, 1.5);
+	--eb-leading-relaxed: var(--wp--custom--ever-blocks--leading-relaxed, 1.7);
+	--eb-space-2xs: var(--wp--custom--ever-blocks--space-2xs, 8px);
+	--eb-space-xs: var(--wp--custom--ever-blocks--space-xs, 16px);
+	--eb-space-sm: var(--wp--custom--ever-blocks--space-sm, clamp(16px, 1rem + 0.75vw, 24px));
+	--eb-space-md: var(--wp--custom--ever-blocks--space-md, clamp(24px, 1.5rem + 0.75vw, 32px));
+	--eb-space-lg: var(--wp--custom--ever-blocks--space-lg, clamp(32px, 2rem + 1.5vw, 48px));
+	--eb-space-xl: var(--wp--custom--ever-blocks--space-xl, clamp(48px, 3rem + 1.5vw, 64px));
+	--eb-border-width: var(--wp--custom--ever-blocks--border-width, 1px);
+	--eb-border-color: var(--wp--custom--ever-blocks--border-color, color-mix(in srgb, currentcolor 15%, transparent));
+	--eb-radius: var(--wp--custom--ever-blocks--radius, 0px);
+	--eb-muted: var(--wp--custom--ever-blocks--muted, color-mix(in srgb, currentcolor 60%, transparent));
+	--eb-duration: var(--wp--custom--ever-blocks--duration, 0.2s);
+	--eb-easing: var(--wp--custom--ever-blocks--easing, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
 .eb-visually-hidden {
 	position: absolute;
 	width: 1px;
@@ -15,7 +44,9 @@
 	border: 0;
 }
 
-.eb-stack {
-	display: flex;
-	flex-direction: column;
+@media (prefers-reduced-motion: reduce) {
+
+	:root {
+		--eb-duration: 0s;
+	}
 }

@@ -2,7 +2,7 @@
 	display: flex;
 	line-height: 0;
 	opacity: var(--ever-blocks-icon-opacity, var(--wp--custom--ever-blocks--icon--opacity, 1));
-	transition: opacity 150ms ease;
+	transition: opacity var(--eb-duration) var(--eb-easing);
 
 	svg {
 		box-sizing: border-box;

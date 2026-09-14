@@ -6,7 +6,13 @@
 	"category": "ever-blocks",
 	"icon": "search",
 	"description": "A search button that opens the site search in a dialog.",
-	"keywords": [ "search", "modal", "popup", "dialog", "header" ],
+	"keywords": [
+		"search",
+		"modal",
+		"popup",
+		"dialog",
+		"header"
+	],
 	"textdomain": "ever-blocks",
 	"attributes": {
 		"placeholder": {
@@ -34,7 +40,11 @@
 		"layout": {
 			"type": "string",
 			"default": "full",
-			"enum": [ "full", "center", "top" ]
+			"enum": [
+				"full",
+				"center",
+				"top"
+			]
 		},
 		"shortcut": {
 			"type": "boolean",
@@ -44,7 +54,11 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"align": [ "left", "center", "right" ],
+		"align": [
+			"left",
+			"center",
+			"right"
+		],
 		"color": {
 			"text": true,
 			"background": true
@@ -58,26 +72,39 @@
 			"elements": {
 				"trigger": {
 					"selector": ".eb-search-modal__trigger",
-					"states": [ ":hover", ":focus-visible" ]
+					"states": [
+						":hover",
+						":focus-visible"
+					]
 				},
 				"dialog": ".eb-search-modal__dialog",
 				"backdrop": ".eb-search-modal__dialog::backdrop",
 				"close": {
 					"selector": ".eb-search-modal__close",
-					"states": [ ":hover", ":focus-visible" ]
+					"states": [
+						":hover",
+						":focus-visible"
+					]
 				},
 				"form": {
 					"selector": ".eb-search-modal__form",
-					"states": [ ":focus-within" ]
+					"states": [
+						":focus-within"
+					]
 				},
 				"input": {
 					"selector": ".eb-search-modal__input",
-					"states": [ ":focus" ]
+					"states": [
+						":focus"
+					]
 				},
 				"placeholder": ".eb-search-modal__input::placeholder",
 				"submit": {
 					"selector": ".eb-search-modal__submit",
-					"states": [ ":hover", ":focus-visible" ]
+					"states": [
+						":hover",
+						":focus-visible"
+					]
 				},
 				"content": ".eb-search-modal__content"
 			}
@@ -91,7 +118,10 @@
 	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
+	"style": [
+		"ever-blocks-common",
+		"file:./style-index.css"
+	],
 	"viewScriptModule": "file:./view.js",
 	"render": "file:./render.php"
 }

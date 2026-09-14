@@ -1,16 +1,16 @@
 .eb-accordion-item {
-	border-bottom: 1px solid color-mix(in srgb, currentcolor 15%, transparent);
+	border-top: var(--eb-border-width) solid var(--eb-border-color);
 	interpolate-size: allow-keywords;
 
 	&__summary {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: var(--wp--preset--spacing--30, 1rem);
-		padding: var(--wp--preset--spacing--40, 1.5rem) 0;
+		gap: var(--eb-space-2xs);
+		padding: var(--eb-space-xs) 0;
 		cursor: pointer;
 		list-style: none;
-		transition: color 150ms ease, background-color 150ms ease;
+		user-select: none;
+		transition: color var(--eb-duration) var(--eb-easing), background-color var(--eb-duration) var(--eb-easing);
 
 		&::-webkit-details-marker {
 			display: none;
@@ -23,21 +23,23 @@
 	}
 
 	&__title {
+		flex: 1;
 		margin: 0;
-		font-size: var(--ever-blocks-accordion-item-title-font-size, var(--wp--preset--font-size--medium, 1.125rem));
-		font-weight: 600;
-		line-height: 1.25;
+		font-size: var(--ever-blocks-accordion-item-title-font-size, var(--eb-text-base));
+		font-weight: var(--eb-weight-medium);
+		line-height: var(--eb-leading-snug);
 	}
 
 	&__icon {
 		display: inline-flex;
 		flex: none;
+		color: var(--eb-muted);
 		line-height: 0;
-		transition: rotate 200ms ease;
+		transition: rotate var(--eb-duration) var(--eb-easing), color var(--eb-duration) var(--eb-easing);
 
 		svg {
 			display: block;
-			width: var(--ever-blocks-accordion-item-icon-size, var(--wp--custom--ever-blocks--accordion-item--icon-size, 1.25em));
+			width: var(--ever-blocks-accordion-item-icon-size, var(--wp--custom--ever-blocks--accordion-item--icon-size, 20px));
 			height: auto;
 			fill: currentcolor;
 		}
@@ -45,6 +47,10 @@
 		&--open {
 			display: none;
 		}
+	}
+
+	&__summary:hover &__icon {
+		color: inherit;
 	}
 
 	&[open] > &__summary &__icon--closed {
@@ -61,13 +67,25 @@
 	}
 
 	&__panel {
-		padding-bottom: var(--wp--preset--spacing--40, 1.5rem);
+		padding-bottom: var(--eb-space-xs);
+		line-height: var(--eb-leading-relaxed);
+	}
+
+	&__content {
+
+		> :first-child {
+			margin-top: 0;
+		}
+
+		> :last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	&::details-content {
 		height: 0;
 		overflow: hidden;
-		transition: height 200ms ease, content-visibility 200ms allow-discrete;
+		transition: height var(--eb-duration) var(--eb-easing), content-visibility var(--eb-duration) allow-discrete;
 	}
 
 	&[open]::details-content {
@@ -78,12 +96,4 @@
 .eb-accordion--icon-left .eb-accordion-item__summary {
 	flex-direction: row-reverse;
 	justify-content: flex-end;
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-	.eb-accordion-item::details-content,
-	.eb-accordion-item__icon {
-		transition: none;
-	}
 }
