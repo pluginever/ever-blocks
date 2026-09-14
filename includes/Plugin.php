@@ -42,6 +42,8 @@ final class Plugin {
 		Blocks\Blocks::class,
 		Blocks\Faq::class,
 		Blocks\SearchModal::class,
+		Blocks\TableOfContents::class,
+		Patterns::class,
 		Styles::class,
 		Supports\Supports::class,
 		Icons::class,

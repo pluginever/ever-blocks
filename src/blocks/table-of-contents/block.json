@@ -1,0 +1,134 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/table-of-contents",
+	"title": "Table of Contents",
+	"category": "ever-blocks",
+	"icon": "list-view",
+	"description": "Lists the headings of this post and links to each one.",
+	"keywords": [
+		"toc",
+		"outline",
+		"summary",
+		"jump links",
+		"index"
+	],
+	"textdomain": "ever-blocks",
+	"usesContext": [
+		"postId"
+	],
+	"attributes": {
+		"title": {
+			"type": "string",
+			"role": "content",
+			"default": ""
+		},
+		"titleTag": {
+			"type": "string",
+			"default": "h2",
+			"enum": [
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"h6",
+				"p"
+			]
+		},
+		"levels": {
+			"type": "array",
+			"default": [
+				2,
+				3
+			],
+			"items": {
+				"type": "number"
+			}
+		},
+		"listStyle": {
+			"type": "string",
+			"default": "decimal",
+			"enum": [
+				"none",
+				"disc",
+				"decimal",
+				"nested",
+				"upper-roman",
+				"lower-alpha"
+			]
+		},
+		"collapsible": {
+			"type": "boolean",
+			"default": false
+		},
+		"open": {
+			"type": "boolean",
+			"default": true
+		},
+		"smoothScroll": {
+			"type": "boolean",
+			"default": true
+		},
+		"highlight": {
+			"type": "boolean",
+			"default": true
+		},
+		"minHeadings": {
+			"type": "number",
+			"default": 2
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [
+			"wide"
+		],
+		"color": {
+			"text": true,
+			"background": true,
+			"link": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"interactivity": true,
+		"everBlocks": {
+			"elements": {
+				"title": ".eb-table-of-contents__title",
+				"toggle": ".eb-table-of-contents__toggle",
+				"list": ".eb-table-of-contents__list",
+				"item": {
+					"selector": ".eb-table-of-contents__item > .eb-table-of-contents__link",
+					"states": [
+						":hover",
+						":focus-visible"
+					]
+				},
+				"current": ".eb-table-of-contents__link[aria-current]",
+				"marker": ".eb-table-of-contents__item::marker"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-table-of-contents"
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": [
+		"ever-blocks-common",
+		"file:./style-index.css"
+	],
+	"viewScriptModule": "file:./view.js"
+}

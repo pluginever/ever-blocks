@@ -38,6 +38,7 @@
 		"@wordpress/primitives": "^4.55.0",
 		"@wordpress/scripts": "^34.1.0",
 		"@wordpress/style-engine": "^2.54.0",
+		"@wordpress/url": "^4.55.0",
 		"typescript": "^6.0.3"
 	}
 }

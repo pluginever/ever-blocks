@@ -59,6 +59,9 @@ importers:
       '@wordpress/style-engine':
         specifier: ^2.54.0
         version: 2.54.0(@types/react@19.2.18)
+      '@wordpress/url':
+        specifier: ^4.55.0
+        version: 4.55.0
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -3418,8 +3421,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@wordpress/url@4.54.0':
-    resolution: {integrity: sha512-wa+61i0zyHjNZOAvXLdLrjc+dHyBjX9lfqnAfBw1N0yWAGU/vL3qBkfTBIDx9LxqjKXQ9HRSSxvQVfzGyGRzkg==}
+  '@wordpress/url@4.55.0':
+    resolution: {integrity: sha512-BOT83/0a5N8NVjGXbu3aOeowpDL9xw6jPegxNViSjWYwmR6ceN49hw94+YTcUkMqBZOXEk1KH0XFKuklArMo4Q==}
     engines: {node: '>=18.12.0', npm: '>=8.19.2'}
 
   '@wordpress/video-conversion@0.5.0':
@@ -12267,7 +12270,7 @@ snapshots:
     dependencies:
       '@wordpress/i18n': 6.27.0
       '@wordpress/private-apis': 1.54.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
 
   '@wordpress/autop@4.54.0': {}
 
@@ -12333,7 +12336,7 @@ snapshots:
       '@wordpress/token-list': 3.54.0
       '@wordpress/ui': 0.21.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))
       '@wordpress/upload-media': 0.39.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/warning': 3.54.0
       '@wordpress/wordcount': 4.54.0
       change-case: 4.1.2
@@ -12401,7 +12404,7 @@ snapshots:
       '@wordpress/token-list': 3.54.0
       '@wordpress/ui': 0.21.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))
       '@wordpress/upload-media': 0.39.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/warning': 3.54.0
       '@wordpress/wordcount': 4.54.0
       change-case: 4.1.2
@@ -12469,7 +12472,7 @@ snapshots:
       '@wordpress/token-list': 3.54.0
       '@wordpress/ui': 0.21.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))
       '@wordpress/upload-media': 0.39.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/warning': 3.54.0
       '@wordpress/wordcount': 4.54.0
       change-case: 4.1.2
@@ -13078,7 +13081,7 @@ snapshots:
       '@wordpress/rich-text': 7.55.0(@types/react@19.2.18)(react-dom@19.2.8(react@18.3.1))(react@18.3.1)
       '@wordpress/sync': 1.54.0
       '@wordpress/undo-manager': 1.55.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/warning': 3.55.0
       change-case: 4.1.2
       clsx: 2.1.1
@@ -13122,7 +13125,7 @@ snapshots:
       '@wordpress/rich-text': 7.55.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@wordpress/sync': 1.54.0
       '@wordpress/undo-manager': 1.55.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/warning': 3.55.0
       change-case: 4.1.2
       clsx: 2.1.1
@@ -14400,7 +14403,7 @@ snapshots:
       '@wordpress/i18n': 6.27.0
       '@wordpress/preferences': 4.54.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
       '@wordpress/private-apis': 1.54.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/video-conversion': 0.5.0
       '@wordpress/vips': 4.0.0
       react: 18.3.1
@@ -14427,7 +14430,7 @@ snapshots:
       '@wordpress/i18n': 6.27.0
       '@wordpress/preferences': 4.54.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@18.3.1))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
       '@wordpress/private-apis': 1.54.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/video-conversion': 0.5.0
       '@wordpress/vips': 4.0.0
       react: 19.2.8
@@ -14454,7 +14457,7 @@ snapshots:
       '@wordpress/i18n': 6.27.0
       '@wordpress/preferences': 4.54.0(@date-fns/tz@1.5.0)(@emotion/is-prop-valid@1.4.0)(@types/react@19.2.18)(postcss@8.5.26)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(stylelint@16.26.1(supports-color@8.1.1)(typescript@6.0.3))(supports-color@8.1.1)
       '@wordpress/private-apis': 1.54.0
-      '@wordpress/url': 4.54.0
+      '@wordpress/url': 4.55.0
       '@wordpress/video-conversion': 0.5.0
       '@wordpress/vips': 4.0.0
       react: 19.2.8
@@ -14472,7 +14475,7 @@ snapshots:
       - supports-color
       - vite
 
-  '@wordpress/url@4.54.0':
+  '@wordpress/url@4.55.0':
     dependencies:
       remove-accents: 0.5.0
 
