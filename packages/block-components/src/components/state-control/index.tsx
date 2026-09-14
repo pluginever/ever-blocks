@@ -91,10 +91,11 @@ export function StateControl( {
 	const options = [ 'default', ...states ];
 
 	return (
-		<HStack className="b8-state-control" spacing={ 3 } alignment="top">
+		<HStack className="b8-state-control" spacing={ 2 } alignment="center">
 			<ToggleGroupControl
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
+				hideLabelFromVision
 				label={ __( 'Viewport', 'ever-blocks' ) }
 				value={ viewport }
 				onChange={ ( next: unknown ) =>
@@ -116,6 +117,7 @@ export function StateControl( {
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
 					isBlock
+					hideLabelFromVision
 					label={ __( 'State', 'ever-blocks' ) }
 					value={ value }
 					onChange={ ( next: unknown ) =>
@@ -136,6 +138,7 @@ export function StateControl( {
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
+					hideLabelFromVision
 					label={ __( 'State', 'ever-blocks' ) }
 					value={ value }
 					options={ options.map( ( state ) => ( {

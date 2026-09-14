@@ -136,14 +136,14 @@ export function StyleGroup( {
 
 	if ( unsupported ) {
 		const notice = (
-			<Notice status="info" isDismissible={ false }>
+			<p className="b8-style-group__notice">
 				{ sprintf(
 					// translators: 1: panel label, 2: state label.
 					__( '%1$s has no %2$s state.', 'ever-blocks' ),
 					label || __( 'This part', 'ever-blocks' ),
 					getStateLabel( pseudo )
 				) }
-			</Notice>
+			</p>
 		);
 
 		return label ? (
@@ -152,7 +152,7 @@ export function StyleGroup( {
 				panelId={ panelId }
 				resetAll={ resetAll }
 			>
-				<div className="b8-style-group__notice">{ notice }</div>
+				{ notice }
 			</ToolsPanel>
 		) : (
 			notice
