@@ -28,7 +28,7 @@ class Rating extends Block {
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @return string Block markup.
 	 */
-	public function markup( array $attributes ): string {
+	public function render( array $attributes ): string {
 		$max   = min( 10, max( 1, (int) ( $attributes['max'] ?? 5 ) ) );
 		$value = (float) min( $max, max( 0, (float) ( $attributes['value'] ?? $max ) ) );
 		$icon  = is_string( $attributes['icon'] ?? null ) ? (string) wp_get_icon( $attributes['icon'], array( 'size' => null ) ) : '';

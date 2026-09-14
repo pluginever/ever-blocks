@@ -11,15 +11,15 @@ use EverBlocks\Blocks\Block;
 class BlockTest extends TestCase {
 
 	/**
-	 * A subclass with `markup()` becomes its block's render callback; one without leaves the block alone.
+	 * A subclass with `render()` becomes its block's render callback; one without leaves the block alone.
 	 *
 	 * @return void
 	 */
-	public function test_markup_becomes_the_render_callback(): void {
+	public function test_render_becomes_the_render_callback(): void {
 		$renders = new class() extends Block {
 			public string $name = 'ever-blocks/test-renders';
 
-			public function markup(): string {
+			public function render(): string {
 				return 'rendered';
 			}
 		};
@@ -31,7 +31,7 @@ class BlockTest extends TestCase {
 		$listens->register();
 
 		$settings = apply_filters( 'block_type_metadata_settings', array(), array( 'name' => 'ever-blocks/test-renders' ) );
-		$this->assertSame( array( $renders, 'markup' ), $settings['render_callback'] );
+		$this->assertSame( array( $renders, 'render' ), $settings['render_callback'] );
 
 		$settings = apply_filters( 'block_type_metadata_settings', array(), array( 'name' => 'ever-blocks/test-listens' ) );
 		$this->assertArrayNotHasKey( 'render_callback', $settings );

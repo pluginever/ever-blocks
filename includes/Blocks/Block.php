@@ -31,7 +31,7 @@ abstract class Block {
 	}
 
 	/**
-	 * Points the block at the subclass's `markup()` when it defines one.
+	 * Makes the subclass's `render()` the block's render callback when it defines one.
 	 *
 	 * @since 2.0.0
 	 * @param array<string, mixed> $settings Block type settings.
@@ -39,8 +39,8 @@ abstract class Block {
 	 * @return array<string, mixed> Block type settings.
 	 */
 	public function render_callback( array $settings, array $metadata ): array {
-		if ( ( $metadata['name'] ?? '' ) === $this->name && method_exists( $this, 'markup' ) ) {
-			$settings['render_callback'] = array( $this, 'markup' );
+		if ( ( $metadata['name'] ?? '' ) === $this->name && method_exists( $this, 'render' ) ) {
+			$settings['render_callback'] = array( $this, 'render' );
 		}
 
 		return $settings;

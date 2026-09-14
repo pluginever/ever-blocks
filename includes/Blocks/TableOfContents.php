@@ -100,7 +100,7 @@ class TableOfContents extends Block {
 	 * @param \WP_Block            $block      Block instance.
 	 * @return string Block markup, or an empty string below the heading minimum.
 	 */
-	public function markup( array $attributes, string $content, \WP_Block $block ): string {
+	public function render( array $attributes, string $content, \WP_Block $block ): string {
 		$headings = $this->get_headings( $block );
 
 		if ( $this->count( $headings ) < max( 1, (int) ( $attributes['minHeadings'] ?? 2 ) ) ) {

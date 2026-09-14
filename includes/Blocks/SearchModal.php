@@ -29,7 +29,7 @@ class SearchModal extends Block {
 	 * @param string               $content    Rendered inner blocks.
 	 * @return string Block markup.
 	 */
-	public function markup( array $attributes, string $content ): string {
+	public function render( array $attributes, string $content ): string {
 		$overlay = in_array( $attributes['overlay'] ?? '', array( 'full', 'center', 'top' ), true ) ? $attributes['overlay'] : 'full';
 		$id      = wp_unique_id( 'eb-search-modal-' );
 		$label   = is_string( $attributes['triggerLabel'] ?? null ) ? trim( wp_strip_all_tags( $attributes['triggerLabel'] ) ) : '';
