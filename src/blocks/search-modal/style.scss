@@ -27,7 +27,7 @@
 		opacity: var(--ever-blocks-search-modal-trigger-opacity, 1);
 
 		svg {
-			width: var(--ever-blocks-search-modal-trigger-icon-size, 20px);
+			width: var(--ever-blocks-search-modal-trigger-icon-size, var(--eb-icon-size));
 		}
 
 		&:hover {
@@ -49,7 +49,7 @@
 		color: #fff;
 
 		&::backdrop {
-			background: rgba(0, 0, 0, 0.6);
+			background: var(--eb-color-backdrop);
 		}
 	}
 
@@ -71,7 +71,7 @@
 	}
 
 	&--center &__dialog {
-		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, 640px));
+		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, var(--eb-content-width)));
 		border-radius: 8px;
 	}
 
@@ -88,7 +88,7 @@
 		opacity: 0.7;
 
 		svg {
-			width: var(--ever-blocks-search-modal-close-icon-size, 28px);
+			width: var(--ever-blocks-search-modal-close-icon-size, var(--eb-icon-size-lg));
 		}
 
 		&:hover,
@@ -105,7 +105,7 @@
 
 	&__inner {
 		width: 100%;
-		max-width: var(--ever-blocks-search-modal-dialog-max-width, 640px);
+		max-width: var(--ever-blocks-search-modal-dialog-max-width, var(--eb-content-width));
 		margin: 0 auto;
 		line-height: var(--eb-leading-normal);
 	}
@@ -115,7 +115,7 @@
 		align-items: center;
 		gap: var(--eb-space-xs);
 		padding-bottom: var(--eb-space-xs);
-		border-bottom: var(--eb-border-width) solid color-mix(in srgb, currentcolor 30%, transparent);
+		border-bottom: var(--eb-border-width) solid var(--eb-color-border-strong);
 		transition: border-color var(--eb-duration) var(--eb-easing);
 
 		&:focus-within {
@@ -137,7 +137,7 @@
 		line-height: var(--eb-leading-tight);
 
 		&::placeholder {
-			color: color-mix(in srgb, currentcolor 50%, transparent);
+			color: var(--eb-color-subtle);
 			opacity: 1;
 		}
 
@@ -154,7 +154,7 @@
 		opacity: 0.7;
 
 		svg {
-			width: var(--ever-blocks-search-modal-submit-icon-size, 24px);
+			width: var(--ever-blocks-search-modal-submit-icon-size, var(--eb-icon-size-lg));
 		}
 
 		&:hover,

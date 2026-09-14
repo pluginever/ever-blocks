@@ -34,13 +34,13 @@
 	&__icon {
 		display: inline-flex;
 		flex: none;
-		color: var(--eb-muted);
+		color: var(--eb-color-muted);
 		line-height: 0;
 		transition: rotate var(--eb-duration) var(--eb-easing), color var(--eb-duration) var(--eb-easing);
 
 		svg {
 			display: block;
-			width: var(--ever-blocks-accordion-item-icon-size, 20px);
+			width: var(--ever-blocks-accordion-item-icon-size, var(--eb-icon-size));
 			height: auto;
 			fill: currentcolor;
 		}
