@@ -58,7 +58,7 @@ abstract class TestCase extends \WP_UnitTestCase {
 	 * @return string Compiled CSS.
 	 */
 	protected function plugin_css(): string {
-		return wp_style_engine_get_stylesheet_from_context( \EverBlocks\Services\Style::CONTEXT );
+		return wp_style_engine_get_stylesheet_from_context( \EverBlocks\Services\StyleCompiler::CONTEXT );
 	}
 
 	/**

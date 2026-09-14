@@ -25,8 +25,47 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
+		"align": [
+			"left",
+			"center",
+			"right"
+		],
+		"html": false,
+		"ariaLabel": {
+			"__experimentalSkipSerialization": true
+		},
+		"color": {
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"__experimentalSkipSerialization": [
+				"padding"
+			]
+		},
+		"dimensions": {
+			"width": true,
+			"__experimentalSkipSerialization": [
+				"width"
+			],
+			"__experimentalDefaultControls": {
+				"width": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalSkipSerialization": true
+		},
 		"everBlocks": {
-			"preset": "icon",
 			"states": [
 				":hover"
 			]

@@ -61,7 +61,7 @@ class ParityTest extends TestCase {
 		foreach ( $cases as $case ) {
 			$this->assertSame(
 				$case['expected'],
-				( new \EverBlocks\Services\Style() )->get_namespace( $case['block'] ),
+				( new \EverBlocks\Services\StyleCompiler() )->get_namespace( $case['block'] ),
 				sprintf( 'Deriving the namespace for %s.', $case['block'] )
 			);
 		}
@@ -84,7 +84,7 @@ class ParityTest extends TestCase {
 		foreach ( $cases as $case ) {
 			$this->assertSame(
 				$case['expected'],
-				( new \EverBlocks\Services\Style() )->get_custom_property( $case['block'], $case['key'] ),
+				( new \EverBlocks\Services\StyleCompiler() )->get_custom_property( $case['block'], $case['key'] ),
 				sprintf( 'Deriving "%s" for %s.', $case['key'], $case['block'] )
 			);
 		}
@@ -330,7 +330,7 @@ class ParityTest extends TestCase {
 		foreach ( $oracle['cases'] as $name => $case ) {
 			$this->assertSame(
 				$this->normalize( $case['rules'] ),
-				$this->normalize( ( new \EverBlocks\Services\Style() )->compile( $case['style'], $block_type ) ),
+				$this->normalize( ( new \EverBlocks\Services\StyleCompiler() )->compile( $case['style'], $block_type ) ),
 				sprintf( 'Compiling the "%s" case.', $name )
 			);
 		}

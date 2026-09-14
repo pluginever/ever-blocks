@@ -3,12 +3,12 @@
 
 namespace EverBlocks\Tests;
 
-use EverBlocks\Services\Style;
+use EverBlocks\Services\StyleCompiler;
 
 /**
- * Style service: the two derivations a block may need, and theme-driven breakpoints.
+ * Style compiler: the two derivations a block may need, and theme-driven breakpoints.
  */
-class StyleTest extends TestCase {
+class StyleCompilerTest extends TestCase {
 
 	/**
 	 * A theme's viewport settings change the compiled queries with no code change.
@@ -28,7 +28,7 @@ class StyleTest extends TestCase {
 		add_filter( 'wp_theme_json_data_theme', $filter );
 		\WP_Theme_JSON_Resolver::clean_cached_data();
 
-		$rules = ( new Style() )->compile(
+		$rules = ( new StyleCompiler() )->compile(
 			array(
 				'@mobile' => array( 'everBlocks' => array( 'gap' => '1rem' ) ),
 				'@tablet' => array( 'everBlocks' => array( 'gap' => '2rem' ) ),
@@ -48,7 +48,7 @@ class StyleTest extends TestCase {
 	 * @return void
 	 */
 	public function test_custom_property_names_the_block_and_element(): void {
-		$style = new Style();
+		$style = new StyleCompiler();
 
 		$this->assertSame( '--ever-blocks-test-icon-size', $style->get_custom_property( 'ever-blocks/test', 'iconSize' ) );
 		$this->assertSame( '--ever-blocks-test-input-font-size', $style->get_custom_property( 'ever-blocks/test', 'fontSize', 'input' ) );
@@ -64,7 +64,7 @@ class StyleTest extends TestCase {
 	 * @return void
 	 */
 	public function test_namespace_is_the_vendor(): void {
-		$style = new Style();
+		$style = new StyleCompiler();
 
 		$this->assertSame( 'everBlocks', $style->get_namespace( 'ever-blocks/test' ) );
 		$this->assertSame( 'acme', $style->get_namespace( 'acme/thing' ) );
