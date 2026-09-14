@@ -20,13 +20,30 @@
 	--eb-spacing-lg: clamp(32px, 2rem + 1.5vw, 48px);
 	--eb-color-muted: color-mix(in srgb, currentcolor 60%, transparent);
 	--eb-color-border: color-mix(in srgb, currentcolor 15%, transparent);
+	--eb-color-surface: color-mix(in srgb, currentcolor 6%, transparent);
 	--eb-color-backdrop: rgba(0, 0, 0, 0.6);
 	--eb-border-width: 1px;
+	--eb-border-radius: 8px;
+	--eb-border-radius-full: 9999px;
 	--eb-icon-size: 20px;
 	--eb-icon-size-lg: 28px;
 	--eb-transition-duration: 0.2s;
 	--eb-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	--eb-focus-outline: 2px solid color-mix(in srgb, currentcolor 45%, transparent);
+}
+
+// Block themes are not required to define core's screen-reader-text class;
+// :where() keeps a theme's own definition winning.
+:where(.screen-reader-text) {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	border: 0;
+	white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {

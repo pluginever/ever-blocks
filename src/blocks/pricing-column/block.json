@@ -1,0 +1,71 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/pricing-column",
+	"title": "Pricing Column",
+	"category": "ever-blocks",
+	"icon": "table-col-after",
+	"description": "One plan: its badge and featured state, with any blocks inside.",
+	"textdomain": "ever-blocks",
+	"parent": [
+		"ever-blocks/pricing-table"
+	],
+	"attributes": {
+		"featured": {
+			"type": "boolean",
+			"default": false
+		},
+		"badge": {
+			"type": "string",
+			"role": "content"
+		},
+		"option": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"usesContext": [
+		"ever-blocks/pricingOptions",
+		"ever-blocks/pricingActive"
+	],
+	"providesContext": {
+		"ever-blocks/pricingFeatured": "featured"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"reusable": false,
+		"inserter": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"padding": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"shadow": true,
+		"everBlocks": {
+			"elements": {
+				"badge": ".eb-pricing-column__badge"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-pricing-column",
+		"states": {
+			"-featured": ".eb-pricing-column.is-featured"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": [
+		"ever-blocks-common",
+		"file:./style-index.css"
+	]
+}

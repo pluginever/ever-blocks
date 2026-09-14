@@ -1,0 +1,10 @@
+.eb-pricing-column {
+
+	&__content > .block-list-appender {
+		margin-top: var(--eb-spacing-2xs);
+	}
+
+	&.is-inactive {
+		opacity: 0.4;
+	}
+}

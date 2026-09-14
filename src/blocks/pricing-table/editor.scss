@@ -1,0 +1,23 @@
+.eb-pricing-table {
+
+	&__columns > .block-list-appender {
+		align-self: center;
+	}
+
+	&__option-fields {
+		padding-top: var(--eb-spacing-2xs);
+		border-top: 1px solid #ddd;
+
+		+ .eb-pricing-table__option-fields {
+			margin-top: var(--eb-spacing-xs);
+		}
+
+		+ .components-button {
+			margin-top: var(--eb-spacing-xs);
+		}
+	}
+
+	&__option-name {
+		font-weight: 500;
+	}
+}

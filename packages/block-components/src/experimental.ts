@@ -3,6 +3,7 @@
  */
 export {
 	__experimentalDropdownContentWrapper as DropdownContentWrapper,
+	__experimentalHStack as HStack,
 	__experimentalNumberControl as NumberControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
@@ -10,6 +11,7 @@ export {
 	__experimentalToolsPanelItem as ToolsPanelItem,
 	__experimentalUnitControl as UnitControl,
 	__experimentalUseCustomUnits as useCustomUnits,
+	__experimentalVStack as VStack,
 } from '@wordpress/components';
 
 export {
