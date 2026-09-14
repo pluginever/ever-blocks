@@ -54,6 +54,7 @@ class TableOfContentsTest extends TestCase {
 		$this->assertMatchesRegularExpression( '/<h2 class="eb-table-of-contents__title" id="eb-table-of-contents-\d+">Contents<\/h2>/', $html );
 		$this->assertMatchesRegularExpression( '/<a class="eb-table-of-contents__link" href="#overview"[^>]*>Overview<\/a><ol class="eb-table-of-contents__list"><li[^>]*><a[^>]*href="#install-setup"[^>]*>Install &amp; setup<\/a><\/li><li[^>]*><a[^>]*href="#custom-id"/', $html, 'Level 3 headings nest under the level 2 before them.' );
 		$this->assertStringContainsString( 'href="#overview-2"', $html, 'A repeated heading gets a numbered id.' );
+		$this->assertMatchesRegularExpression( '/<li class="eb-table-of-contents__item" data-index="1\.2"><a[^>]*href="#custom-id"/', $html, 'Items carry their outline index.' );
 		$this->assertStringContainsString( '<h2 id="overview" class="wp-block-heading">Overview</h2>', $html );
 		$this->assertStringContainsString( '<h3 id="install-setup" class="wp-block-heading">', $html );
 		$this->assertStringContainsString( '<h2 id="overview-2" class="wp-block-heading">Overview</h2>', $html );

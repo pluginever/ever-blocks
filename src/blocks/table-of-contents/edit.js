@@ -109,23 +109,34 @@ function useHeadings( levels ) {
 	);
 }
 
-function List( { nodes } ) {
+function List( { nodes, prefix = '' } ) {
 	return (
 		<ol className="eb-table-of-contents__list">
-			{ nodes.map( ( node ) => (
-				<li key={ node.id } className="eb-table-of-contents__item">
-					<a
-						className="eb-table-of-contents__link"
-						href={ `#${ node.id }` }
-						onClick={ ( event ) => event.preventDefault() }
+			{ nodes.map( ( node, position ) => {
+				const index = `${ prefix }${ position + 1 }`;
+
+				return (
+					<li
+						key={ node.id }
+						className="eb-table-of-contents__item"
+						data-index={ index }
 					>
-						{ node.text }
-					</a>
-					{ node.children.length > 0 && (
-						<List nodes={ node.children } />
-					) }
-				</li>
-			) ) }
+						<a
+							className="eb-table-of-contents__link"
+							href={ `#${ node.id }` }
+							onClick={ ( event ) => event.preventDefault() }
+						>
+							{ node.text }
+						</a>
+						{ node.children.length > 0 && (
+							<List
+								nodes={ node.children }
+								prefix={ `${ index }.` }
+							/>
+						) }
+					</li>
+				);
+			} ) }
 		</ol>
 	);
 }

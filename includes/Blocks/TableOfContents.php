@@ -373,21 +373,24 @@ class TableOfContents extends Block {
 	}
 
 	/**
-	 * Renders a heading tree as nested ordered lists.
+	 * Renders a heading tree as nested ordered lists, each item carrying its outline index.
 	 *
 	 * @since 2.0.0
-	 * @param array<int, array{text: string, link: string, children: array<int, mixed>}> $nodes Heading tree.
+	 * @param array<int, array{text: string, link: string, children: array<int, mixed>}> $nodes  Heading tree.
+	 * @param string                                                                     $prefix Index of the parent item, or empty at the top level.
 	 * @return string List markup.
 	 */
-	private function list( array $nodes ): string {
+	private function list( array $nodes, string $prefix = '' ): string {
 		$items = '';
 
-		foreach ( $nodes as $node ) {
+		foreach ( array_values( $nodes ) as $position => $node ) {
+			$index  = $prefix . ( $position + 1 );
 			$items .= sprintf(
-				'<li class="eb-table-of-contents__item"><a class="eb-table-of-contents__link" href="%1$s" data-wp-on--click="actions.follow">%2$s</a>%3$s</li>',
+				'<li class="eb-table-of-contents__item" data-index="%1$s"><a class="eb-table-of-contents__link" href="%2$s" data-wp-on--click="actions.follow">%3$s</a>%4$s</li>',
+				esc_attr( $index ),
 				esc_url( $node['link'] ),
 				esc_html( $node['text'] ),
-				empty( $node['children'] ) ? '' : $this->list( $node['children'] )
+				empty( $node['children'] ) ? '' : $this->list( $node['children'], $index . '.' )
 			);
 		}
 
