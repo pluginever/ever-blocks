@@ -1,6 +1,7 @@
 import { createBlock, registerBlockType } from '@wordpress/blocks';
 import {
 	BlockControls,
+	InnerBlocks,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
@@ -58,5 +59,5 @@ function Edit( { clientId } ) {
 registerBlockType( metadata.name, {
 	icon: megaphone,
 	edit: Edit,
-	save: () => null,
+	save: () => <InnerBlocks.Content />,
 } );
