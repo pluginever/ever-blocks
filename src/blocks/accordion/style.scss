@@ -1,6 +1,6 @@
 .eb-accordion {
 	display: flex;
 	flex-direction: column;
-	gap: var(--ever-blocks-accordion-gap, var(--wp--custom--ever-blocks--accordion--gap, 0));
+	gap: var(--ever-blocks-accordion-gap, 0);
 	border-bottom: var(--eb-border-width) solid var(--eb-border-color);
 }

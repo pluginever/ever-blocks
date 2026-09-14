@@ -40,7 +40,7 @@
 
 		svg {
 			display: block;
-			width: var(--ever-blocks-accordion-item-icon-size, var(--wp--custom--ever-blocks--accordion-item--icon-size, 20px));
+			width: var(--ever-blocks-accordion-item-icon-size, 20px);
 			height: auto;
 			fill: currentcolor;
 		}

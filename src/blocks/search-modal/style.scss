@@ -27,7 +27,7 @@
 		opacity: var(--ever-blocks-search-modal-trigger-opacity, 1);
 
 		svg {
-			width: var(--ever-blocks-search-modal-trigger-icon-size, var(--wp--custom--ever-blocks--search-modal--trigger--icon-size, 20px));
+			width: var(--ever-blocks-search-modal-trigger-icon-size, 20px);
 		}
 
 		&:hover {
@@ -45,11 +45,11 @@
 		box-sizing: border-box;
 		border: 0;
 		padding: var(--eb-space-lg);
-		background: var(--wp--custom--ever-blocks--search-modal--dialog--background, rgba(23, 23, 23, 0.97));
-		color: var(--wp--custom--ever-blocks--search-modal--dialog--color, #fff);
+		background: rgba(23, 23, 23, 0.97);
+		color: #fff;
 
 		&::backdrop {
-			background: var(--wp--custom--ever-blocks--search-modal--backdrop--background, rgba(0, 0, 0, 0.6));
+			background: rgba(0, 0, 0, 0.6);
 		}
 	}
 
@@ -71,8 +71,8 @@
 	}
 
 	&--center &__dialog {
-		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, var(--wp--custom--ever-blocks--search-modal--dialog--max-width, 640px)));
-		border-radius: var(--wp--custom--ever-blocks--search-modal--dialog--radius, 8px);
+		width: min(100% - 2rem, var(--ever-blocks-search-modal-dialog-max-width, 640px));
+		border-radius: 8px;
 	}
 
 	&--top &__dialog {
@@ -88,7 +88,7 @@
 		opacity: 0.7;
 
 		svg {
-			width: var(--ever-blocks-search-modal-close-icon-size, var(--wp--custom--ever-blocks--search-modal--close--icon-size, 28px));
+			width: var(--ever-blocks-search-modal-close-icon-size, 28px);
 		}
 
 		&:hover,
@@ -105,7 +105,7 @@
 
 	&__inner {
 		width: 100%;
-		max-width: var(--ever-blocks-search-modal-dialog-max-width, var(--wp--custom--ever-blocks--search-modal--dialog--max-width, 640px));
+		max-width: var(--ever-blocks-search-modal-dialog-max-width, 640px);
 		margin: 0 auto;
 		line-height: var(--eb-leading-normal);
 	}
@@ -154,7 +154,7 @@
 		opacity: 0.7;
 
 		svg {
-			width: var(--ever-blocks-search-modal-submit-icon-size, var(--wp--custom--ever-blocks--search-modal--submit--icon-size, 24px));
+			width: var(--ever-blocks-search-modal-submit-icon-size, 24px);
 		}
 
 		&:hover,

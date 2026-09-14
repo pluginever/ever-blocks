@@ -1,7 +1,7 @@
 .wp-block-ever-blocks-icon {
 	display: flex;
 	line-height: 0;
-	opacity: var(--ever-blocks-icon-opacity, var(--wp--custom--ever-blocks--icon--opacity, 1));
+	opacity: var(--ever-blocks-icon-opacity, 1);
 	transition: opacity var(--eb-duration) var(--eb-easing);
 
 	svg {
