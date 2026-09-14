@@ -9,6 +9,7 @@ export {
 export { IconDisplay } from './components/icon-display';
 export { StylePanels } from './components/style-panels';
 export { SettingsPanels } from './components/settings-panels';
+export { LayoutControl } from './components/layout-control';
 
 /**
  * Core components whose names still carry an experimental prefix
@@ -31,4 +32,5 @@ export type {
 	ValueControl,
 } from './components/style-group/types';
 export type { ControlSetting } from './components/settings-group/control';
+export type { LayoutOption } from './components/layout-control';
 export type { Pseudo, StyleObject, StyleState, Viewport } from './types';

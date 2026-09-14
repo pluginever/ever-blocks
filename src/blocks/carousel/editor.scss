@@ -1,0 +1,37 @@
+.eb-carousel {
+
+	&__track {
+		scroll-snap-type: none;
+	}
+
+	&__track > .block-list-appender {
+		flex: 0 0 auto;
+		align-self: center;
+	}
+
+	&__nav {
+		pointer-events: none;
+	}
+
+	&.is-layout-columns .eb-carousel__track {
+		display: block;
+		column-count: var(--columns, 3);
+		height: auto;
+		overflow: visible;
+		mask: none;
+	}
+
+	&.is-layout-row.is-moving .eb-carousel__track {
+		overflow-x: auto;
+		mask: none;
+		gap: var(--gap);
+	}
+
+	&.is-layout-columns .eb-carousel__slide {
+		flex: none;
+	}
+
+	&.is-layout-columns .block-list-appender {
+		column-span: all;
+	}
+}

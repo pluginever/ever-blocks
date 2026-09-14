@@ -1,0 +1,225 @@
+import {
+	getContext,
+	getElement,
+	store,
+	withScope,
+} from '@wordpress/interactivity';
+
+const reduced = () =>
+	window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+const parts = ( root ) => {
+	const track = root.querySelector( '.eb-carousel__track' );
+
+	return {
+		track,
+		slides: Array.from(
+			track?.querySelectorAll( ':scope > .eb-carousel__slide' ) ?? []
+		),
+		dots: Array.from( root.querySelectorAll( '.eb-carousel__dot' ) ),
+		previous: root.querySelector( '.eb-carousel__arrow--previous' ),
+		next: root.querySelector( '.eb-carousel__arrow--next' ),
+		status: root.querySelector( '.eb-carousel__status' ),
+	};
+};
+
+const timers = new WeakMap();
+
+const stop = ( root ) => {
+	window.clearInterval( timers.get( root ) );
+	timers.delete( root );
+};
+
+const start = ( root, context ) => {
+	stop( root );
+
+	if ( ! context.autoplay || 'slider' !== context.layout || reduced() ) {
+		return;
+	}
+
+	timers.set(
+		root,
+		window.setInterval(
+			withScope( () => actions.next() ),
+			context.delay * 1000
+		)
+	);
+};
+
+const { actions } = store( 'ever-blocks/carousel', {
+	actions: {
+		go( event ) {
+			const context = getContext();
+			const target =
+				'number' === typeof event
+					? event
+					: Number( event.currentTarget.dataset.index );
+			const { slides, track } = parts(
+				getElement().ref.closest( '.eb-carousel' )
+			);
+			const index = Math.min( slides.length - 1, Math.max( 0, target ) );
+
+			if ( slides[ index ] ) {
+				track.scrollLeft =
+					slides[ index ].offsetLeft - track.offsetLeft;
+			}
+
+			context.index = index;
+		},
+		next() {
+			const context = getContext();
+			const last = Math.max( 0, context.count - context.perView );
+
+			if ( context.index < last ) {
+				actions.go( context.index + 1 );
+			} else if ( context.loop ) {
+				actions.go( 0 );
+			}
+		},
+		previous() {
+			const context = getContext();
+			const last = Math.max( 0, context.count - context.perView );
+
+			if ( context.index > 0 ) {
+				actions.go( context.index - 1 );
+			} else if ( context.loop ) {
+				actions.go( last );
+			}
+		},
+		scrolled() {
+			const root = getElement().ref.closest( '.eb-carousel' );
+			const { slides, track, dots, previous, next, status } =
+				parts( root );
+
+			if ( ! slides.length ) {
+				return;
+			}
+
+			const context = getContext();
+
+			const step = slides[ 1 ]
+				? slides[ 1 ].offsetLeft - slides[ 0 ].offsetLeft
+				: slides[ 0 ].offsetWidth;
+			const index = Math.min(
+				slides.length - 1,
+				Math.max( 0, Math.round( track.scrollLeft / step ) )
+			);
+			const last = Math.max( 0, context.count - context.perView );
+
+			context.index = index;
+
+			dots.forEach( ( dot, i ) => {
+				if ( i === index ) {
+					dot.setAttribute( 'aria-current', 'true' );
+				} else {
+					dot.removeAttribute( 'aria-current' );
+				}
+			} );
+
+			if ( previous && ! context.loop ) {
+				previous.disabled = 0 === index;
+			}
+
+			if ( next && ! context.loop ) {
+				next.disabled = index >= last;
+			}
+
+			if ( status ) {
+				status.textContent = `${ index + 1 } / ${ slides.length }`;
+			}
+		},
+		key( event ) {
+			if ( 'ArrowRight' === event.key ) {
+				event.preventDefault();
+				actions.next();
+			} else if ( 'ArrowLeft' === event.key ) {
+				event.preventDefault();
+				actions.previous();
+			}
+		},
+		pause() {
+			const root = getElement().ref;
+
+			root.classList.add( 'is-paused' );
+			stop( root );
+		},
+		resume() {
+			const root = getElement().ref;
+
+			root.classList.remove( 'is-paused' );
+			start( root, getContext() );
+		},
+	},
+	callbacks: {
+		init() {
+			const context = getContext();
+			const root = getElement().ref;
+			const { slides, track } = parts( root );
+
+			slides.forEach( ( slide, i ) => {
+				slide.setAttribute(
+					'aria-label',
+					`${ i + 1 } / ${ slides.length }`
+				);
+			} );
+
+			if ( 'slider' !== context.layout ) {
+				root.classList.toggle(
+					'is-reverse',
+					Boolean( context.reverse )
+				);
+
+				return;
+			}
+
+			const measure = () => {
+				context.perView = Math.max(
+					1,
+					Math.round(
+						parseFloat(
+							window
+								.getComputedStyle( root )
+								.getPropertyValue( '--per-view' )
+						) || 1
+					)
+				);
+				actions.scrolled.call( null );
+			};
+
+			const observer = new window.ResizeObserver( withScope( measure ) );
+			observer.observe( track );
+			start( root, context );
+
+			return () => {
+				observer.disconnect();
+				stop( root );
+			};
+		},
+		measure() {
+			const root = getElement().ref.closest( '.eb-carousel' );
+			const run = root.querySelector( '.eb-carousel__run' );
+
+			if ( ! run ) {
+				return;
+			}
+
+			const context = getContext();
+			const vertical = root.classList.contains( 'is-layout-columns' );
+
+			const set = () => {
+				const length = vertical ? run.scrollHeight : run.scrollWidth;
+
+				root.style.setProperty(
+					'--ever-blocks-carousel-duration',
+					`${ Math.max( 1, length / context.speed ) }s`
+				);
+			};
+
+			const observer = new window.ResizeObserver( set );
+			observer.observe( run );
+			set();
+
+			return () => observer.disconnect();
+		},
+	},
+} );

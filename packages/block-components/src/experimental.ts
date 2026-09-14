@@ -13,6 +13,7 @@ export {
 } from '@wordpress/components';
 
 export {
+	__experimentalBlockVariationPicker as BlockVariationPicker,
 	__experimentalBorderRadiusControl as BorderRadiusControl,
 	__experimentalColorGradientControl as ColorGradientControl,
 	__experimentalFontAppearanceControl as FontAppearanceControl,
