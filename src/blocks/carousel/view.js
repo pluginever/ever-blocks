@@ -197,27 +197,48 @@ const { actions } = store( 'ever-blocks/carousel', {
 		},
 		measure() {
 			const root = getElement().ref.closest( '.eb-carousel' );
-			const run = root.querySelector( '.eb-carousel__run' );
+			const track = getElement().ref;
+			const vertical = root.classList.contains( 'is-layout-columns' );
+			const lanes = vertical
+				? Array.from( track.querySelectorAll( '.eb-carousel__column' ) )
+				: [ track ];
 
-			if ( ! run ) {
+			if (
+				! lanes.length ||
+				! lanes[ 0 ].querySelector( '.eb-carousel__run' )
+			) {
 				return;
 			}
 
 			const context = getContext();
-			const vertical = root.classList.contains( 'is-layout-columns' );
+			const size = ( element ) =>
+				vertical ? element.offsetHeight : element.offsetWidth;
 
-			const set = () => {
-				const length = vertical ? run.scrollHeight : run.scrollWidth;
+			const fill = () => {
+				for ( const lane of lanes ) {
+					const runs = lane.querySelectorAll( '.eb-carousel__run' );
+					const run = runs[ 0 ];
+					const needed =
+						Math.ceil( size( lane ) / Math.max( 1, size( run ) ) ) +
+						1;
 
-				root.style.setProperty(
-					'--ever-blocks-carousel-duration',
-					`${ Math.max( 1, length / context.speed ) }s`
-				);
+					for ( let i = runs.length; i < needed; i++ ) {
+						const clone = run.cloneNode( true );
+
+						clone.setAttribute( 'aria-hidden', 'true' );
+						lane.appendChild( clone );
+					}
+
+					lane.style.setProperty(
+						'--ever-blocks-carousel-duration',
+						`${ Math.max( 1, size( run ) / context.speed ) }s`
+					);
+				}
 			};
 
-			const observer = new window.ResizeObserver( set );
-			observer.observe( run );
-			set();
+			const observer = new window.ResizeObserver( fill );
+			observer.observe( track );
+			fill();
 
 			return () => observer.disconnect();
 		},

@@ -125,12 +125,6 @@
 		animation-iteration-count: infinite;
 	}
 
-	&.is-moving:hover .eb-carousel__run,
-	&.is-moving:focus-within .eb-carousel__run,
-	&.is-moving.is-paused .eb-carousel__run {
-		animation-play-state: paused;
-	}
-
 	&.is-layout-columns {
 
 		.eb-carousel__track {
@@ -252,6 +246,13 @@
 				display: none;
 			}
 		}
+	}
+
+	&.is-layout-row.is-moving:hover .eb-carousel__track .eb-carousel__run,
+	&.is-layout-row.is-moving:focus-within .eb-carousel__track .eb-carousel__run,
+	&.is-layout-columns.is-moving .eb-carousel__column:hover .eb-carousel__run,
+	&.is-layout-columns.is-moving .eb-carousel__column:focus-within .eb-carousel__run {
+		animation-play-state: paused;
 	}
 }
 
