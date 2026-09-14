@@ -4,7 +4,7 @@
  * Plugin URI:          https://github.com/pluginever/ever-blocks
  * Description:         A block library for the WordPress editor.
  * Version:             2.0.0
- * Requires at least:   6.9
+ * Requires at least:   7.1
  * Requires PHP:        7.4
  * Author:              ByteEver
  * Author URI:          https://byteever.com

@@ -2,36 +2,71 @@
  * Internal dependencies
  */
 import {
+	buildStateSelector,
 	elementSelector,
 	isCustomState,
 	isPseudoState,
 	scopeSelector,
+	splitSelectorList,
 } from '../selectors';
 
-describe( 'scopeSelector', () => {
-	it( 'drops the block root and keeps what follows', () => {
-		expect( scopeSelector( '' ) ).toBe( '' );
-		expect( scopeSelector( '.eb-test' ) ).toBe( '' );
-		expect( scopeSelector( '.wp-block-ever-blocks-icon svg' ) ).toBe(
-			' svg'
+describe( 'splitSelectorList', () => {
+	it( 'splits on top-level commas only', () => {
+		expect( splitSelectorList( '.a' ) ).toEqual( [ '.a' ] );
+		expect( splitSelectorList( '.a, .b' ) ).toEqual( [ '.a', ' .b' ] );
+		expect( splitSelectorList( ':is(.a, .b) .c, .d' ) ).toEqual( [
+			':is(.a, .b) .c',
+			' .d',
+		] );
+	} );
+} );
+
+describe( 'buildStateSelector', () => {
+	it( 'replaces the block root of every selector and appends the state', () => {
+		expect( buildStateSelector( '&', '', ':hover' ) ).toBe( '&:hover' );
+		expect( buildStateSelector( '&', '.eb-test', ':hover' ) ).toBe(
+			'&:hover'
 		);
-		expect( scopeSelector( '.eb-test.is-open' ) ).toBe( '.is-open' );
-		expect( scopeSelector( '#root .inner' ) ).toBe( ' .inner' );
-		expect( scopeSelector( 'div > *' ) ).toBe( ' > *' );
-		expect( scopeSelector( '[data-x].y[open]' ) ).toBe( '.y[open]' );
+		expect(
+			buildStateSelector( '&', '.wp-block-ever-blocks-icon svg', '' )
+		).toBe( '& svg' );
+		expect( buildStateSelector( '&', '.eb-test.is-open', '' ) ).toBe(
+			'&.is-open'
+		);
+		expect( buildStateSelector( '&', '#root .inner', ':hover' ) ).toBe(
+			'& .inner:hover'
+		);
+		expect( buildStateSelector( '&', 'div > *', '' ) ).toBe( '& > *' );
+		expect( buildStateSelector( '&', '[data-x].y[open]', '' ) ).toBe(
+			'&.y[open]'
+		);
+		expect(
+			buildStateSelector( '&', '.eb-test .a, .eb-test .b', ':hover' )
+		).toBe( '& .a:hover, & .b:hover' );
+	} );
+} );
+
+describe( 'scopeSelector', () => {
+	it( 'nests one selector list inside another', () => {
+		expect( scopeSelector( '&', '& .x' ) ).toBe( '& .x' );
+		expect( scopeSelector( '&.is-open, &[open]', '& .x' ) ).toBe(
+			'&.is-open .x, &[open] .x'
+		);
+		expect( scopeSelector( '&.is-open .x', '&:focus' ) ).toBe(
+			'&.is-open .x:focus'
+		);
 	} );
 } );
 
 describe( 'elementSelector', () => {
 	it( 'descends unless & or a pseudo attaches to the instance', () => {
-		expect( elementSelector( '' ) ).toBe( '' );
 		expect( elementSelector( '.eb-test__input' ) ).toBe(
-			' .eb-test__input'
+			'& .eb-test__input'
 		);
-		expect( elementSelector( '&::backdrop' ) ).toBe( '::backdrop' );
-		expect( elementSelector( '&.is-open .x' ) ).toBe( '.is-open .x' );
-		expect( elementSelector( '::placeholder' ) ).toBe( '::placeholder' );
-		expect( elementSelector( ' > *' ) ).toBe( '> *' );
+		expect( elementSelector( '&::backdrop' ) ).toBe( '&::backdrop' );
+		expect( elementSelector( '&.is-open .x' ) ).toBe( '&.is-open .x' );
+		expect( elementSelector( '::placeholder' ) ).toBe( '&::placeholder' );
+		expect( elementSelector( ' > *' ) ).toBe( '&> *' );
 	} );
 } );
 

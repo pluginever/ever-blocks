@@ -1,7 +1,12 @@
 /**
  * Internal dependencies
  */
-import { compileStyle, getProperty, getVars, toCSS } from '../style-css';
+import {
+	compileStyle,
+	getProperty,
+	getCustomProperties,
+	toCSS,
+} from '../style-css';
 import { getDeclaration } from '../block-declaration';
 
 const queries = {
@@ -47,47 +52,51 @@ describe( 'getProperty', () => {
 	} );
 } );
 
-describe( 'getVars', () => {
+describe( 'getCustomProperties', () => {
 	it( 'writes set values to their derived properties', () => {
-		expect( getVars( { columns: 3, gap: '2rem' }, name ) ).toEqual( {
+		expect(
+			getCustomProperties( { columns: 3, gap: '2rem' }, name )
+		).toEqual( {
 			'--ever-blocks-row-columns': '3',
 			'--ever-blocks-row-gap': '2rem',
 		} );
 	} );
 
 	it( 'returns undefined when nothing is set', () => {
-		expect( getVars( {}, name ) ).toBeUndefined();
+		expect( getCustomProperties( {}, name ) ).toBeUndefined();
 	} );
 
 	it( 'skips undefined, null and empty values rather than emitting empty declarations', () => {
 		expect(
-			getVars( { columns: undefined, gap: null }, name )
+			getCustomProperties( { columns: undefined, gap: null }, name )
 		).toBeUndefined();
-		expect( getVars( { columns: '', gap: '1rem' }, name ) ).toEqual( {
+		expect(
+			getCustomProperties( { columns: '', gap: '1rem' }, name )
+		).toEqual( {
 			'--ever-blocks-row-gap': '1rem',
 		} );
 	} );
 
 	it( 'keeps zero, which is a legitimate value', () => {
-		expect( getVars( { gap: 0 }, name ) ).toEqual( {
+		expect( getCustomProperties( { gap: 0 }, name ) ).toEqual( {
 			'--ever-blocks-row-gap': '0',
 		} );
 	} );
 
 	it( 'skips a nested object rather than stringifying it', () => {
-		expect( getVars( { gap: { top: '1rem' }, columns: 2 }, name ) ).toEqual(
-			{
-				'--ever-blocks-row-columns': '2',
-			}
-		);
+		expect(
+			getCustomProperties( { gap: { top: '1rem' }, columns: 2 }, name )
+		).toEqual( {
+			'--ever-blocks-row-columns': '2',
+		} );
 	} );
 
 	it( 'drops a key that does not derive a usable property', () => {
-		expect( getVars( { 'a;color:red': 'x', gap: '1rem' }, name ) ).toEqual(
-			{
-				'--ever-blocks-row-gap': '1rem',
-			}
-		);
+		expect(
+			getCustomProperties( { 'a;color:red': 'x', gap: '1rem' }, name )
+		).toEqual( {
+			'--ever-blocks-row-gap': '1rem',
+		} );
 	} );
 } );
 
@@ -201,18 +210,18 @@ describe( 'compileStyle', () => {
 } );
 
 describe( 'toCSS', () => {
-	it( 'attaches every tail to the instance selector', () => {
+	it( 'puts the instance selector wherever & stands', () => {
 		expect(
 			toCSS(
 				[
 					{
-						selector: '',
+						selector: '&',
 						declarations: { '--x': '1' },
 						query: '',
 						important: false,
 					},
 					{
-						selector: ' .inner',
+						selector: '& .inner, &::after',
 						declarations: { color: 'red' },
 						query: '@media (width <= 480px)',
 						important: false,
@@ -221,7 +230,7 @@ describe( 'toCSS', () => {
 				'.eb-1.eb-1'
 			)
 		).toBe(
-			'.eb-1.eb-1{--x:1;}@media (width <= 480px){.eb-1.eb-1 .inner{color:red;}}'
+			'.eb-1.eb-1{--x:1;}@media (width <= 480px){.eb-1.eb-1 .inner, .eb-1.eb-1::after{color:red;}}'
 		);
 	} );
 
@@ -230,7 +239,7 @@ describe( 'toCSS', () => {
 			toCSS(
 				[
 					{
-						selector: ':hover',
+						selector: '&:hover',
 						declarations: {
 							'background-color': '#f00',
 							'border-color': '#000',
@@ -251,7 +260,7 @@ describe( 'toCSS', () => {
 			toCSS(
 				[
 					{
-						selector: ':hover',
+						selector: '&:hover',
 						declarations: {
 							'background-color': '#f00',
 							'background-image': 'url(x.png)',

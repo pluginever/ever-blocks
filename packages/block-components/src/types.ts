@@ -1,9 +1,3 @@
-/**
- * Types shared across components, hooks and utilities.
- *
- * A type that belongs to one component lives with that component; only the
- * style-state vocabulary, which every layer speaks, is here.
- */
 export type Viewport = 'default' | '@tablet' | '@mobile';
 
 export type Pseudo = 'default' | `:${ string }` | `-${ string }`;
@@ -30,7 +24,7 @@ export interface BlockDeclaration {
 }
 
 export interface StyleRule {
-	/** Selector tail appended to the instance selector. */
+	/** Selector with `&` standing for the instance. */
 	selector: string;
 	declarations: Record< string, string >;
 	query: string;

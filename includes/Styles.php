@@ -9,10 +9,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Generated CSS for block instances.
  *
- * Covers only what core's block supports cannot express for a block: its own
- * values as custom properties, the states and elements it declares, and any
- * rules its handler adds. One class per instance carries all of it.
- *
  * @since   2.0.0
  * @package EverBlocks
  */
@@ -54,16 +50,10 @@ class Styles {
 	 * @return string Rendered block content.
 	 */
 	public function render( string $content, array $block ): string {
-		$name = isset( $block['blockName'] ) && is_string( $block['blockName'] ) ? $block['blockName'] : '';
+		$name  = isset( $block['blockName'] ) && is_string( $block['blockName'] ) ? $block['blockName'] : '';
+		$style = $block['attrs']['style'] ?? null;
 
-		if ( '' === $name || '' === trim( $content ) ) {
-			return $content;
-		}
-
-		$attributes = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
-		$style      = isset( $attributes['style'] ) && is_array( $attributes['style'] ) ? $attributes['style'] : array();
-
-		if ( empty( $style ) && ! has_filter( 'ever_blocks_block_styles' ) && ! has_filter( "ever_blocks_block_styles_{$name}" ) ) {
+		if ( '' === $name || ! is_array( $style ) || empty( $style ) || '' === trim( $content ) ) {
 			return $content;
 		}
 
@@ -73,29 +63,6 @@ class Styles {
 			return $content;
 		}
 
-		/**
-		 * Filters the CSS rules a block instance contributes.
-		 *
-		 * @since 2.0.0
-		 * @param array<int, array<string, mixed>> $css_rules  Rules of `declarations`, and optionally `selector` and `query`.
-		 * @param string                           $name       Block name.
-		 * @param array<string, mixed>             $attributes Block attributes.
-		 */
-		$own = apply_filters( 'ever_blocks_block_styles', array(), $name, $attributes );
-
-		/**
-		 * Filters the CSS rules one block contributes to its own instances.
-		 *
-		 * The dynamic portion of the hook name, `$name`, refers to the block name,
-		 * e.g. `ever-blocks/icon`. Mirrors core's `render_block_{$name}` pairing with
-		 * the generic `render_block` filter above.
-		 *
-		 * @since 2.0.0
-		 * @param array<int, array<string, mixed>> $css_rules  Rules gathered so far.
-		 * @param array<string, mixed>             $attributes Block attributes.
-		 */
-		$own = apply_filters( "ever_blocks_block_styles_{$name}", $own, $attributes );
-
-		return $this->styler->apply( $content, $name, $this->styler->compile( $style, $block_type, (array) $own ) );
+		return $this->styler->apply( $content, $name, $this->styler->compile( $style, $block_type ) );
 	}
 }

@@ -6,7 +6,7 @@ import { useState } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import { useIcon } from '../icon-display';
+import { useIcon } from '../../hooks/use-icons';
 import { IconLibrary } from './library';
 import type { Icon } from '../../hooks/use-icons';
 

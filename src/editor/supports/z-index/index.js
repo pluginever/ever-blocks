@@ -8,19 +8,16 @@ import { __ } from '@wordpress/i18n';
 
 const NAME = 'z-index';
 const ATTRIBUTE = 'everBlocksZIndex';
-const EXCLUDE = [];
 
-// The server gates this extension by the same option, so a disabled extension
-// loses its panel as well as its output.
-const isEnabled = () => Boolean( window.everBlocksExtensions?.[ NAME ] );
+const isEnabled = () => Boolean( window.everBlocksSupports?.[ NAME ] );
 
-// Scope rides core's own capability rather than a list kept in step by hand.
-const supports = ( name ) =>
-	! EXCLUDE.includes( name ) &&
-	hasBlockSupport( name, 'customClassName', true );
+// `blocks.registerBlockType` runs before the block is in the store, so the
+// settings object is checked rather than the name.
+const supports = ( settings ) =>
+	hasBlockSupport( settings, 'customClassName', true );
 
-function addAttribute( settings, name ) {
-	if ( ! supports( name ) ) {
+function addAttribute( settings ) {
+	if ( ! supports( settings ) ) {
 		return settings;
 	}
 
@@ -65,8 +62,6 @@ const withControl = createHigherOrderComponent(
 								}
 							>
 								<RangeControl
-									__nextHasNoMarginBottom
-									__next40pxDefaultSize
 									label={ __( 'Z-index', 'ever-blocks' ) }
 									min={ -10 }
 									max={ 100 }

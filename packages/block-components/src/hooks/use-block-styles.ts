@@ -13,36 +13,25 @@ import { useMemo } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import { STORE_NAME } from '../store';
+import { store } from '../store';
 import { getDeclaration } from '../utils/block-declaration';
 import { compileStyle, toCSS } from '../utils/style-css';
 import { getViewportQueries } from '../utils/viewport-queries';
-import type { Pseudo, StyleObject } from '../types';
+import type { StyleObject } from '../types';
 
 /**
- * Binds a block's generated CSS to the editor canvas.
- *
- * Everything core's block supports can express is left to core on both sides;
- * this covers only what they cannot — the block's own values, its declared
- * states and elements — and previews the state each panel is editing so an
- * author sees a hover colour without hovering.
+ * Binds a block's generated CSS to the editor canvas, previewing the state
+ * each element's panel is editing.
  *
  * @since 0.1.0
  * @param attributes       Block attributes.
- * @param attributes.style
+ * @param attributes.style Style attribute.
  */
 export function useBlockStyles( attributes: { style?: StyleObject } ): void {
 	const { name, clientId, isSelected } = useBlockEditContext();
 	const [ viewport ] = useSettings( 'viewport' );
-	const selected: Record< string, Pseudo > | undefined = useSelect(
-		(
-			select: (
-				name: unknown
-			) => Record< string, ( ...args: unknown[] ) => unknown >
-		) =>
-			select( STORE_NAME ).getStyleStates( clientId ) as
-				| Record< string, Pseudo >
-				| undefined,
+	const selected = useSelect(
+		( select ) => select( store ).getStyleStates( clientId ),
 		[ clientId ]
 	);
 
@@ -57,7 +46,7 @@ export function useBlockStyles( attributes: { style?: StyleObject } ): void {
 				name,
 				declaration,
 				queries,
-				isSelected ? selected ?? {} : {}
+				isSelected ? selected : {}
 			),
 			`${ selector }${ selector }`
 		);

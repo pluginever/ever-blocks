@@ -1,1 +1,1 @@
-import './extensions';
+import './supports';

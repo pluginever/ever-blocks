@@ -6,7 +6,12 @@ import { getCSSRules, getCSSValueFromRawStyle } from '@wordpress/style-engine';
 /**
  * Internal dependencies
  */
-import { elementSelector, isPseudoState, scopeSelector } from './selectors';
+import {
+	buildStateSelector,
+	elementSelector,
+	isPseudoState,
+	scopeSelector,
+} from './selectors';
 import type { BlockDeclaration, StyleObject, StyleRule } from '../types';
 
 const isRecord = ( value: unknown ): value is StyleObject =>
@@ -27,11 +32,6 @@ const omit = ( source: StyleObject, keys: string[] ): StyleObject => {
 
 /**
  * Returns the key inside `style` that holds a block's own values.
- *
- * Derived from the block's own namespace, which WordPress already keeps unique
- * per plugin, so two plugins using this package can never read or overwrite each
- * other's values. Core compiles the features it knows and ignores the rest, so
- * these ride its attribute and inherit its per-viewport shape for free.
  *
  * @since 0.1.0
  * @param name Block name.
@@ -57,10 +57,6 @@ export function getNamespace( name: string ): string {
 
 /**
  * Returns the custom property a block's own value is written to.
- *
- * The name is derived rather than mapped so an editor and a server cannot
- * disagree about it. Keys come from block attributes, so anything that is not a
- * plain identifier is refused before it reaches a declaration.
  *
  * @since 0.1.0
  * @param name    Block name.
@@ -103,7 +99,7 @@ export function getProperty( name: string, key: string, element = '' ): string {
  * @param element Element the values belong to, or empty for the root.
  * @return Custom properties, or undefined when none are set.
  */
-export function getVars(
+export function getCustomProperties(
 	values: unknown,
 	name: string,
 	element = ''
@@ -116,10 +112,8 @@ export function getVars(
 
 	for ( const [ key, value ] of Object.entries( values ) ) {
 		if (
-			undefined === value ||
-			null === value ||
-			'' === value ||
-			'object' === typeof value
+			( 'string' !== typeof value && 'number' !== typeof value ) ||
+			'' === value
 		) {
 			continue;
 		}
@@ -147,10 +141,7 @@ export type StatePreview = Partial< Record< string, string > >;
 /**
  * Compiles every rule an instance needs beyond what core's block supports write.
  *
- * Walks the attribute in core's own order — viewport, then custom state, then
- * element, then pseudo-state — and only compiles the states and elements the
- * block declares in its `block.json`. Mirrors the server's compiler rule for
- * rule; the parity fixtures hold both to the same output.
+ * Selectors carry `&` where the instance selector goes; `toCSS()` fills it in.
  *
  * @since 0.1.0
  * @param style       Block style attribute.
@@ -158,7 +149,7 @@ export type StatePreview = Partial< Record< string, string > >;
  * @param declaration The block's declaration, from `getDeclaration()`.
  * @param queries     Viewport media queries keyed by state name.
  * @param preview     States to also emit without their selector, for the canvas.
- * @return Rules with selector tails relative to the instance.
+ * @return Rules.
  */
 export function compileStyle(
 	style: StyleObject | undefined,
@@ -219,12 +210,9 @@ export function compileStyle(
 /**
  * Serialises compiled rules for one instance.
  *
- * State declarations carry `!important` because they have to beat the inline
- * styles core writes for the base state, on the canvas and the front end alike.
- *
  * @since 0.1.0
  * @param rules    Compiled rules.
- * @param selector Instance selector the tails attach to.
+ * @param selector Instance selector that replaces `&`.
  * @return CSS, or an empty string.
  */
 export function toCSS( rules: StyleRule[], selector: string ): string {
@@ -241,9 +229,10 @@ export function toCSS( rules: StyleRule[], selector: string ): string {
 			continue;
 		}
 
-		const block = `${ selector }${ rule.selector }{${ declarations.join(
-			''
-		) }}`;
+		const block = `${ rule.selector.replaceAll(
+			'&',
+			selector
+		) }{${ declarations.join( '' ) }}`;
 
 		css.push( rule.query ? `${ rule.query }{${ block }}` : block );
 	}
@@ -278,10 +267,10 @@ function compileScope(
 
 	const isPseudo = isPseudoState( state );
 	const stateSelector = isPseudo
-		? state
-		: scopeSelector( declaration.states[ state ] ?? '' );
-	const selector = previewing ? '' : stateSelector;
-	const vars = getVars( scope[ key ], name );
+		? `&${ state }`
+		: buildStateSelector( '&', declaration.states[ state ] ?? '', '' );
+	const selector = previewing ? '&' : stateSelector;
+	const vars = getCustomProperties( scope[ key ], name );
 
 	if ( vars ) {
 		rules.push( { selector, declarations: vars, query, important: false } );
@@ -304,10 +293,17 @@ function compileScope(
 				continue;
 			}
 
-			const tail = scopeSelector( group.selector );
-
 			rules.push( {
-				selector: isPseudo ? tail + selector : selector + tail,
+				selector: isPseudo
+					? buildStateSelector(
+							'&',
+							group.selector,
+							previewing ? '' : state
+					  )
+					: scopeSelector(
+							selector,
+							buildStateSelector( '&', group.selector, '' )
+					  ),
 				declarations,
 				query,
 				important: true,
@@ -328,7 +324,10 @@ function compileScope(
 			continue;
 		}
 
-		const base = selector + elementSelector( declared.selector );
+		const base = scopeSelector(
+			selector,
+			elementSelector( declared.selector )
+		);
 
 		compileElement(
 			rules,
@@ -350,7 +349,7 @@ function compileScope(
 			compileElement(
 				rules,
 				node[ pseudo ],
-				base + pseudo,
+				scopeSelector( base, `&${ pseudo }` ),
 				pseudo,
 				name,
 				key,
@@ -387,7 +386,7 @@ function compileElement(
 	states: string[],
 	query: string
 ): void {
-	const vars = getVars( node[ key ], name, element );
+	const vars = getCustomProperties( node[ key ], name, element );
 
 	if ( vars ) {
 		rules.push( { selector, declarations: vars, query, important: false } );
@@ -428,7 +427,14 @@ function getStateStyleGroups(
 		);
 
 		if ( existing ) {
-			existing.style = { ...existing.style, ...part };
+			for ( const [ feature, value ] of Object.entries( part ) ) {
+				const current = existing.style[ feature ];
+
+				existing.style[ feature ] =
+					isRecord( current ) && isRecord( value )
+						? { ...current, ...value }
+						: value;
+			}
 			return;
 		}
 
@@ -556,7 +562,11 @@ function withStateFallbacks(
 			declarations[ `border-${ side }-width` ]
 		);
 
-		if ( ! hasSideStyle && ( hasSideColor || hasSideWidth ) ) {
+		if (
+			! hasBorderStyle &&
+			! hasSideStyle &&
+			( hasSideColor || hasSideWidth )
+		) {
 			out.push( `border-${ side }-style:solid;` );
 		}
 	}

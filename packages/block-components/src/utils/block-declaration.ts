@@ -11,14 +11,28 @@ interface BlockSettings {
 
 const ELEMENT_NAME = /^[a-z][a-zA-Z0-9]*$/;
 
+// Names core compiles itself (`WP_Theme_JSON::ELEMENTS`).
+const CORE_ELEMENTS = [
+	'link',
+	'heading',
+	'h1',
+	'h2',
+	'h3',
+	'h4',
+	'h5',
+	'h6',
+	'button',
+	'caption',
+	'cite',
+	'textInput',
+	'select',
+];
+
 const isRecord = ( value: unknown ): value is Record< string, unknown > =>
 	Boolean( value ) && 'object' === typeof value && ! Array.isArray( value );
 
 /**
  * Reads the elements and states a block declares in its `block.json`.
- *
- * Mirrors the server's reading of the same declaration so both halves compile
- * the same states and elements and ignore the same undeclared ones.
  *
  * @since 0.1.0
  * @param settings Registered block settings, as `getBlockType()` returns them.
@@ -36,14 +50,16 @@ export function getDeclaration(
 
 	if ( isRecord( everBlocks.elements ) ) {
 		for ( const [ name, value ] of Object.entries( everBlocks.elements ) ) {
-			if ( ! ELEMENT_NAME.test( name ) ) {
-				continue;
-			}
-
 			const selector = isRecord( value ) ? value.selector : value;
 			const declared = isRecord( value ) ? value.states : [];
 
-			if ( 'string' !== typeof selector || ! selector.trim() ) {
+			if (
+				! ELEMENT_NAME.test( name ) ||
+				CORE_ELEMENTS.includes( name ) ||
+				'string' !== typeof selector ||
+				! selector.trim() ||
+				selector.includes( ',' )
+			) {
 				continue;
 			}
 

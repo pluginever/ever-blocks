@@ -4,127 +4,539 @@
 		"selectors": {
 			"root": ".eb-test",
 			"typography": ".eb-test .inner",
-			"states": { "-open": ".eb-test.is-open" }
+			"states": {
+				"-open": ".eb-test.is-open",
+				"-active": ".eb-test.is-active, .eb-test[data-active]"
+			},
+			"border": ".eb-test .a, .eb-test .b"
 		},
 		"supports": {
-			"color": { "background": true, "text": true },
-			"typography": { "fontSize": true, "textAlign": true },
+			"color": {
+				"background": true,
+				"text": true
+			},
+			"typography": {
+				"fontSize": true,
+				"textAlign": true
+			},
 			"everBlocks": {
-				"states": [ ":hover" ],
+				"states": [
+					":hover"
+				],
 				"elements": {
-					"input": { "selector": ".eb-test__input", "states": [ ":focus" ] },
+					"input": {
+						"selector": ".eb-test__input",
+						"states": [
+							":focus"
+						]
+					},
 					"backdrop": "&::backdrop"
 				}
+			},
+			"border": {
+				"color": true,
+				"width": true
 			}
 		}
 	},
 	"cases": {
 		"root-values": {
-			"style": { "everBlocks": { "columns": 4, "iconSize": "2rem" } },
+			"style": {
+				"everBlocks": {
+					"columns": 4,
+					"iconSize": "2rem"
+				}
+			},
 			"rules": [
-				{ "selector": "", "declarations": { "--ever-blocks-test-columns": "4", "--ever-blocks-test-icon-size": "2rem" }, "query": "", "important": false }
+				{
+					"selector": "&",
+					"declarations": {
+						"--ever-blocks-test-columns": "4",
+						"--ever-blocks-test-icon-size": "2rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"root-values-mobile": {
-			"style": { "@mobile": { "everBlocks": { "columns": 1 } } },
+			"style": {
+				"@mobile": {
+					"everBlocks": {
+						"columns": 1
+					}
+				}
+			},
 			"rules": [
-				{ "selector": "", "declarations": { "--ever-blocks-test-columns": "1" }, "query": "@media (width <= 480px)", "important": false }
+				{
+					"selector": "&",
+					"declarations": {
+						"--ever-blocks-test-columns": "1"
+					},
+					"query": "@media (width <= 480px)",
+					"important": false
+				}
 			]
 		},
 		"root-value-preset": {
-			"style": { "everBlocks": { "accent": "var:preset|color|primary" } },
+			"style": {
+				"everBlocks": {
+					"accent": "var:preset|color|primary"
+				}
+			},
 			"rules": [
-				{ "selector": "", "declarations": { "--ever-blocks-test-accent": "var(--wp--preset--color--primary)" }, "query": "", "important": false }
+				{
+					"selector": "&",
+					"declarations": {
+						"--ever-blocks-test-accent": "var(--wp--preset--color--primary)"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"root-hover-feature": {
-			"style": { ":hover": { "color": { "background": "#ff0000" } } },
+			"style": {
+				":hover": {
+					"color": {
+						"background": "#ff0000"
+					}
+				}
+			},
 			"rules": [
-				{ "selector": ":hover", "declarations": { "background-color": "#ff0000" }, "query": "", "important": true }
+				{
+					"selector": "&:hover",
+					"declarations": {
+						"background-color": "#ff0000"
+					},
+					"query": "",
+					"important": true
+				}
 			]
 		},
 		"root-hover-feature-selector": {
-			"style": { ":hover": { "typography": { "fontSize": "2rem", "textAlign": "center" }, "color": { "text": "#00ff00" } } },
+			"style": {
+				":hover": {
+					"typography": {
+						"fontSize": "2rem",
+						"textAlign": "center"
+					},
+					"color": {
+						"text": "#00ff00"
+					}
+				}
+			},
 			"rules": [
-				{ "selector": " .inner:hover", "declarations": { "font-size": "2rem", "text-align": "center" }, "query": "", "important": true },
-				{ "selector": ":hover", "declarations": { "color": "#00ff00" }, "query": "", "important": true }
+				{
+					"selector": "& .inner:hover",
+					"declarations": {
+						"font-size": "2rem",
+						"text-align": "center"
+					},
+					"query": "",
+					"important": true
+				},
+				{
+					"selector": "&:hover",
+					"declarations": {
+						"color": "#00ff00"
+					},
+					"query": "",
+					"important": true
+				}
 			]
 		},
 		"root-hover-value": {
-			"style": { ":hover": { "everBlocks": { "iconSize": "3rem" } } },
+			"style": {
+				":hover": {
+					"everBlocks": {
+						"iconSize": "3rem"
+					}
+				}
+			},
 			"rules": [
-				{ "selector": ":hover", "declarations": { "--ever-blocks-test-icon-size": "3rem" }, "query": "", "important": false }
+				{
+					"selector": "&:hover",
+					"declarations": {
+						"--ever-blocks-test-icon-size": "3rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"undeclared-state": {
-			"style": { ":active": { "color": { "background": "#ff0000" } } },
+			"style": {
+				":active": {
+					"color": {
+						"background": "#ff0000"
+					}
+				}
+			},
 			"rules": []
 		},
 		"custom-state": {
-			"style": { "-open": { "color": { "background": "#0000ff" }, "everBlocks": { "columns": 2 } } },
+			"style": {
+				"-open": {
+					"color": {
+						"background": "#0000ff"
+					},
+					"everBlocks": {
+						"columns": 2
+					}
+				}
+			},
 			"rules": [
-				{ "selector": ".is-open", "declarations": { "--ever-blocks-test-columns": "2" }, "query": "", "important": false },
-				{ "selector": ".is-open", "declarations": { "background-color": "#0000ff" }, "query": "", "important": true }
+				{
+					"selector": "&.is-open",
+					"declarations": {
+						"--ever-blocks-test-columns": "2"
+					},
+					"query": "",
+					"important": false
+				},
+				{
+					"selector": "&.is-open",
+					"declarations": {
+						"background-color": "#0000ff"
+					},
+					"query": "",
+					"important": true
+				}
 			]
 		},
 		"element-features": {
-			"style": { "elements": { "input": { "typography": { "fontSize": "2rem" }, "color": { "text": "var:preset|color|contrast" } } } },
+			"style": {
+				"elements": {
+					"input": {
+						"typography": {
+							"fontSize": "2rem"
+						},
+						"color": {
+							"text": "var:preset|color|contrast"
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": " .eb-test__input", "declarations": { "color": "var(--wp--preset--color--contrast)", "font-size": "2rem" }, "query": "", "important": false }
+				{
+					"selector": "& .eb-test__input",
+					"declarations": {
+						"color": "var(--wp--preset--color--contrast)",
+						"font-size": "2rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"element-value": {
-			"style": { "elements": { "input": { "everBlocks": { "size": "3rem" } } } },
+			"style": {
+				"elements": {
+					"input": {
+						"everBlocks": {
+							"size": "3rem"
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": " .eb-test__input", "declarations": { "--ever-blocks-test-input-size": "3rem" }, "query": "", "important": false }
+				{
+					"selector": "& .eb-test__input",
+					"declarations": {
+						"--ever-blocks-test-input-size": "3rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"element-pseudo": {
-			"style": { "elements": { "input": { ":focus": { "color": { "background": "#eeeeee" } } } } },
+			"style": {
+				"elements": {
+					"input": {
+						":focus": {
+							"color": {
+								"background": "#eeeeee"
+							}
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": " .eb-test__input:focus", "declarations": { "background-color": "#eeeeee" }, "query": "", "important": false }
+				{
+					"selector": "& .eb-test__input:focus",
+					"declarations": {
+						"background-color": "#eeeeee"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"element-undeclared-pseudo": {
-			"style": { "elements": { "input": { ":hover": { "color": { "background": "#eeeeee" } } } } },
+			"style": {
+				"elements": {
+					"input": {
+						":hover": {
+							"color": {
+								"background": "#eeeeee"
+							}
+						}
+					}
+				}
+			},
 			"rules": []
 		},
 		"undeclared-elements": {
-			"style": { "elements": { "link": { "color": { "text": "#ff0000" } }, "button": { "everBlocks": { "size": "1rem" } } } },
+			"style": {
+				"elements": {
+					"link": {
+						"color": {
+							"text": "#ff0000"
+						}
+					},
+					"button": {
+						"everBlocks": {
+							"size": "1rem"
+						}
+					}
+				}
+			},
 			"rules": []
 		},
 		"ampersand-element": {
-			"style": { "elements": { "backdrop": { "color": { "background": "#000000" } } } },
+			"style": {
+				"elements": {
+					"backdrop": {
+						"color": {
+							"background": "#000000"
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": "::backdrop", "declarations": { "background-color": "#000000" }, "query": "", "important": false }
+				{
+					"selector": "&::backdrop",
+					"declarations": {
+						"background-color": "#000000"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"element-in-custom-state": {
-			"style": { "-open": { "elements": { "input": { "typography": { "fontSize": "4rem" } } } } },
+			"style": {
+				"-open": {
+					"elements": {
+						"input": {
+							"typography": {
+								"fontSize": "4rem"
+							}
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": ".is-open .eb-test__input", "declarations": { "font-size": "4rem" }, "query": "", "important": false }
+				{
+					"selector": "&.is-open .eb-test__input",
+					"declarations": {
+						"font-size": "4rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"element-in-root-pseudo": {
-			"style": { ":hover": { "elements": { "input": { "everBlocks": { "size": "1rem" } } } } },
+			"style": {
+				":hover": {
+					"elements": {
+						"input": {
+							"everBlocks": {
+								"size": "1rem"
+							}
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": ":hover .eb-test__input", "declarations": { "--ever-blocks-test-input-size": "1rem" }, "query": "", "important": false }
+				{
+					"selector": "&:hover .eb-test__input",
+					"declarations": {
+						"--ever-blocks-test-input-size": "1rem"
+					},
+					"query": "",
+					"important": false
+				}
 			]
 		},
 		"tablet-states-and-elements": {
-			"style": { "@tablet": { ":hover": { "color": { "background": "#123456" } }, "elements": { "input": { ":focus": { "everBlocks": { "size": "5rem" } } } } } },
+			"style": {
+				"@tablet": {
+					":hover": {
+						"color": {
+							"background": "#123456"
+						}
+					},
+					"elements": {
+						"input": {
+							":focus": {
+								"everBlocks": {
+									"size": "5rem"
+								}
+							}
+						}
+					}
+				}
+			},
 			"rules": [
-				{ "selector": " .eb-test__input:focus", "declarations": { "--ever-blocks-test-input-size": "5rem" }, "query": "@media (480px < width <= 782px)", "important": false },
-				{ "selector": ":hover", "declarations": { "background-color": "#123456" }, "query": "@media (480px < width <= 782px)", "important": true }
+				{
+					"selector": "& .eb-test__input:focus",
+					"declarations": {
+						"--ever-blocks-test-input-size": "5rem"
+					},
+					"query": "@media (480px < width <= 782px)",
+					"important": false
+				},
+				{
+					"selector": "&:hover",
+					"declarations": {
+						"background-color": "#123456"
+					},
+					"query": "@media (480px < width <= 782px)",
+					"important": true
+				}
 			]
 		},
 		"core-supports-only": {
-			"style": { "spacing": { "padding": "1rem" }, "color": { "text": "#ff0000" } },
+			"style": {
+				"spacing": {
+					"padding": "1rem"
+				},
+				"color": {
+					"text": "#ff0000"
+				}
+			},
 			"rules": []
 		},
 		"empty": {
 			"style": {},
 			"rules": []
+		},
+		"root-hover-feature-list": {
+			"style": {
+				":hover": {
+					"border": {
+						"color": "#123456"
+					}
+				}
+			},
+			"rules": [
+				{
+					"selector": "& .a:hover, & .b:hover",
+					"declarations": {
+						"border-color": "#123456"
+					},
+					"query": "",
+					"important": true
+				}
+			]
+		},
+		"custom-state-list": {
+			"style": {
+				"-active": {
+					"everBlocks": {
+						"gap": "1rem"
+					},
+					"elements": {
+						"input": {
+							"color": {
+								"text": "#fff"
+							},
+							":focus": {
+								"color": {
+									"text": "#eee"
+								}
+							}
+						}
+					}
+				}
+			},
+			"rules": [
+				{
+					"selector": "&.is-active, &[data-active]",
+					"declarations": {
+						"--ever-blocks-test-gap": "1rem"
+					},
+					"query": "",
+					"important": false
+				},
+				{
+					"selector": "&.is-active .eb-test__input, &[data-active] .eb-test__input",
+					"declarations": {
+						"color": "#fff"
+					},
+					"query": "",
+					"important": false
+				},
+				{
+					"selector": "&.is-active .eb-test__input:focus, &[data-active] .eb-test__input:focus",
+					"declarations": {
+						"color": "#eee"
+					},
+					"query": "",
+					"important": false
+				}
+			]
+		},
+		"boolean-and-preset-values": {
+			"style": {
+				"everBlocks": {
+					"on": true,
+					"off": false,
+					"color": "var:preset|color|heavenlyBlue",
+					"n": 3
+				}
+			},
+			"rules": [
+				{
+					"selector": "&",
+					"declarations": {
+						"--ever-blocks-test-color": "var(--wp--preset--color--heavenly-blue)",
+						"--ever-blocks-test-n": "3"
+					},
+					"query": "",
+					"important": false
+				}
+			]
+		},
+		"core-element-name-ignored": {
+			"style": {
+				"elements": {
+					"button": {
+						"color": {
+							"text": "#000"
+						}
+					},
+					"input": {
+						"color": {
+							"text": "#111"
+						}
+					}
+				}
+			},
+			"rules": [
+				{
+					"selector": "& .eb-test__input",
+					"declarations": {
+						"color": "#111"
+					},
+					"query": "",
+					"important": false
+				}
+			]
 		}
 	}
 }

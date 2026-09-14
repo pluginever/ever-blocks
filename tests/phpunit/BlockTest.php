@@ -6,22 +6,21 @@ namespace EverBlocks\Tests;
 use EverBlocks\Blocks\Block;
 
 /**
- * The base block binds both seams on construction, and `register()` for anything else.
+ * The base block binds the render seam on construction; `register()` is the plugin's call.
  */
 class BlockTest extends TestCase {
 
 	/**
-	 * A subclass overriding nothing still joins both filters.
+	 * A subclass overriding nothing still joins the render filter.
 	 *
 	 * @return void
 	 */
-	public function test_a_block_without_overrides_still_adds_both_filters(): void {
+	public function test_a_block_without_overrides_still_adds_the_render_filter(): void {
 		$block = new class() extends Block {
 			public string $name = 'ever-blocks/plain';
 		};
 
 		$this->assertNotFalse( has_filter( 'render_block_ever-blocks/plain', array( $block, 'render' ) ) );
-		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'style' ) ) );
 	}
 
 	/**
@@ -38,11 +37,11 @@ class BlockTest extends TestCase {
 	}
 
 	/**
-	 * `register()` runs once the seams are bound.
+	 * `register()` is left to the plugin, so construction alone hooks nothing else.
 	 *
 	 * @return void
 	 */
-	public function test_register_runs_on_construction(): void {
+	public function test_register_is_not_run_on_construction(): void {
 		$block = new class() extends Block {
 			public string $name = 'ever-blocks/plain';
 			public bool $registered = false;
@@ -52,7 +51,7 @@ class BlockTest extends TestCase {
 			}
 		};
 
-		$this->assertTrue( $block->registered );
+		$this->assertFalse( $block->registered );
 	}
 
 	/**
@@ -73,25 +72,6 @@ class BlockTest extends TestCase {
 	}
 
 	/**
-	 * Overriding `css()` contributes rules through this block's own filter, and no other block's.
-	 *
-	 * @return void
-	 */
-	public function test_styles_reach_the_shared_pass_for_this_block_only(): void {
-		$block = new class() extends Block {
-			public string $name = 'ever-blocks/plain';
-
-			protected function css( array $attributes ): array {
-				return array( array( 'declarations' => array( 'grid-auto-rows' => '1fr' ) ) );
-			}
-		};
-
-		$this->assertNotFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/plain', array( $block, 'style' ) ) );
-		$this->assertFalse( has_filter( 'ever_blocks_block_styles_ever-blocks/other' ) );
-		$this->assertCount( 2, $block->style( array( array( 'declarations' => array( 'gap' => '1rem' ) ) ), array() ) );
-	}
-
-	/**
 	 * A block with no name hooks nothing at all.
 	 *
 	 * @return void
@@ -100,26 +80,5 @@ class BlockTest extends TestCase {
 		new class() extends Block {};
 
 		$this->assertFalse( has_filter( 'render_block_' ) );
-		$this->assertFalse( has_filter( 'ever_blocks_block_styles_' ) );
-	}
-
-	/**
-	 * A preset reference resolves the way core resolves it; anything else passes through.
-	 *
-	 * @return void
-	 */
-	public function test_css_value_resolves_presets(): void {
-		$block = new class() extends Block {
-			public string $name = 'ever-blocks/plain';
-
-			public function value( $value ): string {
-				return $this->css_value( $value );
-			}
-		};
-
-		$this->assertSame( 'var(--wp--preset--color--contrast)', $block->value( 'var:preset|color|contrast' ) );
-		$this->assertSame( '#fff', $block->value( '#fff' ) );
-		$this->assertSame( '', $block->value( null ) );
-		$this->assertSame( '', $block->value( array( 'x' ) ) );
 	}
 }

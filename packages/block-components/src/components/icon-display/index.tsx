@@ -6,21 +6,7 @@ import { useMemo } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import type { Icon } from '../../hooks/use-icons';
-import { useIcons } from '../../hooks/use-icons';
-
-/**
- * Returns a single registered icon by name.
- *
- * @since 0.1.0
- * @param name Namespaced icon name, such as `core/star-filled`.
- * @return The icon, or undefined while loading or when it is not registered.
- */
-export function useIcon( name?: string ): Icon | undefined {
-	const { icons } = useIcons( Boolean( name ) );
-
-	return name ? icons.find( ( icon ) => icon.name === name ) : undefined;
-}
+import { useIcon } from '../../hooks/use-icons';
 
 // The icons endpoint serves the SVG as registered, without dimensions or
 // accessibility attributes; `wp_get_icon()` adds both on the server.

@@ -18,8 +18,7 @@ export * from './experimental';
 /**
  * Hooks
  */
-export { useIcon } from './components/icon-display';
-export { useIcons } from './hooks/use-icons';
+export { useIcon, useIcons } from './hooks/use-icons';
 export { useBlockStyles } from './hooks/use-block-styles';
 
 /**

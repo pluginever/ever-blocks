@@ -9,7 +9,7 @@ export { getViewportQueries } from './viewport-queries';
 export {
 	getNamespace,
 	getProperty,
-	getVars,
+	getCustomProperties,
 	compileStyle,
 	toCSS,
 } from './style-css';

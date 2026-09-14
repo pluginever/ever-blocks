@@ -23,6 +23,7 @@ interface SetStyleStateAction {
 }
 
 const DEFAULT_STATE: State = { styleStates: {} };
+const EMPTY: Record< string, Pseudo > = {};
 
 function reducer(
 	state: State = DEFAULT_STATE,
@@ -60,11 +61,8 @@ const selectors = {
 	getStyleState( state: State, clientId: string, element: string ): Pseudo {
 		return state.styleStates[ clientId ]?.[ element ] ?? 'default';
 	},
-	getStyleStates(
-		state: State,
-		clientId: string
-	): Record< string, Pseudo > | undefined {
-		return state.styleStates[ clientId ];
+	getStyleStates( state: State, clientId: string ): Record< string, Pseudo > {
+		return state.styleStates[ clientId ] ?? EMPTY;
 	},
 };
 

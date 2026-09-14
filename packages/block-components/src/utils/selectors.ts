@@ -10,53 +10,106 @@ export function isCustomState( state: unknown ): state is string {
 	return 'string' === typeof state && CUSTOM.test( state );
 }
 
-/**
- * Returns the part of a block-scoped selector that follows the instance selector.
- *
- * Mirrors `wp_build_state_selector()`: the leading class, id, tag or attribute
- * is the block's own root and is replaced by the instance selector, anything
- * after it is kept.
- *
- * @since 0.1.0
- * @param selector Selector from block metadata, e.g. `.wp-block-ever-blocks-icon svg`.
- * @return Selector tail, e.g. ` svg`.
- */
-export function scopeSelector( selector: string ): string {
-	const trimmed = selector.trim();
-
-	if ( ! trimmed ) {
-		return '';
+// Mirrors `wp_split_selector_list()`.
+export function splitSelectorList( selector: string ): string[] {
+	if ( ! selector.includes( ',' ) ) {
+		return [ selector ];
 	}
 
-	const match = trimmed.match( LEADING );
+	const selectors: string[] = [];
+	let current = '';
+	let depth = 0;
 
-	return match ? trimmed.slice( match[ 0 ].length ) : trimmed;
+	for ( const character of selector ) {
+		if ( '(' === character ) {
+			depth++;
+		} else if ( ')' === character && depth > 0 ) {
+			depth--;
+		} else if ( ',' === character && 0 === depth ) {
+			selectors.push( current );
+			current = '';
+			continue;
+		}
+
+		current += character;
+	}
+
+	selectors.push( current );
+
+	return selectors;
+}
+
+// Mirrors `wp_build_state_selector()`.
+export function buildStateSelector(
+	base: string,
+	selector: string,
+	state: string
+): string {
+	if ( ! selector.trim() ) {
+		return base + state;
+	}
+
+	const scoped: string[] = [];
+
+	for ( const part of splitSelectorList( selector ) ) {
+		const trimmed = part.trim();
+
+		if ( ! trimmed ) {
+			continue;
+		}
+
+		const match = trimmed.match( LEADING );
+
+		scoped.push(
+			match
+				? base + trimmed.slice( match[ 0 ].length ) + state
+				: base + state
+		);
+	}
+
+	return scoped.length ? scoped.join( ', ' ) : base + state;
 }
 
 /**
- * Returns the part of an element selector that follows the instance selector.
+ * Nests one `&` selector list inside another.
  *
- * `&` stands for the instance itself; a selector starting with `:` attaches to
- * it; anything else is a descendant.
+ * @since 0.1.0
+ * @param outer Selector list the inner one attaches to, e.g. `&.is-open, &[open]`.
+ * @param inner Selector list with `&` standing for the outer one, e.g. `& .input`.
+ * @return Selector list, e.g. `&.is-open .input, &[open] .input`.
+ */
+export function scopeSelector( outer: string, inner: string ): string {
+	const selectors: string[] = [];
+
+	for ( const outerPart of splitSelectorList( outer ) ) {
+		for ( const innerPart of splitSelectorList( inner ) ) {
+			selectors.push( innerPart.trim().replace( '&', outerPart.trim() ) );
+		}
+	}
+
+	return selectors.join( ', ' );
+}
+
+/**
+ * Returns an element selector as a `&` selector relative to the instance.
+ *
+ * `&` stands for the instance itself; a selector starting with `:` or `>`
+ * attaches to it; anything else is a descendant.
  *
  * @since 0.1.0
  * @param selector Element selector as declared, e.g. `&::backdrop` or `.eb-x__input`.
- * @return Selector tail, e.g. `::backdrop` or ` .eb-x__input`.
+ * @return Selector, e.g. `&::backdrop` or `& .eb-x__input`.
  */
 export function elementSelector( selector: string ): string {
 	const trimmed = selector.trim();
 
-	if ( ! trimmed ) {
-		return '';
-	}
-
 	if ( trimmed.startsWith( '&' ) ) {
-		return trimmed.slice( 1 );
-	}
-
-	if ( /^[:>]/.test( trimmed ) ) {
 		return trimmed;
 	}
 
-	return ` ${ trimmed }`;
+	if ( /^[:>]/.test( trimmed ) ) {
+		return `&${ trimmed }`;
+	}
+
+	return `& ${ trimmed }`;
 }

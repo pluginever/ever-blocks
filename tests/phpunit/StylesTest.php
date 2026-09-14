@@ -336,45 +336,4 @@ class StylesTest extends TestCase {
 		$this->assertSame( $first, $second );
 		$this->assertSame( 1, substr_count( $this->plugin_css(), 'background-color:#0000ff' ) );
 	}
-
-	/**
-	 * Rules from the block filter join the instance under the same class.
-	 *
-	 * @return void
-	 */
-	public function test_filtered_rules_share_the_instance_class(): void {
-		add_filter(
-			'ever_blocks_block_styles_ever-blocks/test',
-			static fn( array $rules, array $attributes ): array => array_merge(
-				$rules,
-				array(
-					array( 'declarations' => array( 'grid-auto-rows' => '1fr' ), 'selector' => '> *' ),
-					array( 'declarations' => array( 'opacity' => '0.5' ), 'selector' => '&::after' ),
-					array( 'declarations' => array() ),
-				)
-			),
-			10,
-			2
-		);
-
-		$class = $this->instance_class( $this->render_with( array( 'everBlocks' => array( 'columns' => 3 ) ) ) );
-		$css   = $this->plugin_css();
-
-		$this->assertStringContainsString( $class . '{--ever-blocks-test-columns:3;}', $css );
-		$this->assertStringContainsString( $class . '> *{grid-auto-rows:1fr;}', $css );
-		$this->assertStringContainsString( $class . '::after{opacity:0.5;}', $css );
-	}
-
-	/**
-	 * A filter alone, with no style attribute, still reaches the instance.
-	 *
-	 * @return void
-	 */
-	public function test_filtered_rules_need_no_style_attribute(): void {
-		add_filter( 'ever_blocks_block_styles_ever-blocks/test', static fn(): array => array( array( 'declarations' => array( 'gap' => '2rem' ) ) ) );
-
-		$class = $this->instance_class( $this->render( '<!-- wp:ever-blocks/test /-->' ) );
-
-		$this->assertSame( $class . '{gap:2rem;}', $this->plugin_css() );
-	}
 }

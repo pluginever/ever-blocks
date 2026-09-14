@@ -41,7 +41,7 @@ final class Plugin {
 		Assets::class,
 		Blocks\Blocks::class,
 		Styles::class,
-		Extensions\Extensions::class,
+		Supports\Supports::class,
 		Icons::class,
 	);
 
@@ -84,21 +84,10 @@ final class Plugin {
 	 *
 	 * @since 2.0.0
 	 * @param string $key Property name.
-	 * @return mixed Container value, or the fallback.
+	 * @return mixed Container value, or null when the key is unknown.
 	 */
 	public function __get( string $key ) {
 		return $this->get( $key );
-	}
-
-	/**
-	 * Determines whether a container value exists.
-	 *
-	 * @since 2.0.0
-	 * @param string $key Property name.
-	 * @return bool True when the key is bound.
-	 */
-	public function __isset( string $key ): bool {
-		return array_key_exists( $key, $this->container );
 	}
 
 	/**
@@ -114,21 +103,26 @@ final class Plugin {
 	}
 
 	/**
-	 * Returns a container value, resolving plugin classes on demand.
+	 * Returns a container value, resolving plugin classes on demand and once.
 	 *
 	 * @since 2.0.0
 	 * @param string $key Value identifier or class name.
-	 * @param mixed  $fallback Fallback value.
-	 * @return mixed Container value, or the fallback.
+	 * @return mixed Container value, or null when the key is unknown.
 	 */
-	public function get( string $key, $fallback = null ) {
+	public function get( string $key ) {
 		if ( ! isset( $this->container[ $key ] ) && 0 === strpos( $key, __NAMESPACE__ . '\\' ) && class_exists( $key ) ) {
 			$this->set( $key, fn() => new $key() );
 		}
 
-		$value = array_key_exists( $key, $this->container ) ? $this->container[ $key ] : $fallback;
+		if ( ! isset( $this->container[ $key ] ) ) {
+			return null;
+		}
 
-		return $value instanceof \Closure ? $value() : $value;
+		$value = $this->container[ $key ]();
+
+		$this->container[ $key ] = fn() => $value;
+
+		return $value;
 	}
 
 	/**
@@ -145,10 +139,6 @@ final class Plugin {
 
 		foreach ( $this->components as $component ) {
 			$this->get( $component )->register();
-		}
-
-		if ( is_admin() ) {
-			$this->get( Admin\Admin::class )->register();
 		}
 	}
 }

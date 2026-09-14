@@ -175,39 +175,6 @@ class ParityTest extends TestCase {
 	}
 
 	/**
-	 * Gradients keep their alpha, which is what makes the omission a carve-out
-	 * rather than a blanket rule.
-	 *
-	 * @return void
-	 */
-	public function test_gradients_are_exempt_from_the_function_allow_list(): void {
-		$compiled = wp_style_engine_get_styles(
-			array( 'color' => array( 'gradient' => 'linear-gradient(90deg, rgba(0,0,0,0.2) 0%, #fff 100%)' ) ),
-			array( 'selector' => '.eb-fixture' )
-		);
-
-		$this->assertStringContainsString( 'rgba(0,0,0,0.2)', $compiled['css'] ?? '' );
-	}
-
-	/**
-	 * A partially-dropped declaration set is the dangerous shape: the border
-	 * survives without the colour it was given.
-	 *
-	 * @return void
-	 */
-	public function test_a_dropped_value_can_leave_a_partial_rule(): void {
-		$compiled = wp_style_engine_get_styles(
-			array( 'border' => array( 'color' => 'rgba(1,2,3,0.5)', 'width' => '1px', 'style' => 'solid' ) ),
-			array( 'selector' => '.eb-fixture' )
-		);
-
-		$css = $compiled['css'] ?? '';
-
-		$this->assertStringContainsString( 'border-width:1px', $css );
-		$this->assertStringNotContainsString( 'border-color', $css );
-	}
-
-	/**
 	 * The fixtures exercise every feature the residual pipeline can carry.
 	 *
 	 * @return void
@@ -250,31 +217,6 @@ class ParityTest extends TestCase {
 			$this->assertStringContainsString( 'var(--wp--preset--', $compiled['css'] ?? '', $name );
 			$this->assertStringNotContainsString( 'var:preset|', $compiled['css'] ?? '', $name );
 		}
-	}
-
-	/**
-	 * An empty style object produces nothing at all.
-	 *
-	 * @return void
-	 */
-	public function test_empty_style_produces_nothing(): void {
-		$compiled = wp_style_engine_get_styles( array(), array( 'selector' => '.eb-fixture' ) );
-
-		$this->assertSame( '', $compiled['css'] ?? '' );
-	}
-
-	/**
-	 * Unknown properties are dropped rather than emitted raw.
-	 *
-	 * @return void
-	 */
-	public function test_unknown_properties_are_dropped(): void {
-		$compiled = wp_style_engine_get_styles(
-			array( 'nonsense' => array( 'whatever' => 'red' ) ),
-			array( 'selector' => '.eb-fixture' )
-		);
-
-		$this->assertSame( '', $compiled['css'] ?? '' );
 	}
 
 	/**

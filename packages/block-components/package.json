@@ -45,7 +45,6 @@
 		"typecheck": "tsc -b --noEmit"
 	},
 	"peerDependencies": {
-		"@wordpress/api-fetch": "*",
 		"@wordpress/block-editor": "*",
 		"@wordpress/blocks": "*",
 		"@wordpress/components": "*",
@@ -54,7 +53,7 @@
 		"@wordpress/primitives": "*",
 		"react": "^18.0.0 || ^19.0.0",
 		"@wordpress/data": "*",
-		"@wordpress/editor": "*",
+		"@wordpress/core-data": "*",
 		"@wordpress/compose": "*",
 		"@wordpress/style-engine": "*",
 		"@wordpress/icons": "*"

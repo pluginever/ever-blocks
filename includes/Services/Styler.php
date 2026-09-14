@@ -26,23 +26,17 @@ final class Styler {
 	/**
 	 * Compiles every rule an instance needs beyond what core's block supports write.
 	 *
-	 * Walks the attribute in core's own order — viewport, then custom state, then
-	 * element, then pseudo-state — and only compiles the states and elements the
-	 * block declares in its `block.json`.
+	 * Selectors carry `&` where the instance selector goes; `apply()` fills it in.
 	 *
 	 * @since 2.0.0
 	 * @param array<string, mixed> $style      Block style attribute.
 	 * @param \WP_Block_Type       $block_type Registered block type.
-	 * @param array<int, mixed>    $extra      Rules a block or filter adds, of `declarations` and optionally a `selector` relative to the instance and a `query`.
 	 * @return array<int, array<string, mixed>> Rules of `selector`, `declarations`, `query` and `important`.
 	 */
-	public function compile( array $style, \WP_Block_Type $block_type, array $extra = array() ): array {
-		$name      = (string) $block_type->name;
-		$style_key = $this->get_namespace( $name );
-		$elements  = $this->get_elements( $block_type );
-		$states    = $this->get_states( $block_type );
-		$queries   = array_merge( array( '' => '' ), $this->get_media_queries() );
-		$css_rules = array();
+	public function compile( array $style, \WP_Block_Type $block_type ): array {
+		$declaration = $this->get_declaration( $block_type );
+		$queries     = array_merge( array( '' => '' ), \WP_Theme_JSON::get_viewport_media_queries( wp_get_global_settings( array( 'viewport' ) ) ) );
+		$css_rules   = array();
 
 		foreach ( $queries as $viewport => $query ) {
 			$scope = '' === $viewport ? $style : ( $style[ $viewport ] ?? null );
@@ -51,26 +45,13 @@ final class Styler {
 				continue;
 			}
 
-			$this->compile_scope( $css_rules, $scope, '', $block_type, $style_key, $elements, $states, $query );
+			$this->compile_scope( $css_rules, $scope, '', $block_type, $declaration, $query );
 
-			foreach ( $states as $state => $selector ) {
+			foreach ( array_keys( $declaration['states'] ) as $state ) {
 				if ( isset( $scope[ $state ] ) && is_array( $scope[ $state ] ) ) {
-					$this->compile_scope( $css_rules, $scope[ $state ], $state, $block_type, $style_key, $elements, $states, $query );
+					$this->compile_scope( $css_rules, $scope[ $state ], $state, $block_type, $declaration, $query );
 				}
 			}
-		}
-
-		foreach ( $extra as $rule ) {
-			if ( ! is_array( $rule ) || empty( $rule['declarations'] ) || ! is_array( $rule['declarations'] ) ) {
-				continue;
-			}
-
-			$css_rules[] = $this->rule(
-				$this->element_selector( isset( $rule['selector'] ) && is_string( $rule['selector'] ) ? $rule['selector'] : '' ),
-				$rule['declarations'],
-				isset( $rule['query'] ) && is_string( $rule['query'] ) ? $rule['query'] : '',
-				! empty( $rule['important'] )
-			);
 		}
 
 		return $css_rules;
@@ -79,10 +60,8 @@ final class Styler {
 	/**
 	 * Registers an instance's rules with the store and stamps its class on the wrapper.
 	 *
-	 * State declarations carry `!important` because they have to beat the inline
-	 * styles and preset utility classes core writes for the base state. The
-	 * selector is doubled so it outranks core's block-support CSS, which is
-	 * sorted after a plugin's overrides.
+	 * State declarations carry `!important` and the class is doubled, as core does
+	 * for its own state rules, to beat inline styles and preset classes.
 	 *
 	 * @since 2.0.0
 	 * @param string                           $content   Rendered block content.
@@ -108,14 +87,15 @@ final class Styler {
 			),
 			'eb-'
 		);
+		$stored    = array();
 
 		foreach ( $css_rules as $rule ) {
 			$declarations = is_array( $rule['declarations'] ) ? $rule['declarations'] : array();
-			$selector     = '.' . $classname . '.' . $classname . (string) $rule['selector'];
+			$selector     = str_replace( '&', '.' . $classname . '.' . $classname, (string) $rule['selector'] );
 			$query        = is_string( $rule['query'] ) ? $rule['query'] : '';
 
 			if ( empty( $rule['important'] ) ) {
-				$this->store_rule( $selector, $declarations, $query );
+				$stored[] = $this->stored_rule( $selector, $declarations, $query );
 
 				continue;
 			}
@@ -126,7 +106,7 @@ final class Styler {
 				$important->add_declaration( $property, $value, array( 'important' => true ) );
 			}
 
-			$this->store_rule( $selector, $important, $query );
+			$stored[] = $this->stored_rule( $selector, $important, $query );
 
 			$fallback = wp_get_state_declarations_with_fallback_border_styles( $declarations );
 
@@ -134,8 +114,18 @@ final class Styler {
 				unset( $fallback[ $property ] );
 			}
 
-			$this->store_rule( $selector, $fallback, $query );
+			if ( ! empty( $fallback ) ) {
+				$stored[] = $this->stored_rule( $selector, $fallback, $query );
+			}
 		}
+
+		wp_style_engine_get_stylesheet_from_css_rules(
+			$stored,
+			array(
+				'context'  => self::CONTEXT,
+				'prettify' => false,
+			)
+		);
 
 		$processor->add_class( $classname );
 
@@ -144,9 +134,6 @@ final class Styler {
 
 	/**
 	 * Returns the key inside `style` that holds a block's own values.
-	 *
-	 * Derived from the block's own namespace, which WordPress already keeps
-	 * unique per plugin, so the editor and the server cannot disagree about it.
 	 *
 	 * @since 2.0.0
 	 * @param string $name Block name.
@@ -174,10 +161,6 @@ final class Styler {
 
 	/**
 	 * Returns the custom property one of a block's own values is written to.
-	 *
-	 * The name is derived rather than mapped so the editor and the server cannot
-	 * disagree about it. Keys come from block attributes, so anything that is not
-	 * a plain identifier is refused before it reaches a declaration.
 	 *
 	 * @since 2.0.0
 	 * @param string $name    Block name.
@@ -213,59 +196,40 @@ final class Styler {
 	}
 
 	/**
-	 * Returns the elements a block declares, keyed by name.
+	 * Reads the elements and states a block declares in its `block.json`.
 	 *
-	 * Read from `supports.everBlocks.elements`. A string is the selector; an array
-	 * carries `selector` and the `states` the element accepts.
+	 * Elements come from `supports.everBlocks.elements` (a selector, or `selector`
+	 * plus the `states` it accepts); root pseudo-states from
+	 * `supports.everBlocks.states`; custom states from `selectors.states`.
 	 *
 	 * @since 2.0.0
 	 * @param \WP_Block_Type $block_type Registered block type.
-	 * @return array<string, array{selector: string, states: array<int, string>}> Elements.
+	 * @return array{elements: array<string, array{selector: string, states: array<int, string>}>, states: array<string, string>} Declaration.
 	 */
-	private function get_elements( \WP_Block_Type $block_type ): array {
-		$declared = $block_type->supports['everBlocks']['elements'] ?? null;
+	private function get_declaration( \WP_Block_Type $block_type ): array {
+		$supports = $block_type->supports['everBlocks'] ?? array();
+		$supports = is_array( $supports ) ? $supports : array();
 		$elements = array();
+		$states   = array();
 
-		if ( ! is_array( $declared ) ) {
-			return $elements;
-		}
-
-		foreach ( $declared as $element => $value ) {
-			if ( ! is_string( $element ) || ! preg_match( '/^[a-z][a-zA-Z0-9]*$/', $element ) ) {
-				continue;
-			}
-
+		foreach ( is_array( $supports['elements'] ?? null ) ? $supports['elements'] : array() as $element => $value ) {
 			$selector = is_array( $value ) ? ( $value['selector'] ?? '' ) : $value;
-			$states   = is_array( $value ) ? ( $value['states'] ?? array() ) : array();
+			$declared = is_array( $value ) ? ( $value['states'] ?? array() ) : array();
 
-			if ( ! is_string( $selector ) || '' === trim( $selector ) ) {
+			if (
+				! is_string( $element ) || ! preg_match( '/^[a-z][a-zA-Z0-9]*$/', $element ) || isset( \WP_Theme_JSON::ELEMENTS[ $element ] )
+				|| ! is_string( $selector ) || '' === trim( $selector ) || str_contains( $selector, ',' )
+			) {
 				continue;
 			}
 
 			$elements[ $element ] = array(
 				'selector' => trim( $selector ),
-				'states'   => array_values( array_filter( (array) $states, array( $this, 'is_pseudo_state' ) ) ),
+				'states'   => array_values( array_filter( is_array( $declared ) ? $declared : array(), array( $this, 'is_pseudo_state' ) ) ),
 			);
 		}
 
-		return $elements;
-	}
-
-	/**
-	 * Returns the root states a block declares, keyed by name.
-	 *
-	 * Pseudo-states come from `supports.everBlocks.states` and carry an empty
-	 * selector; custom states come from `selectors.states` with the selector core
-	 * expects there, e.g. `.eb-search-modal.is-open`.
-	 *
-	 * @since 2.0.0
-	 * @param \WP_Block_Type $block_type Registered block type.
-	 * @return array<string, string> Selector keyed by state.
-	 */
-	private function get_states( \WP_Block_Type $block_type ): array {
-		$states = array();
-
-		foreach ( (array) ( $block_type->supports['everBlocks']['states'] ?? array() ) as $state ) {
+		foreach ( is_array( $supports['states'] ?? null ) ? $supports['states'] : array() as $state ) {
 			if ( $this->is_pseudo_state( $state ) ) {
 				$states[ $state ] = '';
 			}
@@ -279,100 +243,9 @@ final class Styler {
 			}
 		}
 
-		return $states;
-	}
-
-	/**
-	 * Returns the part of a block-scoped selector that follows the instance selector.
-	 *
-	 * Mirrors `wp_build_state_selector()`: the leading class, id, tag or attribute
-	 * is the block's own root and is replaced by the instance selector, anything
-	 * after it is kept.
-	 *
-	 * @since 2.0.0
-	 * @param string $selector Selector from block metadata, e.g. `.wp-block-ever-blocks-icon svg`.
-	 * @return string Selector tail, e.g. ` svg`.
-	 */
-	private function scope_selector( string $selector ): string {
-		$selector = trim( $selector );
-
-		if ( '' === $selector ) {
-			return '';
-		}
-
-		if ( preg_match( '/^([.#]?[-_a-zA-Z0-9]+|\[[^\]]+\])/', $selector, $matches ) ) {
-			return substr( $selector, strlen( $matches[0] ) );
-		}
-
-		return $selector;
-	}
-
-	/**
-	 * Returns the part of an element selector that follows the instance selector.
-	 *
-	 * `&` stands for the instance itself; a selector starting with `:` attaches to
-	 * it; anything else is a descendant.
-	 *
-	 * @since 2.0.0
-	 * @param string $selector Element selector as declared, e.g. `&::backdrop` or `.eb-x__input`.
-	 * @return string Selector tail, e.g. `::backdrop` or ` .eb-x__input`.
-	 */
-	private function element_selector( string $selector ): string {
-		$selector = trim( $selector );
-
-		if ( '' === $selector ) {
-			return '';
-		}
-
-		if ( str_starts_with( $selector, '&' ) ) {
-			return substr( $selector, 1 );
-		}
-
-		if ( str_starts_with( $selector, ':' ) || str_starts_with( $selector, ' ' ) || str_starts_with( $selector, '>' ) ) {
-			return $selector;
-		}
-
-		return ' ' . $selector;
-	}
-
-	/**
-	 * Registers one rule with the plugin's store.
-	 *
-	 * @since 2.0.0
-	 * @param string                                                  $selector     Rule selector.
-	 * @param array<string, string>|\WP_Style_Engine_CSS_Declarations $declarations Declarations.
-	 * @param string                                                  $query        Optional media query.
-	 * @return void
-	 */
-	private function store_rule( string $selector, $declarations, string $query = '' ): void {
-		if ( '' === trim( $selector ) || empty( $declarations ) ) {
-			return;
-		}
-
-		wp_style_engine_get_stylesheet_from_css_rules(
-			array(
-				array(
-					'selector'     => $selector,
-					'declarations' => $declarations,
-					'rules_group'  => $query,
-				),
-			),
-			array(
-				'context'  => self::CONTEXT,
-				'prettify' => false,
-			)
-		);
-	}
-
-	/**
-	 * Returns the media queries for the theme's viewport breakpoints.
-	 *
-	 * @since 2.0.0
-	 * @return array<string, string> Media queries keyed by state name.
-	 */
-	private function get_media_queries(): array {
-		return \WP_Theme_JSON::get_viewport_media_queries(
-			wp_get_global_settings( array( 'viewport' ) )
+		return array(
+			'elements' => $elements,
+			'states'   => $states,
 		);
 	}
 
@@ -380,34 +253,33 @@ final class Styler {
 	 * Compiles one state's subtree: the root, then each declared element.
 	 *
 	 * @since 2.0.0
-	 * @param array<int, array<string, mixed>>                                   $css_rules  Rules gathered so far, appended to.
-	 * @param array<string, mixed>                                               $scope      Style subtree for this viewport and state.
-	 * @param string                                                             $state      Root state name, or empty for the default state.
-	 * @param \WP_Block_Type                                                     $block_type Registered block type.
-	 * @param string                                                             $style_key  Key holding the block's own values.
-	 * @param array<string, array{selector: string, states: array<int, string>}> $elements   Declared elements.
-	 * @param array<string, string>                                              $states     Declared root states.
-	 * @param string                                                             $query      Media query, or empty.
+	 * @param array<int, array<string, mixed>> $css_rules   Rules gathered so far, appended to.
+	 * @param array<string, mixed>             $scope       Style subtree for this viewport and state.
+	 * @param string                           $state       Root state name, or empty for the default state.
+	 * @param \WP_Block_Type                   $block_type  Registered block type.
+	 * @param array<string, mixed>             $declaration Declaration from `get_declaration()`.
+	 * @param string                           $query       Media query, or empty.
 	 * @return void
 	 */
-	private function compile_scope( array &$css_rules, array $scope, string $state, \WP_Block_Type $block_type, string $style_key, array $elements, array $states, string $query ): void {
+	private function compile_scope( array &$css_rules, array $scope, string $state, \WP_Block_Type $block_type, array $declaration, string $query ): void {
 		$name      = (string) $block_type->name;
+		$style_key = $this->get_namespace( $name );
 		$is_pseudo = $this->is_pseudo_state( $state );
-		$selector  = $is_pseudo ? $state : $this->scope_selector( $states[ $state ] ?? '' );
+		$base      = $is_pseudo ? '&' . $state : wp_build_state_selector( '&', $declaration['states'][ $state ] ?? '', '' );
 		$vars      = $this->get_custom_property_declarations( $scope[ $style_key ] ?? null, $name );
 
 		if ( ! empty( $vars ) ) {
-			$css_rules[] = $this->rule( $selector, $vars, $query, false );
+			$css_rules[] = $this->rule( $base, $vars, $query );
 		}
 
 		if ( '' !== $state ) {
-			$node = wp_get_root_state_style( $scope, array_merge( array( 'elements', $style_key ), array_keys( $states ) ) );
+			$node = wp_get_root_state_style( $scope, array_merge( array( 'elements', $style_key ), array_keys( $declaration['states'] ) ) );
 
 			foreach ( wp_get_block_state_style_rules( array( $state => $node ), $block_type, $query ) as $rule ) {
-				$tail = $this->scope_selector( (string) ( $rule['selector'] ?? '' ) );
+				$feature = (string) ( $rule['selector'] ?? '' );
 
 				$css_rules[] = $this->rule(
-					$is_pseudo ? $tail . $state : $selector . $tail,
+					$is_pseudo ? wp_build_state_selector( '&', $feature, $state ) : $this->scope( $base, wp_build_state_selector( '&', $feature, '' ) ),
 					(array) ( $rule['declarations'] ?? array() ),
 					$query,
 					true
@@ -419,20 +291,20 @@ final class Styler {
 			return;
 		}
 
-		foreach ( $elements as $element => $declaration ) {
+		foreach ( $declaration['elements'] as $element => $declared ) {
 			$node = $scope['elements'][ $element ] ?? null;
 
 			if ( ! is_array( $node ) || empty( $node ) ) {
 				continue;
 			}
 
-			$base = $selector . $this->element_selector( $declaration['selector'] );
+			$selector = $this->scope( $base, $this->element_selector( $declared['selector'] ) );
 
-			$this->compile_element( $css_rules, $node, $base, '', $name, $style_key, $element, $declaration['states'], $query );
+			$this->compile_element( $css_rules, $node, $selector, '', $name, $element, $declared['states'], $query );
 
-			foreach ( $declaration['states'] as $pseudo ) {
+			foreach ( $declared['states'] as $pseudo ) {
 				if ( isset( $node[ $pseudo ] ) && is_array( $node[ $pseudo ] ) ) {
-					$this->compile_element( $css_rules, $node[ $pseudo ], $base . $pseudo, $pseudo, $name, $style_key, $element, $declaration['states'], $query );
+					$this->compile_element( $css_rules, $node[ $pseudo ], $this->scope( $selector, '&' . $pseudo ), $pseudo, $name, $element, $declared['states'], $query );
 				}
 			}
 		}
@@ -444,46 +316,107 @@ final class Styler {
 	 * @since 2.0.0
 	 * @param array<int, array<string, mixed>> $css_rules Rules gathered so far, appended to.
 	 * @param array<string, mixed>             $node      Style subtree for the element at this state.
-	 * @param string                           $selector  Selector tail for the element at this state.
+	 * @param string                           $selector  Selector for the element at this state.
 	 * @param string                           $pseudo    Element pseudo-state, or empty.
 	 * @param string                           $name      Block name.
-	 * @param string                           $style_key Key holding the block's own values.
 	 * @param string                           $element   Element name.
 	 * @param array<int, string>               $states    Pseudo-states the element accepts.
 	 * @param string                           $query     Media query, or empty.
 	 * @return void
 	 */
-	private function compile_element( array &$css_rules, array $node, string $selector, string $pseudo, string $name, string $style_key, string $element, array $states, string $query ): void {
-		$vars = $this->get_custom_property_declarations( $node[ $style_key ] ?? null, $name, $element );
+	private function compile_element( array &$css_rules, array $node, string $selector, string $pseudo, string $name, string $element, array $states, string $query ): void {
+		$style_key = $this->get_namespace( $name );
+		$vars      = $this->get_custom_property_declarations( $node[ $style_key ] ?? null, $name, $element );
 
 		if ( ! empty( $vars ) ) {
-			$css_rules[] = $this->rule( $selector, $vars, $query, false );
+			$css_rules[] = $this->rule( $selector, $vars, $query );
 		}
 
 		$features = wp_get_root_state_style( $node, array_merge( array( $style_key ), '' === $pseudo ? $states : array() ) );
 		$compiled = wp_style_engine_get_styles( wp_normalize_state_style_for_css_output( $features ) );
 
 		if ( ! empty( $compiled['declarations'] ) ) {
-			$css_rules[] = $this->rule( $selector, $compiled['declarations'], $query, false );
+			$css_rules[] = $this->rule( $selector, $compiled['declarations'], $query );
 		}
 	}
 
 	/**
-	 * Builds one normalized rule.
+	 * Nests one `&` selector list inside another.
 	 *
 	 * @since 2.0.0
-	 * @param string                $selector     Selector tail.
+	 * @param string $outer Selector list the inner one attaches to, e.g. `&.is-open, &[open]`.
+	 * @param string $inner Selector list with `&` standing for the outer one, e.g. `& .input`.
+	 * @return string Selector list, e.g. `&.is-open .input, &[open] .input`.
+	 */
+	private function scope( string $outer, string $inner ): string {
+		$selectors = array();
+
+		foreach ( wp_split_selector_list( $outer ) as $outer_selector ) {
+			foreach ( wp_split_selector_list( $inner ) as $inner_selector ) {
+				$selectors[] = str_replace( '&', trim( $outer_selector ), trim( $inner_selector ) );
+			}
+		}
+
+		return implode( ', ', $selectors );
+	}
+
+	/**
+	 * Returns an element selector as a `&` selector relative to the instance.
+	 *
+	 * `&` stands for the instance itself; a selector starting with `:` or `>`
+	 * attaches to it; anything else is a descendant.
+	 *
+	 * @since 2.0.0
+	 * @param string $selector Element selector as declared, e.g. `&::backdrop` or `.eb-x__input`.
+	 * @return string Selector, e.g. `&::backdrop` or `& .eb-x__input`.
+	 */
+	private function element_selector( string $selector ): string {
+		$selector = trim( $selector );
+
+		if ( str_starts_with( $selector, '&' ) ) {
+			return $selector;
+		}
+
+		if ( str_starts_with( $selector, ':' ) || str_starts_with( $selector, '>' ) ) {
+			return '&' . $selector;
+		}
+
+		return '& ' . $selector;
+	}
+
+	/**
+	 * Builds one compiled rule.
+	 *
+	 * @since 2.0.0
+	 * @param string                $selector     Selector with `&` for the instance.
 	 * @param array<string, string> $declarations Declarations.
 	 * @param string                $query        Media query, or empty.
 	 * @param bool                  $important    Whether the declarations must beat inline styles.
 	 * @return array<string, mixed> Rule.
 	 */
-	private function rule( string $selector, array $declarations, string $query, bool $important ): array {
+	private function rule( string $selector, array $declarations, string $query, bool $important = false ): array {
 		return array(
 			'selector'     => $selector,
 			'declarations' => $declarations,
 			'query'        => $query,
 			'important'    => $important,
+		);
+	}
+
+	/**
+	 * Builds one rule in the shape the style engine store takes.
+	 *
+	 * @since 2.0.0
+	 * @param string                                                  $selector     Selector.
+	 * @param array<string, string>|\WP_Style_Engine_CSS_Declarations $declarations Declarations.
+	 * @param string                                                  $query        Media query, or empty.
+	 * @return array{selector: string, declarations: array<string, string>|\WP_Style_Engine_CSS_Declarations, rules_group: string} Rule.
+	 */
+	private function stored_rule( string $selector, $declarations, string $query ): array {
+		return array(
+			'selector'     => $selector,
+			'declarations' => $declarations,
+			'rules_group'  => $query,
 		);
 	}
 
@@ -515,7 +448,7 @@ final class Styler {
 		$declarations = array();
 
 		foreach ( $values as $key => $value ) {
-			if ( null === $value || '' === $value || is_array( $value ) ) {
+			if ( ( ! is_string( $value ) && ! is_int( $value ) && ! is_float( $value ) ) || '' === $value ) {
 				continue;
 			}
 
@@ -525,7 +458,13 @@ final class Styler {
 				continue;
 			}
 
-			$declarations[ $property ] = (string) wp_normalize_state_preset_vars( (string) $value );
+			$value = (string) $value;
+
+			if ( str_starts_with( $value, 'var:' ) ) {
+				$value = 'var(--wp--' . implode( '--', array_map( '_wp_to_kebab_case', explode( '|', substr( $value, 4 ) ) ) ) . ')';
+			}
+
+			$declarations[ $property ] = $value;
 		}
 
 		return $declarations;

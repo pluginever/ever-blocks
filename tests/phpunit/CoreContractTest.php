@@ -22,8 +22,8 @@ class CoreContractTest extends TestCase {
 			array(
 				'wp_get_block_state_style_rules',
 				'wp_build_state_selector',
+				'wp_split_selector_list',
 				'wp_get_root_state_style',
-				'wp_normalize_state_preset_vars',
 				'wp_normalize_state_style_for_css_output',
 				'wp_get_state_declarations_with_background_resets',
 				'wp_get_state_declarations_with_fallback_border_styles',
@@ -33,8 +33,7 @@ class CoreContractTest extends TestCase {
 				'wp_unique_id_from_values',
 				'wp_register_block_metadata_collection',
 				'wp_get_icon',
-				'render_block_core_icon',
-				'wp_hoist_late_printed_styles',
+				'_wp_to_kebab_case',
 			)
 		);
 	}
@@ -51,17 +50,25 @@ class CoreContractTest extends TestCase {
 	}
 
 	/**
-	 * The constants that define what core does not do for third-party blocks.
-	 *
-	 * When one of these starts listing our blocks, or gains a filter, the
-	 * engine's state switcher can be retired — this test is the reminder.
+	 * The `WP_Theme_JSON` members the engine reads, on a class core marks private.
 	 *
 	 * @return void
 	 */
-	public function test_core_state_allow_lists_are_still_closed(): void {
-		$this->assertSame( array( 'core/button', 'core/navigation-link' ), array_keys( \WP_Theme_JSON::VALID_BLOCK_PSEUDO_SELECTORS ) );
-		$this->assertSame( array( 'core/navigation-link' ), array_keys( \WP_Theme_JSON::VALID_BLOCK_CUSTOM_STATES ) );
-		$this->assertSame( array( 'mobile' => '480px', 'tablet' => '782px' ), \WP_Theme_JSON::DEFAULT_VIEWPORT_BREAKPOINTS );
+	public function test_theme_json_members_exist(): void {
+		$this->assertTrue( method_exists( 'WP_Theme_JSON', 'get_viewport_media_queries' ) );
+		$this->assertTrue( defined( 'WP_Theme_JSON::ELEMENTS' ) );
+		$this->assertArrayHasKey( 'button', \WP_Theme_JSON::ELEMENTS );
+	}
+
+	/**
+	 * Core still compiles no pseudo-states for third-party blocks; the day it
+	 * does, the engine's state switch can retire.
+	 *
+	 * @return void
+	 */
+	public function test_core_state_allow_lists_exclude_third_party_blocks(): void {
+		$this->assertArrayNotHasKey( 'ever-blocks/search-modal', \WP_Theme_JSON::VALID_BLOCK_PSEUDO_SELECTORS );
+		$this->assertArrayNotHasKey( 'ever-blocks/search-modal', \WP_Theme_JSON::VALID_BLOCK_CUSTOM_STATES );
 	}
 
 	/**

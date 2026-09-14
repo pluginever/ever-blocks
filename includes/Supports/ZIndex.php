@@ -1,19 +1,19 @@
 <?php
 
-namespace EverBlocks\Extensions;
+namespace EverBlocks\Supports;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Stacking order control.
+ * Stacking order support.
  *
  * @since   2.0.0
  * @package EverBlocks
  */
-class ZIndex extends Extension {
+class ZIndex extends Support {
 
 	/**
-	 * Extension slug.
+	 * Support slug.
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -21,7 +21,7 @@ class ZIndex extends Extension {
 	protected string $name = 'z-index';
 
 	/**
-	 * Attribute this extension reads from a block.
+	 * Attribute this support reads from a block.
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -30,6 +30,9 @@ class ZIndex extends Extension {
 
 	/**
 	 * Applies the stacking order to a block's outermost tag.
+	 *
+	 * A static element ignores `z-index`, so the block is positioned unless
+	 * core's position support already positions it.
 	 *
 	 * @since 2.0.0
 	 * @param \WP_HTML_Tag_Processor $processor Positioned on the outermost tag.
@@ -46,7 +49,10 @@ class ZIndex extends Extension {
 		$style = is_string( $style ) ? rtrim( trim( $style ), ';' ) : '';
 		$style = '' === $style ? '' : $style . ';';
 
+		if ( empty( $block['attrs']['style']['position']['type'] ) ) {
+			$style .= 'position:relative;';
+		}
+
 		$processor->set_attribute( 'style', $style . 'z-index:' . (int) $value . ';' );
-		$processor->add_class( 'eb-has-z-index' );
 	}
 }
