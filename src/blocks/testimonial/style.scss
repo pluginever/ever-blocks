@@ -93,8 +93,6 @@
 	}
 
 	&--side {
-		flex-direction: row;
-		align-items: flex-start;
 
 		.eb-testimonial__rating {
 			order: 2;
@@ -128,6 +126,7 @@
 		@media (width > 480px) {
 			display: grid;
 			grid-template-columns: auto minmax(0, 1fr);
+			align-items: flex-start;
 			column-gap: var(--eb-spacing-sm);
 
 			.eb-testimonial__avatar {
@@ -168,7 +167,8 @@
 		border-left: 2px solid var(--eb-color-border);
 		border-radius: 0;
 
-		&.eb-testimonial--centered {
+		&.eb-testimonial--centered,
+		&.eb-testimonial--side {
 			padding: 0;
 			border: 0;
 		}
