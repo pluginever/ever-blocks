@@ -2,10 +2,13 @@ import {
 	BlockControls,
 	InspectorControls,
 	RichText,
+	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import {
 	IconDisplay,
@@ -43,7 +46,19 @@ const ICON_SIZE = ( label ) => ( {
 	max: 96,
 } );
 
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit( {
+	attributes,
+	setAttributes,
+	clientId,
+	isSelected,
+} ) {
+	const [ pinned, setPinned ] = useState( false );
+	const hasSelectedChild = useSelect(
+		( select ) =>
+			select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
+		[ clientId ]
+	);
+	const showDialog = pinned || isSelected || hasSelectedChild;
 	const {
 		placeholder,
 		triggerLabel,
@@ -66,6 +81,12 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		<>
 			<BlockControls group="block">
 				<ToolbarGroup>
+					<ToolbarButton
+						isPressed={ pinned }
+						onClick={ () => setPinned( ! pinned ) }
+					>
+						{ __( 'Dialog', 'ever-blocks' ) }
+					</ToolbarButton>
 					<IconPicker
 						value={ triggerIcon }
 						onSelect={ ( next ) =>
@@ -258,6 +279,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<div
 					className="eb-search-modal__preview"
 					data-label={ __( 'Dialog contents', 'ever-blocks' ) }
+					hidden={ ! showDialog }
 				>
 					<div className="eb-search-modal__dialog">
 						<span

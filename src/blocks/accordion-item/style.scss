@@ -1,0 +1,89 @@
+.eb-accordion-item {
+	border-bottom: 1px solid color-mix(in srgb, currentcolor 15%, transparent);
+	interpolate-size: allow-keywords;
+
+	&__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--wp--preset--spacing--30, 1rem);
+		padding: var(--wp--preset--spacing--40, 1.5rem) 0;
+		cursor: pointer;
+		list-style: none;
+		transition: color 150ms ease, background-color 150ms ease;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid currentcolor;
+			outline-offset: 2px;
+		}
+	}
+
+	&__title {
+		margin: 0;
+		font-size: var(--ever-blocks-accordion-item-title-font-size, var(--wp--preset--font-size--medium, 1.125rem));
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	&__icon {
+		display: inline-flex;
+		flex: none;
+		line-height: 0;
+		transition: rotate 200ms ease;
+
+		svg {
+			display: block;
+			width: var(--ever-blocks-accordion-item-icon-size, var(--wp--custom--ever-blocks--accordion-item--icon-size, 1.25em));
+			height: auto;
+			fill: currentcolor;
+		}
+
+		&--open {
+			display: none;
+		}
+	}
+
+	&[open] > &__summary &__icon--closed {
+		rotate: 180deg;
+	}
+
+	&.has-open-icon[open] > &__summary &__icon--closed {
+		display: none;
+		rotate: none;
+	}
+
+	&.has-open-icon[open] > &__summary &__icon--open {
+		display: inline-flex;
+	}
+
+	&__panel {
+		padding-bottom: var(--wp--preset--spacing--40, 1.5rem);
+	}
+
+	&::details-content {
+		height: 0;
+		overflow: hidden;
+		transition: height 200ms ease, content-visibility 200ms allow-discrete;
+	}
+
+	&[open]::details-content {
+		height: auto;
+	}
+}
+
+.eb-accordion--icon-left .eb-accordion-item__summary {
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.eb-accordion-item::details-content,
+	.eb-accordion-item__icon {
+		transition: none;
+	}
+}

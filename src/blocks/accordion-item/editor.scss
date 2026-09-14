@@ -1,0 +1,36 @@
+.eb-accordion-item {
+
+	&__summary {
+		width: 100%;
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		text-align: start;
+	}
+
+	&__title {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&:not([open]) > .eb-accordion-item__panel {
+		display: none;
+	}
+}
+
+.eb-accordion-item__toggle {
+	display: inline-flex;
+	flex: none;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	line-height: 0;
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+}
