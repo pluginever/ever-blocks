@@ -1,19 +1,14 @@
 /**
  * WordPress dependencies
  */
-import { SelectControl } from '@wordpress/components';
-import { __, _x } from '@wordpress/i18n';
-import { desktop, mobile, tablet } from '@wordpress/icons';
+import { DropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
+import { __, _x, sprintf } from '@wordpress/i18n';
+import { check, chevronDown, desktop, mobile, tablet } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
-import {
-	HStack,
-	ToggleGroupControl,
-	ToggleGroupControlOption,
-	ToggleGroupControlOptionIcon,
-} from '../../experimental';
+import { HStack } from '../../experimental';
 import type { Pseudo, Viewport } from '../../types';
 import './editor.scss';
 
@@ -72,6 +67,9 @@ export function getStateLabel( state: string ): string {
 /**
  * Chooses the viewport and state every style panel below it writes to.
  *
+ * Mirrors the States menu core shows for Global Styles: one compact dropdown
+ * with a group per axis, and badges naming whatever is not the default.
+ *
  * @since 0.1.0
  * @param props                  Component props.
  * @param props.states           State names the block declares.
@@ -88,66 +86,79 @@ export function StateControl( {
 	viewport,
 	onViewportChange,
 }: Props ) {
-	const options = [ 'default', ...states ];
+	const active = [
+		...VIEWPORTS.filter(
+			( option ) => option.value === viewport && 'default' !== viewport
+		).map( ( option ) => option.label ),
+		...( 'default' !== value ? [ getStateLabel( value ) ] : [] ),
+	];
 
 	return (
-		<HStack className="b8-state-control" spacing={ 2 } alignment="center">
-			<ToggleGroupControl
-				__nextHasNoMarginBottom
-				__next40pxDefaultSize
-				hideLabelFromVision
-				label={ __( 'Viewport', 'ever-blocks' ) }
-				value={ viewport }
-				onChange={ ( next: unknown ) =>
-					onViewportChange( ( next ?? 'default' ) as Viewport )
-				}
+		<HStack
+			className="b8-state-control"
+			spacing={ 2 }
+			alignment="center"
+			justify="space-between"
+		>
+			<span className="b8-state-control__label">
+				{ active.length
+					? sprintf(
+							// translators: %s: comma separated viewport and state, e.g. "Mobile, Hover".
+							__( 'Styling: %s', 'ever-blocks' ),
+							active.join( ', ' )
+					  )
+					: __( 'Styling: Default', 'ever-blocks' ) }
+			</span>
+
+			<DropdownMenu
+				icon={ chevronDown }
+				text={ __( 'States', 'ever-blocks' ) }
+				label={ __(
+					'Choose the viewport and state to style',
+					'ever-blocks'
+				) }
+				toggleProps={ { size: 'compact', iconPosition: 'right' } }
+				popoverProps={ { placement: 'bottom-end' } }
 			>
-				{ VIEWPORTS.map( ( option ) => (
-					<ToggleGroupControlOptionIcon
-						key={ option.value }
-						value={ option.value }
-						label={ option.label }
-						icon={ option.icon }
-					/>
-				) ) }
-			</ToggleGroupControl>
-
-			{ states.length > 0 && options.length <= 3 && (
-				<ToggleGroupControl
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-					isBlock
-					hideLabelFromVision
-					label={ __( 'State', 'ever-blocks' ) }
-					value={ value }
-					onChange={ ( next: unknown ) =>
-						onChange( ( next ?? 'default' ) as Pseudo )
-					}
-				>
-					{ options.map( ( state ) => (
-						<ToggleGroupControlOption
-							key={ state }
-							value={ state }
-							label={ getStateLabel( state ) }
-						/>
-					) ) }
-				</ToggleGroupControl>
-			) }
-
-			{ states.length > 0 && options.length > 3 && (
-				<SelectControl
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-					hideLabelFromVision
-					label={ __( 'State', 'ever-blocks' ) }
-					value={ value }
-					options={ options.map( ( state ) => ( {
-						value: state,
-						label: getStateLabel( state ),
-					} ) ) }
-					onChange={ ( next: string ) => onChange( next as Pseudo ) }
-				/>
-			) }
+				{ () => (
+					<>
+						<MenuGroup label={ __( 'Viewport', 'ever-blocks' ) }>
+							{ VIEWPORTS.map( ( option ) => (
+								<MenuItem
+									key={ option.value }
+									icon={
+										viewport === option.value
+											? check
+											: option.icon
+									}
+									isSelected={ viewport === option.value }
+									onClick={ () =>
+										onViewportChange( option.value )
+									}
+								>
+									{ option.label }
+								</MenuItem>
+							) ) }
+						</MenuGroup>
+						{ states.length > 0 && (
+							<MenuGroup label={ __( 'State', 'ever-blocks' ) }>
+								{ [ 'default', ...states ].map( ( state ) => (
+									<MenuItem
+										key={ state }
+										icon={ value === state ? check : null }
+										isSelected={ value === state }
+										onClick={ () =>
+											onChange( state as Pseudo )
+										}
+									>
+										{ getStateLabel( state ) }
+									</MenuItem>
+								) ) }
+							</MenuGroup>
+						) }
+					</>
+				) }
+			</DropdownMenu>
 		</HStack>
 	);
 }

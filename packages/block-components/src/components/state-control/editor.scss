@@ -1,13 +1,9 @@
 .b8-state-control {
-	padding: 16px;
+	padding: 8px 16px;
 	border-bottom: 1px solid #e0e0e0;
 
-	> * {
-		flex: 1;
-		min-width: 0;
-	}
-
-	> :first-child {
-		flex: none;
+	&__label {
+		font-size: 12px;
+		color: #757575;
 	}
 }
