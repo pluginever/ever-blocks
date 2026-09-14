@@ -42,6 +42,7 @@ export function Item( {
 
 	return (
 		<ToolsPanelItem
+			className="b8-style-item"
 			label={ label }
 			panelId={ panelId }
 			hasValue={ hasValue }

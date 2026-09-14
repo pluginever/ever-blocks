@@ -37,17 +37,21 @@ export function useIcon( name?: string ): Icon | undefined {
  * so rotating it swings the icon across the block instead of turning in place.
  *
  * @since 0.1.0
- * @param content   Raw SVG markup.
- * @param size      Width and height in pixels.
- * @param label     Accessible label. Omit for a decorative icon.
- * @param transform Rotation and flips.
+ * @param content       Raw SVG markup.
+ * @param size          Width and height in pixels.
+ * @param label         Accessible label. Omit for a decorative icon.
+ * @param transform     Rotation and flips.
+ * @param iconClassName Classes for the SVG element.
+ * @param iconStyle     Inline declarations for the SVG element.
  * @return Prepared SVG markup.
  */
 function prepare(
 	content: string,
 	size: number,
 	label?: string,
-	transform: IconTransform = {}
+	transform: IconTransform = {},
+	iconClassName = '',
+	iconStyle: Record< string, unknown > = {}
 ): string {
 	const document = new window.DOMParser().parseFromString(
 		content,
@@ -62,12 +66,31 @@ function prepare(
 	svg.setAttribute( 'width', String( size ) );
 	svg.setAttribute( 'height', String( size ) );
 
-	const style = Object.entries( getIconTransform( transform ) )
-		.map( ( [ property, value ] ) => `${ property }:${ value }` )
+	const style = Object.entries( {
+		...iconStyle,
+		...getIconTransform( transform ),
+	} )
+		.filter( ( [ , value ] ) => undefined !== value && null !== value )
+		.map(
+			( [ property, value ] ) =>
+				`${ property.replace(
+					/[A-Z]/g,
+					( letter ) => `-${ letter.toLowerCase() }`
+				) }:${ value }`
+		)
 		.join( ';' );
 
 	if ( style ) {
 		svg.setAttribute( 'style', style );
+	}
+
+	if ( iconClassName ) {
+		svg.setAttribute(
+			'class',
+			[ svg.getAttribute( 'class' ), iconClassName ]
+				.filter( Boolean )
+				.join( ' ' )
+		);
 	}
 
 	if ( label ) {
@@ -90,6 +113,10 @@ interface Props extends IconTransform {
 	/** Accessible label. Omit for a decorative icon. */
 	label?: string;
 	className?: string;
+	/** Classes for the SVG itself, e.g. from block support props. */
+	iconClassName?: string;
+	/** Inline declarations for the SVG itself, e.g. from block support props. */
+	iconStyle?: Record< string, unknown >;
 }
 
 /**
@@ -104,6 +131,8 @@ interface Props extends IconTransform {
  * @param props.size
  * @param props.label
  * @param props.className
+ * @param props.iconClassName
+ * @param props.iconStyle
  * @param props.rotation
  * @param props.flipHorizontal
  * @param props.flipVertical
@@ -114,21 +143,37 @@ export function IconDisplay( {
 	size = 24,
 	label,
 	className,
+	iconClassName = '',
+	iconStyle,
 	rotation,
 	flipHorizontal,
 	flipVertical,
 }: Props ) {
 	const icon = useIcon( name );
+	const iconStyleKey = JSON.stringify( iconStyle ?? {} );
 	const markup = useMemo(
 		() =>
 			icon
-				? prepare( icon.content, size, label, {
-						rotation,
-						flipHorizontal,
-						flipVertical,
-				  } )
+				? prepare(
+						icon.content,
+						size,
+						label,
+						{ rotation, flipHorizontal, flipVertical },
+						iconClassName,
+						iconStyle
+				  )
 				: '',
-		[ icon, size, label, rotation, flipHorizontal, flipVertical ]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[
+			icon,
+			size,
+			label,
+			rotation,
+			flipHorizontal,
+			flipVertical,
+			iconClassName,
+			iconStyleKey,
+		]
 	);
 
 	if ( ! markup ) {

@@ -11,8 +11,12 @@ import {
 	IconPanel,
 	IconPicker,
 	StylePanels,
+	getDimensionsClassesAndStyles,
+	getSpacingClassesAndStyles,
 	nextRotation,
 	useBlockStyles,
+	useBorderProps,
+	useColorProps,
 } from '@byteever/block-components';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -23,6 +27,27 @@ export default function Edit( { attributes, setAttributes } ) {
 		flipVertical: flipV,
 	} = attributes;
 	const blockProps = useBlockProps();
+	const colorProps = useColorProps( attributes );
+	const borderProps = useBorderProps( attributes );
+	// Padding lands on the SVG and margin on the wrapper, as the server renders.
+	const spacingProps = getSpacingClassesAndStyles( {
+		style: { spacing: { padding: attributes.style?.spacing?.padding } },
+	} );
+	const dimensionsProps = getDimensionsClassesAndStyles( attributes );
+	const iconClassName = [
+		colorProps.className,
+		borderProps.className,
+		spacingProps.className,
+		dimensionsProps.className,
+	]
+		.filter( Boolean )
+		.join( ' ' );
+	const iconStyle = {
+		...colorProps.style,
+		...borderProps.style,
+		...spacingProps.style,
+		...dimensionsProps.style,
+	};
 
 	useBlockStyles( attributes );
 
@@ -109,6 +134,8 @@ export default function Edit( { attributes, setAttributes } ) {
 				{ icon ? (
 					<IconDisplay
 						name={ icon }
+						iconClassName={ iconClassName }
+						iconStyle={ iconStyle }
 						rotation={ rotation }
 						flipHorizontal={ flipH }
 						flipVertical={ flipV }

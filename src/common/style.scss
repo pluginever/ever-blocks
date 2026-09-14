@@ -1,6 +1,7 @@
-// Shared by every block that declares the `ever-blocks-common` style handle in its
-// block.json. Core loads it when such a block renders — including inside template
-// parts and synced patterns, which a post-content scan would miss.
+// Shared by every block that declares the `ever-blocks-common` style handle
+// in its block.json. Core loads it when such a block renders — including
+// inside template parts and synced patterns, which a post-content scan would
+// miss.
 
 .eb-visually-hidden {
 	position: absolute;

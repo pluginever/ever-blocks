@@ -30,4 +30,8 @@ export {
 	__experimentalTextDecorationControl as TextDecorationControl,
 	__experimentalTextTransformControl as TextTransformControl,
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+	__experimentalUseColorProps as useColorProps,
+	__experimentalUseBorderProps as useBorderProps,
+	__experimentalGetSpacingClassesAndStyles as getSpacingClassesAndStyles,
+	__experimentalGetDimensionsClassesAndStyles as getDimensionsClassesAndStyles,
 } from '@wordpress/block-editor';
