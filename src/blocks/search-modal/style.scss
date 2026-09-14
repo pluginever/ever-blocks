@@ -35,8 +35,9 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid currentcolor;
+			outline: var(--eb-focus-ring);
 			outline-offset: 2px;
+			border-radius: 2px;
 		}
 	}
 
@@ -96,8 +97,9 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid currentcolor;
+			outline: var(--eb-focus-ring);
 			outline-offset: 2px;
+			border-radius: 2px;
 		}
 	}
 
@@ -161,8 +163,9 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid currentcolor;
+			outline: var(--eb-focus-ring);
 			outline-offset: 2px;
+			border-radius: 2px;
 		}
 	}
 

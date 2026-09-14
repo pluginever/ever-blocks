@@ -17,8 +17,9 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid currentcolor;
-			outline-offset: 2px;
+			outline: var(--eb-focus-ring);
+			outline-offset: -2px;
+			border-radius: 2px;
 		}
 	}
 

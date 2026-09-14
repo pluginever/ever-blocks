@@ -28,6 +28,7 @@
 	--eb-border-color: var(--wp--custom--ever-blocks--border-color, color-mix(in srgb, currentcolor 15%, transparent));
 	--eb-radius: var(--wp--custom--ever-blocks--radius, 0px);
 	--eb-muted: var(--wp--custom--ever-blocks--muted, color-mix(in srgb, currentcolor 60%, transparent));
+	--eb-focus-ring: var(--wp--custom--ever-blocks--focus-ring, 2px solid color-mix(in srgb, currentcolor 45%, transparent));
 	--eb-duration: var(--wp--custom--ever-blocks--duration, 0.2s);
 	--eb-easing: var(--wp--custom--ever-blocks--easing, cubic-bezier(0.4, 0, 0.2, 1));
 }
