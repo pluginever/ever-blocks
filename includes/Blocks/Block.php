@@ -67,7 +67,7 @@ abstract class Block {
 	 * @return array<int, array<string, mixed>> Rules.
 	 */
 	public function style( array $rules, array $attributes ): array {
-		return array_merge( $rules, $this->styles( $attributes ) );
+		return array_merge( $rules, $this->css( $attributes ) );
 	}
 
 	/**
@@ -84,13 +84,13 @@ abstract class Block {
 	}
 
 	/**
-	 * Returns the CSS rules an instance needs beyond what the block supports write.
+	 * Returns the CSS an instance needs beyond what the block supports write.
 	 *
 	 * @since 2.0.0
 	 * @param array<string, mixed> $attributes Block attributes.
 	 * @return array<int, array<string, mixed>> Rules of `declarations`, and optionally a `selector` relative to the instance and a `query`.
 	 */
-	protected function styles( array $attributes ): array {
+	protected function css( array $attributes ): array {
 		return array();
 	}
 

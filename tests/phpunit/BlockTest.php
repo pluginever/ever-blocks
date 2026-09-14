@@ -73,7 +73,7 @@ class BlockTest extends TestCase {
 	}
 
 	/**
-	 * Overriding `styles()` contributes rules through this block's own filter, and no other block's.
+	 * Overriding `css()` contributes rules through this block's own filter, and no other block's.
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class BlockTest extends TestCase {
 		$block = new class() extends Block {
 			public string $name = 'ever-blocks/plain';
 
-			protected function styles( array $attributes ): array {
+			protected function css( array $attributes ): array {
 				return array( array( 'declarations' => array( 'grid-auto-rows' => '1fr' ) ) );
 			}
 		};
