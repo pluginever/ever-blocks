@@ -1,8 +1,10 @@
 .eb-rating {
+	--size: var(--ever-blocks-rating-size, var(--eb-icon-size));
+
 	display: flex;
 	align-items: center;
-	gap: var(--eb-spacing-2xs);
-	line-height: var(--eb-line-height-normal);
+	gap: calc(var(--size) * 0.4);
+	line-height: 1;
 
 	&.has-text-align-center {
 		justify-content: center;
@@ -21,14 +23,14 @@
 	&__empty,
 	&__filled {
 		display: inline-flex;
-		gap: var(--ever-blocks-rating-gap, calc(var(--eb-spacing-2xs) / 2));
+		gap: var(--ever-blocks-rating-gap, calc(var(--size) * 0.1));
 		white-space: nowrap;
 
 		svg {
 			display: block;
 			flex: none;
-			width: var(--ever-blocks-rating-size, var(--eb-icon-size));
-			height: var(--ever-blocks-rating-size, var(--eb-icon-size));
+			width: var(--size);
+			height: var(--size);
 			fill: currentcolor;
 		}
 	}
@@ -45,7 +47,8 @@
 	}
 
 	&__label {
-		font-size: var(--eb-font-size);
+		font-size: calc(var(--size) * 0.8);
+		font-weight: var(--eb-font-weight-medium);
 		color: var(--eb-color-muted);
 	}
 }

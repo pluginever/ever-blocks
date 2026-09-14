@@ -23,7 +23,7 @@
 		},
 		"icon": {
 			"type": "string",
-			"default": "core/star-filled"
+			"default": "heroicons/star"
 		},
 		"showLabel": {
 			"type": "boolean",

@@ -32,7 +32,7 @@ class Rating extends Block {
 		$max   = min( 10, max( 1, (int) ( $attributes['max'] ?? 5 ) ) );
 		$value = (float) min( $max, max( 0, (float) ( $attributes['value'] ?? $max ) ) );
 		$icon  = is_string( $attributes['icon'] ?? null ) ? (string) wp_get_icon( $attributes['icon'], array( 'size' => null ) ) : '';
-		$icon  = '' === $icon ? (string) wp_get_icon( 'core/star-filled', array( 'size' => null ) ) : $icon;
+		$icon  = '' === $icon ? (string) wp_get_icon( 'heroicons/star', array( 'size' => null ) ) : $icon;
 		$row   = str_repeat( $icon, $max );
 		$text  = sprintf(
 			/* translators: 1: rating value, 2: maximum rating. */

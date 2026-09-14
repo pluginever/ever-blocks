@@ -27,7 +27,7 @@ abstract class Block {
 	 * @return void
 	 */
 	public function register(): void {
-		add_filter( 'block_type_metadata_settings', array( $this, 'add_render_callback' ), 10, 2 );
+		add_filter( 'block_type_metadata_settings', array( $this, 'render_callback' ), 10, 2 );
 	}
 
 	/**
@@ -38,7 +38,7 @@ abstract class Block {
 	 * @param array<string, mixed> $metadata Block metadata.
 	 * @return array<string, mixed> Block type settings.
 	 */
-	public function add_render_callback( array $settings, array $metadata ): array {
+	public function render_callback( array $settings, array $metadata ): array {
 		if ( ( $metadata['name'] ?? '' ) === $this->name && method_exists( $this, 'markup' ) ) {
 			$settings['render_callback'] = array( $this, 'markup' );
 		}
