@@ -3,13 +3,16 @@
  */
 import { SelectControl } from '@wordpress/components';
 import { __, _x } from '@wordpress/i18n';
+import { desktop, mobile, tablet } from '@wordpress/icons';
 
 /**
  * Internal dependencies
  */
 import {
+	HStack,
 	ToggleGroupControl,
 	ToggleGroupControlOption,
+	ToggleGroupControlOptionIcon,
 } from '../../experimental';
 import type { Pseudo, Viewport } from '../../types';
 import './editor.scss';
@@ -26,14 +29,18 @@ const LABELS: Record< string, string > = {
 	'::placeholder': _x( 'Placeholder', 'CSS pseudo-element', 'ever-blocks' ),
 };
 
-const VIEWPORTS: Array< { value: Viewport; label: string } > = [
-	{ value: 'default', label: __( 'Desktop', 'ever-blocks' ) },
-	{ value: '@tablet', label: __( 'Tablet', 'ever-blocks' ) },
-	{ value: '@mobile', label: __( 'Mobile', 'ever-blocks' ) },
+const VIEWPORTS: Array< {
+	value: Viewport;
+	label: string;
+	icon: React.ReactElement;
+} > = [
+	{ value: 'default', label: __( 'Desktop', 'ever-blocks' ), icon: desktop },
+	{ value: '@tablet', label: __( 'Tablet', 'ever-blocks' ), icon: tablet },
+	{ value: '@mobile', label: __( 'Mobile', 'ever-blocks' ), icon: mobile },
 ];
 
 interface Props {
-	/** State names the block or element declares, without the default. */
+	/** State names the block declares, without the default. */
 	states: string[];
 	value: Pseudo;
 	onChange: ( next: Pseudo ) => void;
@@ -41,7 +48,14 @@ interface Props {
 	onViewportChange: ( next: Viewport ) => void;
 }
 
-function getStateLabel( state: string ): string {
+/**
+ * Returns a readable label for a state name.
+ *
+ * @since 0.1.0
+ * @param state State name, e.g. `:hover` or `-open`.
+ * @return Label.
+ */
+export function getStateLabel( state: string ): string {
 	if ( 'default' === state ) {
 		return __( 'Default', 'ever-blocks' );
 	}
@@ -56,16 +70,16 @@ function getStateLabel( state: string ): string {
 }
 
 /**
- * Chooses the viewport and state a panel's controls write to.
+ * Chooses the viewport and state every style panel below it writes to.
  *
  * @since 0.1.0
  * @param props                  Component props.
- * @param props.states           State names the block or element declares.
+ * @param props.states           State names the block declares.
  * @param props.value            Selected state.
  * @param props.onChange         Called with the next state.
  * @param props.viewport         Selected viewport.
  * @param props.onViewportChange Called with the next viewport.
- * @return The controls.
+ * @return The bar.
  */
 export function StateControl( {
 	states,
@@ -77,11 +91,10 @@ export function StateControl( {
 	const options = [ 'default', ...states ];
 
 	return (
-		<div className="b8-state-control">
+		<HStack className="b8-state-control" spacing={ 3 } alignment="top">
 			<ToggleGroupControl
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
-				isBlock
 				label={ __( 'Viewport', 'ever-blocks' ) }
 				value={ viewport }
 				onChange={ ( next: unknown ) =>
@@ -89,15 +102,16 @@ export function StateControl( {
 				}
 			>
 				{ VIEWPORTS.map( ( option ) => (
-					<ToggleGroupControlOption
+					<ToggleGroupControlOptionIcon
 						key={ option.value }
 						value={ option.value }
 						label={ option.label }
+						icon={ option.icon }
 					/>
 				) ) }
 			</ToggleGroupControl>
 
-			{ states.length > 0 && options.length <= 4 && (
+			{ states.length > 0 && options.length <= 3 && (
 				<ToggleGroupControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -118,7 +132,7 @@ export function StateControl( {
 				</ToggleGroupControl>
 			) }
 
-			{ states.length > 0 && options.length > 4 && (
+			{ states.length > 0 && options.length > 3 && (
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
@@ -131,6 +145,6 @@ export function StateControl( {
 					onChange={ ( next: string ) => onChange( next as Pseudo ) }
 				/>
 			) }
-		</div>
+		</HStack>
 	);
 }

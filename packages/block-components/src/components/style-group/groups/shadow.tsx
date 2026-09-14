@@ -56,6 +56,7 @@ export function ShadowGroup( {
 
 	return (
 		<Item
+			isShownByDefault={ 'default' === controls.shadow }
 			label={ __( 'Shadow', 'ever-blocks' ) }
 			panelId={ panelId }
 			value={ current }

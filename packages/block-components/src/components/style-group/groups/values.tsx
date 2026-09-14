@@ -71,7 +71,7 @@ export function ValuesGroup( {
 					panelId={ panelId }
 					value={ values[ key ] }
 					onReset={ () => set( key, undefined ) }
-					isShownByDefault={ control.isShownByDefault ?? true }
+					isShownByDefault={ control.isShownByDefault ?? false }
 				>
 					{ renderControl(
 						control,
@@ -91,7 +91,7 @@ export function ValuesGroup( {
 						colorValue: values[ key ],
 						onColorChange: ( next: unknown ) => set( key, next ),
 						resetAllFilter: () => set( key, undefined ),
-						isShownByDefault: control.isShownByDefault ?? true,
+						isShownByDefault: control.isShownByDefault ?? false,
 						enableAlpha: true,
 						clearable: true,
 					} ) ) }

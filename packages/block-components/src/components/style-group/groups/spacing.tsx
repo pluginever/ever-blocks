@@ -40,11 +40,11 @@ export function SpacingGroup( {
 		<>
 			{ controls.padding && (
 				<Item
+					isShownByDefault={ 'default' === controls.padding }
 					label={ __( 'Padding', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ spacing.padding }
 					onReset={ () => set( 'padding', undefined ) }
-					isShownByDefault
 				>
 					<SpacingSizesControl
 						label={ __( 'Padding', 'ever-blocks' ) }
@@ -60,6 +60,7 @@ export function SpacingGroup( {
 
 			{ controls.margin && (
 				<Item
+					isShownByDefault={ 'default' === controls.margin }
 					label={ __( 'Margin', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ spacing.margin }
@@ -79,11 +80,11 @@ export function SpacingGroup( {
 
 			{ controls.blockGap && (
 				<Item
+					isShownByDefault={ 'default' === controls.blockGap }
 					label={ __( 'Block spacing', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ spacing.blockGap }
 					onReset={ () => set( 'blockGap', undefined ) }
-					isShownByDefault
 				>
 					<SpacingSizesControl
 						label={ __( 'Block spacing', 'ever-blocks' ) }

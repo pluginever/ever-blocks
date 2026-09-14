@@ -51,11 +51,11 @@ export function TypographyGroup( {
 		<>
 			{ controls.fontSize && (
 				<Item
+					isShownByDefault={ 'default' === controls.fontSize }
 					label={ __( 'Size', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.fontSize }
 					onReset={ () => set( 'fontSize', undefined ) }
-					isShownByDefault
 				>
 					<FontSizePicker
 						__next40pxDefaultSize
@@ -72,6 +72,7 @@ export function TypographyGroup( {
 
 			{ controls.fontAppearance && (
 				<Item
+					isShownByDefault={ 'default' === controls.fontAppearance }
 					label={ __( 'Appearance', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.fontWeight ?? typography.fontStyle }
@@ -104,6 +105,7 @@ export function TypographyGroup( {
 
 			{ controls.lineHeight && (
 				<Item
+					isShownByDefault={ 'default' === controls.lineHeight }
 					label={ __( 'Line height', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.lineHeight }
@@ -123,6 +125,7 @@ export function TypographyGroup( {
 
 			{ controls.letterSpacing && (
 				<Item
+					isShownByDefault={ 'default' === controls.letterSpacing }
 					label={ __( 'Letter spacing', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.letterSpacing }
@@ -141,6 +144,7 @@ export function TypographyGroup( {
 
 			{ controls.textTransform && (
 				<Item
+					isShownByDefault={ 'default' === controls.textTransform }
 					label={ __( 'Letter case', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.textTransform }
@@ -159,6 +163,7 @@ export function TypographyGroup( {
 
 			{ controls.textDecoration && (
 				<Item
+					isShownByDefault={ 'default' === controls.textDecoration }
 					label={ __( 'Decoration', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.textDecoration }

@@ -8,8 +8,8 @@ export interface GroupProps {
 	value: StyleObject;
 	/** Receives the style object for the current state, already merged. */
 	onChange: ( next: StyleObject ) => void;
-	/** Which controls to render. Keys are group specific. */
-	controls: Record< string, boolean >;
+	/** Which controls to render, keyed by control; `'default'` also shows it before it has a value. */
+	controls: Record< string, boolean | 'default' >;
 	/** ToolsPanel this group's items belong to. */
 	panelId: string;
 }

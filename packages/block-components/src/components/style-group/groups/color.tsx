@@ -43,6 +43,7 @@ export function ColorGroup( {
 	if ( controls.text ) {
 		items.push( {
 			label: __( 'Text', 'ever-blocks' ),
+			isShownByDefault: 'default' === controls.text,
 			colorValue: color.text,
 			onColorChange: ( next: unknown ) => set( { text: next } ),
 			resetAllFilter: () => set( { text: undefined } ),
@@ -54,6 +55,7 @@ export function ColorGroup( {
 	if ( controls.background ) {
 		items.push( {
 			label: __( 'Background', 'ever-blocks' ),
+			isShownByDefault: 'default' === controls.background,
 			colorValue: color.background,
 			gradientValue: controls.gradient ? color.gradient : undefined,
 			onColorChange: ( next: unknown ) =>

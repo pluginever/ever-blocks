@@ -55,6 +55,7 @@ export function SizeGroup( {
 			{ Object.entries( KEYS ).map( ( [ key, label ] ) =>
 				controls[ key ] ? (
 					<Item
+						isShownByDefault={ 'default' === controls[ key ] }
 						key={ key }
 						label={ label }
 						panelId={ panelId }

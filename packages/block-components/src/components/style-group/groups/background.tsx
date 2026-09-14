@@ -55,6 +55,7 @@ export function BackgroundGroup( {
 	return (
 		<>
 			<Item
+				isShownByDefault={ 'default' === controls.image }
 				label={ __( 'Image', 'ever-blocks' ) }
 				panelId={ panelId }
 				value={ image.url }
@@ -66,7 +67,6 @@ export function BackgroundGroup( {
 						backgroundRepeat: undefined,
 					} )
 				}
-				isShownByDefault
 			>
 				<MediaUploadCheck>
 					<MediaUpload
@@ -97,6 +97,7 @@ export function BackgroundGroup( {
 
 			{ controls.size && image.url && (
 				<Item
+					isShownByDefault={ 'default' === controls.size }
 					label={ __( 'Size', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ background.backgroundSize }
@@ -132,6 +133,7 @@ export function BackgroundGroup( {
 
 			{ controls.repeat && image.url && (
 				<Item
+					isShownByDefault={ 'default' === controls.repeat }
 					label={ __( 'Repeat', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ background.backgroundRepeat }

@@ -60,6 +60,7 @@ export function BorderGroup( {
 		<>
 			{ controls.border && (
 				<Item
+					isShownByDefault={ 'default' === controls.border }
 					label={ __( 'Border', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ hasBorder || undefined }
@@ -92,6 +93,7 @@ export function BorderGroup( {
 
 			{ controls.radius && (
 				<Item
+					isShownByDefault={ 'default' === controls.radius }
 					label={ __( 'Radius', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ border.radius }

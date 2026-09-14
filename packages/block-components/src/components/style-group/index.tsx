@@ -4,12 +4,13 @@
 import { useBlockEditContext } from '@wordpress/block-editor';
 import { getBlockType } from '@wordpress/blocks';
 import { useCallback, useMemo } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
  */
 import { ToolsPanel } from '../../experimental';
-import { StateControl } from '../state-control';
+import { getStateLabel } from '../state-control';
 import { BackgroundGroup } from './groups/background';
 import { BorderGroup } from './groups/border';
 import { ColorGroup } from './groups/color';
@@ -65,10 +66,11 @@ interface Props {
 /**
  * Renders one element's style controls, bound to the block's `style` attribute.
  *
- * Values are written at the path for the viewport and state chosen in the
- * panel, so a single call covers every viewport and state without the block
- * knowing which one is active. On the root, core's own panels own the default
- * state, so only the block's own values render there until a state is chosen.
+ * Values are written at the path for the viewport and state chosen in the bar
+ * above the panels, so a single call covers every viewport and state without
+ * the block knowing which one is active. On the root, core's own panels own the
+ * default state, so only the block's own values render there until a state is
+ * chosen.
  *
  * @since 0.1.0
  * @param props               Component props.
@@ -89,8 +91,7 @@ export function StyleGroup( {
 	label = '',
 }: Props ) {
 	const { name } = useBlockEditContext();
-	const { viewport, pseudo, setPseudo, setViewport } =
-		useStyleState( element );
+	const { viewport, pseudo } = useStyleState();
 	const declaration = useMemo(
 		() => getDeclaration( getBlockType( name ) ),
 		[ name ]
@@ -105,6 +106,7 @@ export function StyleGroup( {
 				...Object.keys( declaration.states ).filter( isCustomState ),
 		  ]
 		: Object.keys( declaration.states );
+	const unsupported = 'default' !== pseudo && ! states.includes( pseudo );
 
 	const onChange = useCallback(
 		( next: StyleObject ) => {
@@ -132,15 +134,33 @@ export function StyleGroup( {
 	const { values, ...groups } = controls;
 	const showGroups = Boolean( element ) || 'default' !== pseudo;
 
+	if ( unsupported ) {
+		const notice = (
+			<Notice status="info" isDismissible={ false }>
+				{ sprintf(
+					// translators: 1: panel label, 2: state label.
+					__( '%1$s has no %2$s state.', 'ever-blocks' ),
+					label || __( 'This part', 'ever-blocks' ),
+					getStateLabel( pseudo )
+				) }
+			</Notice>
+		);
+
+		return label ? (
+			<ToolsPanel
+				label={ label }
+				panelId={ panelId }
+				resetAll={ resetAll }
+			>
+				<div className="b8-style-group__notice">{ notice }</div>
+			</ToolsPanel>
+		) : (
+			notice
+		);
+	}
+
 	const items = (
 		<>
-			<StateControl
-				states={ states }
-				value={ pseudo }
-				onChange={ setPseudo }
-				viewport={ viewport }
-				onViewportChange={ setViewport }
-			/>
 			{ values && (
 				<ValuesGroup
 					values={ readStyle( value, [ namespace ] ) }
