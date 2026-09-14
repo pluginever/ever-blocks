@@ -1,0 +1,27 @@
+.b8-styles__shadow {
+	width: 32px;
+	height: 32px;
+	min-width: 32px;
+	padding: 0;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	background: #fff;
+
+	&.is-pressed:not(:disabled) {
+		border-color: var(--wp-admin-theme-color, #3858e9);
+		background: #fff;
+	}
+}
+
+.b8-style-group__heading {
+	grid-column: 1 / -1;
+	margin-top: 8px;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: uppercase;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}

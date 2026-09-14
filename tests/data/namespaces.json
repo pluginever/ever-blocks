@@ -1,0 +1,12 @@
+[
+	{ "block": "ever-blocks/row", "expected": "everBlocks" },
+	{ "block": "ever-blocks/row-column", "expected": "everBlocks" },
+	{ "block": "core/paragraph", "expected": "core" },
+	{ "block": "my-long-vendor-name/x", "expected": "myLongVendorName" },
+	{ "block": "a1-b2/x", "expected": "a1B2" },
+	{ "block": "Ever-Blocks/row", "expected": "" },
+	{ "block": "ever blocks/row", "expected": "" },
+	{ "block": "-ever/row", "expected": "" },
+	{ "block": "noslash", "expected": "" },
+	{ "block": "", "expected": "" }
+]

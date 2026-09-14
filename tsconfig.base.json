@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"target": "es2022",
+		"lib": [ "es2022", "dom", "dom.iterable" ],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		"strict": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"rootDir": "${configDir}/src"
+	},
+	"include": [ "${configDir}/src" ]
+}

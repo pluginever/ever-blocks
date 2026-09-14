@@ -1,0 +1,33 @@
+.wp-block-ever-blocks-icon {
+	display: flex;
+	width: 1.5em;
+	height: 1.5em;
+	opacity: var(--ever-blocks-icon-opacity, var(--wp--custom--ever-blocks--icon--opacity, 1));
+	transition: opacity 150ms ease;
+
+	svg {
+		width: 100%;
+		height: 100%;
+		fill: currentcolor;
+
+		&.is-flip-horizontal {
+			scale: -1 1;
+		}
+
+		&.is-flip-vertical {
+			scale: 1 -1;
+		}
+
+		&.is-flip-horizontal.is-flip-vertical {
+			scale: -1 -1;
+		}
+	}
+
+	&.aligncenter {
+		justify-content: center;
+	}
+
+	&.alignright {
+		justify-content: flex-end;
+	}
+}

@@ -1,6 +1,0 @@
-**/*.min.js
-**/*.build.js
-config/
-node_modules/
-scripts/
-vendor/

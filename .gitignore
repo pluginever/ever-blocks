@@ -1,27 +1,32 @@
-**/*.min.js
-**/*.build.js
-**/node_modules/**
-**/vendor/**
-**/dist/blocks.build.js
-**/dist/blocks.editor.build.css
-**/dist/*.css
-**/build/**
-*.sublime-project
-*.sublime-workspace
-*.cache
-.ftppass
-coverage/
-cypress/
-.dev/tests/cypress/screenshots
-.dev/tests/cypress/wp_creds.json
-sftp.json
-dist/blocks.build.js
-dist/blocks.editor.build.css
-dist/blocks.style.build.css
-sandbox.json
-/.idea/
-**/.DS_Store
-languages/ever-blocks-js.pot
-languages/*.mo
-languages/*.po
-!languages/ever-blocks.json
+# ═══════════════════════════════════════════════════════════════════════════
+# Git Ignore - Development & Version Control Exclusions
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────
+# Development Tooling
+# ───────────────────────────────
+node_modules/
+vendor/
+
+# ───────────────────────────────
+# Build Output
+# ───────────────────────────────
+/build/
+/packages/*/build/
+/packages/*/build-types/
+*.tsbuildinfo
+
+# ───────────────────────────────
+# Translations
+# ───────────────────────────────
+/languages/*.mo
+/languages/*.po
+
+# ───────────────────────────────
+# Catch All ( Miscellaneous )
+# ───────────────────────────────
+*.log
+.DS_Store
+.env
+.idea/
+Thumbs.db

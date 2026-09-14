@@ -1,40 +1,50 @@
-/.wordpress-org
-/.git
-/.github
-/node_modules
+# ═══════════════════════════════════════════════════════════════════════════
+# Distribution Ignore - Production Build Exclusions
+# ═══════════════════════════════════════════════════════════════════════════
 
-.distignore
+# ───────────────────────────────
+# Version Control
+# ───────────────────────────────
+.git/
+.github/
+.gitattributes
 .gitignore
-.babelrc
-.editorconfig
-.eslintignore
-.eslintrc.json
-.npmrc
-yarn.lock
 
-
-#COMMON
-CONTRIBUTING.md
-release-test.sh
-phpunit.xml.dist
-phpunit.xml
-phpcs.xml
-phpcs.xml.dist
-package.json
-package-lock.json
-gruntfile.js
-composer.json
+# ───────────────────────────────
+# Development Tooling
+# ───────────────────────────────
+bin/
+tests/
 composer.lock
-tests
-*.sql
-*.tar.gz
+node_modules/
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# ───────────────────────────────
+# Sources
+# ───────────────────────────────
+src/
+packages/
+
+# ───────────────────────────────
+# Catch All ( Miscellaneous )
+# ───────────────────────────────
+*.dist
+*.log
+*.map
+*.md
+*.scss
+*.sh
+*.tmp
+*.ts
+*.tsx
+*.yaml
+*.yml
 *.zip
-
-
-#OS
-.DS_Store
-Thumbs.db
-
-#build files
-.build
-src
+.*
+/*.js
+/*.json
+/*.xml
+phpunit.xml
+tools/

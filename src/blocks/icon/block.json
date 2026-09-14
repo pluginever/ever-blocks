@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/icon",
+	"title": "Icon",
+	"category": "ever-blocks",
+	"description": "An icon from the registered collections.",
+	"textdomain": "ever-blocks",
+	"attributes": {
+		"icon": {
+			"type": "string",
+			"role": "content"
+		},
+		"rotation": {
+			"type": "number",
+			"default": 0
+		},
+		"flipHorizontal": {
+			"type": "boolean",
+			"default": false
+		},
+		"flipVertical": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"everBlocks": {
+			"preset": "icon",
+			"states": [
+				":hover"
+			]
+		}
+	},
+	"selectors": {
+		"root": ".wp-block-ever-blocks-icon svg",
+		"css": ".wp-block-ever-blocks-icon",
+		"spacing": {
+			"margin": ".wp-block-ever-blocks-icon"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
