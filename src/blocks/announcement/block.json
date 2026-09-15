@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/announcement",
+	"title": "Announcement",
+	"category": "ever-blocks",
+	"icon": "megaphone",
+	"description": "One message in an announcement bar; holds any blocks.",
+	"textdomain": "ever-blocks",
+	"parent": [
+		"ever-blocks/announcement-bar"
+	],
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"reusable": false,
+		"inserter": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"padding": true,
+			"blockGap": true
+		},
+		"layout": {
+			"allowSwitching": false,
+			"allowInheriting": false,
+			"default": {
+				"type": "flex",
+				"flexWrap": "wrap",
+				"justifyContent": "center",
+				"verticalAlignment": "center"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-announcement"
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

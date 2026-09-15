@@ -1,0 +1,128 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ever-blocks/carousel",
+	"title": "Carousel",
+	"category": "ever-blocks",
+	"icon": "images-alt2",
+	"description": "A slider, a scrolling row, or columns of blocks — moving or still.",
+	"keywords": [
+		"slider",
+		"slides",
+		"scroll",
+		"marquee",
+		"masonry",
+		"wall"
+	],
+	"textdomain": "ever-blocks",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"default": "slider",
+			"enum": [
+				"slider",
+				"row",
+				"columns"
+			]
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"arrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"dots": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": false
+		},
+		"loop": {
+			"type": "boolean",
+			"default": true
+		},
+		"speed": {
+			"type": "string",
+			"default": "normal",
+			"enum": [
+				"slow",
+				"normal",
+				"fast"
+			]
+		},
+		"direction": {
+			"type": "string",
+			"default": "left",
+			"enum": [
+				"left",
+				"right"
+			]
+		},
+		"previousIcon": {
+			"type": "string",
+			"default": "core/chevron-left"
+		},
+		"nextIcon": {
+			"type": "string",
+			"default": "core/chevron-right"
+		}
+	},
+	"providesContext": {
+		"ever-blocks/carouselLayout": "layout"
+	},
+	"allowedBlocks": [
+		"ever-blocks/carousel-slide"
+	],
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"interactivity": true,
+		"everBlocks": {
+			"elements": {
+				"track": ".eb-carousel__track",
+				"arrow": {
+					"selector": ".eb-carousel__arrow",
+					"states": [
+						":hover",
+						":focus-visible",
+						":disabled"
+					]
+				},
+				"dot": {
+					"selector": ".eb-carousel__dot",
+					"states": [
+						":hover"
+					]
+				},
+				"dotActive": ".eb-carousel__dot[aria-current]"
+			}
+		}
+	},
+	"selectors": {
+		"root": ".eb-carousel"
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": [
+		"ever-blocks-common",
+		"file:./style-index.css"
+	],
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js"
+}

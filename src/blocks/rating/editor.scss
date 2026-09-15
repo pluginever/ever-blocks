@@ -1,0 +1,7 @@
+.eb-rating {
+
+	&__empty > span,
+	&__filled > span {
+		flex: none;
+	}
+}

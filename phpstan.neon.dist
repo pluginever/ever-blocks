@@ -1,0 +1,20 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 8
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+	phpVersion:
+		min: 70400
+		max: 80400
+	paths:
+		- includes
+		- ever-blocks.php
+	reportUnmatchedIgnoredErrors: false
+	ignoreErrors:
+		# WordPress polyfills these in wp-includes/compat.php for PHP < 8.0, so they
+		# are always defined at the WP 6.9 floor; wordpress-stubs just omits them.
+		-
+			message: '#Function str_(contains|starts_with|ends_with) not found\.#'
+			identifier: function.notFound

@@ -1,78 +1,29 @@
-/**
- * WordPress dependencies
- */
-const {__} = wp.i18n;
-const {registerBlockType} = wp.blocks;
-/**
- * Internal
- */
-import icon from './icon';
-import edit from './edit';
-import save from './save';
+import { registerBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { quote } from '@wordpress/icons';
+import metadata from './block.json';
+import Edit from './edit';
+import './style.scss';
 
-// Import CSS
-import './styles/style.scss';
-import './styles/editor.scss';
-
-const attributes = {
-	heading: {
-		"type": "string",
-		"selector": ".wp-block-eb-testimonial__heading"
-	},
-	content: {
-		"type": "string",
-		"selector": ".wp-block-eb-testimonial__content"
-	},
-	imgURL: {
-		"type": 'string',
-		"source": 'attribute',
-		"attribute": 'src',
-		"selector": 'img'
-	},
-	name: {
-		"type": "string",
-		"selector": ".wp-block-eb-testimonial__name"
-	},
-	position: {
-		"type": "string",
-		"selector": ".wp-block-eb-testimonial__position"
-	},
-	backgroundColor: {
-		type: 'string',
-		default: '#f2f2f2'
-	},
-	headingTextColor: {
-		type: 'string',
-		default: '#32373c'
-	},
-	textColor: {
-		type: 'string',
-		default: '#32373c'
-	}
-};
-
-
-registerBlockType('ever-blocks/testimonial', {
-	title: __('Testimonial', 'ever-blocks'),
-	description: __('Add a notice block.', 'ever-blocks'),
-	icon: "format-quote",
-	category: 'ever-blocks',
-	keywords: [
-		__('testimonial', 'ever-blocks'),
+registerBlockType( metadata.name, {
+	icon: quote,
+	edit: Edit,
+	save: () => null,
+	styles: [
+		{ name: 'card', label: __( 'Card', 'ever-blocks' ), isDefault: true },
+		{ name: 'plain', label: __( 'Plain', 'ever-blocks' ) },
+		{ name: 'bubble', label: __( 'Bubble', 'ever-blocks' ) },
+		{ name: 'dark', label: __( 'Dark', 'ever-blocks' ) },
 	],
-	styles: [],
 	example: {
 		attributes: {
-			title: __('Very helpful', 'ever-blocks'),
-			content: __('Dramatically re-engineer worldwide relationships before timely growth strategies. Uniquely actualize viral ROI through.', 'ever-blocks'),
+			quote: __(
+				'We replaced three plugins with this one and the site got faster.',
+				'ever-blocks'
+			),
+			name: __( 'Maya Ortiz', 'ever-blocks' ),
+			role: __( 'Product lead, Northwind', 'ever-blocks' ),
+			rating: 5,
 		},
 	},
-	supports: {
-		align: true,
-		alignWide: false,
-		alignFull: false,
-	},
-	attributes,
-	edit,
-	save
-});
+} );

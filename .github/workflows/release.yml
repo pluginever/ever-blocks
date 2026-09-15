@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: true
+
+jobs:
+  wordpress:
+    name: WordPress.org
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout trunk
+        uses: actions/checkout@v6
+        with:
+          ref: trunk
+
+      - name: Deploy
+        uses: sultann/wordpress-plugin-deploy@master
+        with:
+          username: ${{ secrets.SVN_USERNAME }}
+          password: ${{ secrets.SVN_PASSWORD }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}

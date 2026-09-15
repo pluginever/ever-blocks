@@ -1,0 +1,65 @@
+{
+	"name": "@byteever/block-components",
+	"version": "0.1.0",
+	"description": "Editor components for building WordPress blocks.",
+	"author": "ByteEver",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"gutenberg",
+		"blocks",
+		"components"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pluginever/ever-blocks.git",
+		"directory": "packages/block-components"
+	},
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"type": "module",
+	"sideEffects": [
+		"**/*.scss",
+		"**/*.css"
+	],
+	"files": [
+		"build",
+		"build-types",
+		"!**/*.map",
+		"!**/*.tsbuildinfo"
+	],
+	"exports": {
+		".": {
+			"types": "./build-types/index.d.ts",
+			"default": "./build/index.js"
+		},
+		"./utils": {
+			"types": "./build-types/utils/index.d.ts",
+			"default": "./build/utils/index.js"
+		}
+	},
+	"scripts": {
+		"codegen:icons": "node scripts/build-icons.mjs",
+		"build": "tsc -b && rsync -am --include='*.scss' --include='*/' --exclude='*' src/ build/",
+		"typecheck": "tsc -b --noEmit"
+	},
+	"peerDependencies": {
+		"@wordpress/block-editor": "*",
+		"@wordpress/blocks": "*",
+		"@wordpress/components": "*",
+		"@wordpress/element": "*",
+		"@wordpress/i18n": "*",
+		"@wordpress/primitives": "*",
+		"react": "^18.0.0 || ^19.0.0",
+		"@wordpress/data": "*",
+		"@wordpress/core-data": "*",
+		"@wordpress/compose": "*",
+		"@wordpress/style-engine": "*",
+		"@wordpress/icons": "*"
+	},
+	"devDependencies": {
+		"heroicons": "^2.2.0",
+		"svgo": "^4.0.0"
+	}
+}

@@ -1,0 +1,53 @@
+.eb-testimonial {
+
+	&__picture {
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+
+		&.is-empty {
+			flex: none;
+			height: auto;
+		}
+
+		img {
+			display: block;
+			border-radius: inherit;
+		}
+	}
+
+	&__avatar.eb-testimonial__picture {
+		border-radius: 50%;
+		overflow: hidden;
+
+		img {
+			width: var(--avatar);
+			height: var(--avatar);
+			object-fit: cover;
+		}
+	}
+
+	&__logo.eb-testimonial__picture img {
+		width: var(--ever-blocks-testimonial-logo-width, 96px);
+	}
+
+	&__remove {
+		flex: none;
+		font-size: 11px;
+	}
+
+	&:not(.is-selected) &__remove {
+		display: none;
+	}
+
+	&__quote:where(:empty)::before,
+	&__name:where(:empty)::before,
+	&__role:where(:empty)::before {
+		color: var(--eb-color-muted);
+	}
+
+	&__who .rich-text {
+		display: block;
+	}
+}

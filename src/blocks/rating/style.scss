@@ -1,0 +1,19 @@
+.eb-rating {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--size) * 0.4);
+
+	&.has-text-align-center {
+		justify-content: center;
+	}
+
+	&.has-text-align-right {
+		justify-content: flex-end;
+	}
+
+	&__label {
+		font-size: calc(var(--size) * 0.8);
+		font-weight: var(--eb-font-weight-medium);
+		color: var(--eb-color-muted);
+	}
+}

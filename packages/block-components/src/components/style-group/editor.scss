@@ -1,0 +1,11 @@
+// Core joins its colour rows into one bordered list by zeroing the row gap of
+// its Color panel; our panels mix rows, so the colour rows get their own grid.
+.b8-style-group__colors {
+	display: grid;
+	grid-column: 1 / -1;
+	row-gap: 0;
+
+	&:empty {
+		display: none;
+	}
+}

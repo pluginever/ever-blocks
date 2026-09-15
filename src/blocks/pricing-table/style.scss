@@ -1,0 +1,92 @@
+.eb-pricing-table {
+	--gap: var(--ever-blocks-pricing-table-gap, var(--eb-spacing-sm));
+	--column-width: var(--ever-blocks-pricing-table-column-width, 320px);
+	--per-row: min(var(--columns, 3), var(--ever-blocks-pricing-table-columns, 99));
+	--track: var(--ever-blocks-pricing-table-columns, auto-fit);
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--eb-spacing-md);
+
+	&__columns {
+		display: grid;
+		width: 100%;
+		max-width: calc(var(--per-row) * var(--column-width) + (var(--per-row) - 1) * var(--gap));
+		grid-template-columns: repeat(var(--track), minmax(min(200px, 100%), 1fr));
+		gap: var(--gap);
+		align-items: stretch;
+	}
+
+	&__switch {
+		display: inline-flex;
+		gap: 2px;
+		padding: calc(var(--eb-spacing-2xs) / 2);
+		border-radius: var(--eb-border-radius-full);
+		background: var(--eb-color-surface);
+	}
+
+	&__option {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--eb-spacing-2xs);
+		min-height: calc(var(--eb-icon-size) * 2);
+		padding: 0 var(--eb-spacing-xs);
+		border: 0;
+		border-radius: var(--eb-border-radius-full);
+		background: transparent;
+		color: var(--eb-color-muted);
+		font: inherit;
+		font-weight: var(--eb-font-weight-medium);
+		line-height: var(--eb-line-height-snug);
+		cursor: pointer;
+		transition: color var(--eb-transition-duration) var(--eb-transition-timing-function), background-color var(--eb-transition-duration) var(--eb-transition-timing-function);
+
+		&:hover {
+			color: inherit;
+			background: var(--eb-color-surface);
+		}
+
+		&:focus-visible {
+			outline: var(--eb-focus-outline);
+			outline-offset: 2px;
+		}
+
+		&[aria-checked="true"] {
+			color: inherit;
+			background: var(--wp--preset--color--base, #fff);
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+		}
+	}
+
+	&__option-badge {
+		padding: 2px var(--eb-spacing-2xs);
+		border-radius: var(--eb-border-radius-full);
+		background: var(--wp--preset--color--contrast, #171717);
+		color: var(--wp--preset--color--base, #fff);
+		font-size: 0.75em;
+		line-height: var(--eb-line-height-normal);
+	}
+
+	@media (width <= 782px) {
+		--track: var(--ever-blocks-pricing-table-columns-tablet, var(--ever-blocks-pricing-table-columns, auto-fit));
+	}
+
+	@media (width <= 480px) {
+		--track: var(--ever-blocks-pricing-table-columns-mobile, 1);
+
+		&__switch {
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		&__option {
+			flex: 1;
+		}
+
+		.eb-pricing-column.is-featured {
+			order: -1;
+		}
+	}
+}

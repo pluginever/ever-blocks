@@ -1,0 +1,54 @@
+.eb-pricing-price {
+
+	&__row {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--eb-spacing-2xs) / 2);
+
+		&[hidden] {
+			display: none;
+		}
+	}
+
+	&__line {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: calc(var(--eb-spacing-2xs) / 2);
+	}
+
+	&__currency {
+		align-self: flex-start;
+		margin-top: 0.375em;
+		font-size: 1.25em;
+		font-weight: var(--eb-font-weight-medium);
+	}
+
+	&__amount {
+		font-size: 2.75em;
+		font-weight: var(--eb-font-weight-medium);
+		letter-spacing: -0.03em;
+		line-height: 1;
+
+		&.is-text {
+			font-size: 2em;
+			letter-spacing: -0.02em;
+			line-height: var(--eb-line-height-snug);
+		}
+	}
+
+	&__period,
+	&__original {
+		color: var(--eb-color-muted);
+		font-size: 0.9375em;
+	}
+
+	&__original {
+		text-decoration: line-through;
+	}
+
+	&__note {
+		color: var(--eb-color-muted);
+		font-size: 0.8125em;
+	}
+}

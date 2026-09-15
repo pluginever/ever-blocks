@@ -1,150 +1,406 @@
-/**
- * Internal dependencies
- */
-import classnames from 'classnames';
-import Inspector from "./inspector";
-
-/**
- * WordPress dependencies
- */
-const {__} = wp.i18n;
-const {
-	Component,
-	Fragment
-} = wp.element;
-
-const {
-	RichText,
-	AlignmentToolbar,
-	BlockControls,
+import {
+	InspectorControls,
 	MediaUpload,
-	MediaUploadCheck
-} = wp.blockEditor;
+	MediaUploadCheck,
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import { Button, RangeControl, TextControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import {
+	IconDisplay,
+	LayoutControl,
+	SettingsPanels,
+	StylePanels,
+	ToolsPanel,
+	ToolsPanelItem,
+	useBlockStyles,
+} from '@byteever/block-components';
+import { centered, side, stacked } from './icons';
+import './editor.scss';
 
-const {
-	Button,
-	Dashicon
-} = wp.components;
+const LAYOUTS = [
+	{ value: 'stacked', label: __( 'Stacked', 'ever-blocks' ), icon: stacked },
+	{ value: 'side', label: __( 'Side by side', 'ever-blocks' ), icon: side },
+	{
+		value: 'centered',
+		label: __( 'Centered', 'ever-blocks' ),
+		icon: centered,
+	},
+];
 
-export default class Edit extends Component {
-	constructor() {
-		super(...arguments);
-	}
+const FORMATS = [ 'core/bold', 'core/italic', 'core/link' ];
 
-	render() {
-		// Setup the attributes
-		const {
-			attributes: {
-				heading,
-				content,
-				imgUrl,
-				name,
-				position,
-				backgroundColor,
-				textColor,
-				textAlign
-			},
-			isSelected,
-			setAttributes
-		} = this.props;
+function Picture( { url, alt, className, label, onSelect, onRemove } ) {
+	return (
+		<MediaUploadCheck>
+			<MediaUpload
+				allowedTypes={ [ 'image' ] }
+				value={ undefined }
+				onSelect={ onSelect }
+				render={ ( { open } ) =>
+					url ? (
+						<button
+							type="button"
+							className={ `${ className } eb-testimonial__picture` }
+							onClick={ open }
+							aria-label={ label }
+						>
+							<img src={ url } alt={ alt } />
+						</button>
+					) : (
+						<Button
+							variant="secondary"
+							size="compact"
+							className={ `${ className } eb-testimonial__picture is-empty` }
+							onClick={ open }
+						>
+							{ label }
+						</Button>
+					)
+				}
+			/>
+			{ url && (
+				<Button
+					variant="link"
+					size="small"
+					className="eb-testimonial__remove"
+					onClick={ onRemove }
+				>
+					{ __( 'Remove', 'ever-blocks' ) }
+				</Button>
+			) }
+		</MediaUploadCheck>
+	);
+}
 
-		const onUploadImage = (media) => setAttributes({imgUrl: media.url, imgId: media.id});
-		const onRemoveImage = () => setAttributes({imgUrl: null});
+function Stars( { value } ) {
+	const icons = Array.from( { length: 5 }, ( _, i ) => (
+		<IconDisplay key={ i } name="heroicons/star" />
+	) );
 
-		return (
-			<Fragment>
-				<Inspector
-					{...{setAttributes, ...this.props}}
-				/>
+	return (
+		<div className="eb-testimonial__rating eb-rating">
+			<span className="eb-rating__icons" aria-hidden="true">
+				<span className="eb-rating__empty">{ icons }</span>
+				<span
+					className="eb-rating__filled"
+					style={ { width: `${ ( value / 5 ) * 100 }%` } }
+				>
+					{ icons }
+				</span>
+			</span>
+		</div>
+	);
+}
 
-				<div
-					style={{
-						color: textColor ? textColor : '#32373c',
-						backgroundColor: backgroundColor ? backgroundColor : '#f2f2f2',
-					}}
-					className="wp-block-ever-blocks-testimonial">
+export default function Edit( { attributes, setAttributes, clientId } ) {
+	const {
+		layout,
+		quote,
+		name,
+		role,
+		avatarUrl,
+		avatarAlt,
+		showRating,
+		rating,
+		showLogo,
+		logoUrl,
+		logoAlt,
+		quoteMark,
+		schema,
+		itemReviewed,
+	} = attributes;
+	const blockProps = useBlockProps( {
+		className: `eb-testimonial eb-testimonial--${ layout }`,
+	} );
 
-					<div className="wp-block-ever-blocks-testimonial__header">
-						{!!isSelected || !!heading ? <RichText
-								identifier="heading"
-								placeholder={__('Very helpful', 'ever-blocks')}
-								value={heading}
-								multiline={false}
-								className="wp-block-ever-blocks-testimonial__heading"
-								onChange={(heading) => setAttributes({heading: heading})}
-								keepPlaceholderOnFocus
-							/>
-						: null }
-					</div>
+	useBlockStyles( attributes );
 
-
-					<RichText
-						identifier="content"
-						multiline="p"
-						value={content}
-						placeholder={__('Dramatically re-engineer worldwide relationships before timely growth strategies. Uniquely actualize viral ROI through.', 'ever-blocks')}
-						allowedFormats={['bold', 'italic', 'strikethrough', 'link']}
-						className="wp-block-ever-blocks-testimonial__content"
-						onChange={(content) => setAttributes({content: content})}
-						keepPlaceholderOnFocus
+	return (
+		<>
+			<InspectorControls group="settings">
+				<ToolsPanel
+					label={ __( 'Layout', 'ever-blocks' ) }
+					panelId={ `${ clientId }-layout` }
+					resetAll={ () => setAttributes( { layout: 'stacked' } ) }
+				>
+					<LayoutControl
+						label={ __( 'Layout', 'ever-blocks' ) }
+						panelId={ `${ clientId }-layout` }
+						value={ layout }
+						defaultValue="stacked"
+						options={ LAYOUTS }
+						onChange={ ( next ) =>
+							setAttributes( { layout: next } )
+						}
 					/>
+				</ToolsPanel>
 
+				<ToolsPanel
+					label={ __( 'Rating', 'ever-blocks' ) }
+					panelId={ `${ clientId }-rating` }
+					resetAll={ () =>
+						setAttributes( { showRating: true, rating: 5 } )
+					}
+				>
+					<ToolsPanelItem
+						hasValue={ () => 5 !== rating || ! showRating }
+						label={ __( 'Stars', 'ever-blocks' ) }
+						panelId={ `${ clientId }-rating` }
+						isShownByDefault
+						onDeselect={ () =>
+							setAttributes( { showRating: true, rating: 5 } )
+						}
+					>
+						<RangeControl
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							label={ __( 'Stars', 'ever-blocks' ) }
+							help={ __(
+								'Zero hides the rating.',
+								'ever-blocks'
+							) }
+							min={ 0 }
+							max={ 5 }
+							step={ 0.5 }
+							value={ showRating ? rating : 0 }
+							onChange={ ( next ) =>
+								setAttributes( {
+									rating: next || undefined,
+									showRating: next > 0,
+								} )
+							}
+						/>
+					</ToolsPanelItem>
+				</ToolsPanel>
+			</InspectorControls>
 
-					<div className="wp-block-ever-blocks-testimonial__footer">
+			<SettingsPanels
+				label={ __( 'Testimonial', 'ever-blocks' ) }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				controls={ {
+					showLogo: {
+						type: 'toggle',
+						label: __( 'Company logo', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
+					quoteMark: {
+						type: 'toggle',
+						label: __( 'Quotation mark', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
+					schema: {
+						type: 'toggle',
+						label: __( 'Review schema', 'ever-blocks' ),
+						help: __(
+							'Adds Review structured data. Needs the reviewed item’s name.',
+							'ever-blocks'
+						),
+					},
+				} }
+			/>
 
-						<div className="wp-block-ever-blocks-testimonial__footer-left">
-
-							<div className="wp-block-ever-blocks-testimonial__avatar-wrap">
-								<MediaUploadCheck>
-									<MediaUpload
-										onSelect={onUploadImage}
-										type="image"
-										allowedTypes={['image']}
-										value={imgUrl}
-										render={({open}) => (
-											<Button
-												className={imgUrl ? 'eb-change-image' : 'eb-add-image'}
-												onClick={open}>
-												{!imgUrl ?
-													<Dashicon icon="format-image"/> :
-													<img className="wp-block-ever-blocks-testimonial__avatar"
-														 src={imgUrl}
-														 alt="avatar"
-													/>
-												}
-											</Button>
-										)}
-									>
-									</MediaUpload>
-								</MediaUploadCheck>
-							</div>
-						</div>
-
-						<div className="wp-block-ever-blocks-testimonial__footer-right">
-							<RichText
-								placeholder={__('John Doe', 'ever-blocks')}
-								value={name}
-								multiline={false}
-								className="wp-block-ever-blocks-testimonial__name"
-								onChange={(name) => setAttributes({name})}
-								keepPlaceholderOnFocus
+			{ schema && (
+				<InspectorControls group="settings">
+					<ToolsPanel
+						label={ __( 'Schema', 'ever-blocks' ) }
+						panelId={ `${ clientId }-schema` }
+						resetAll={ () => setAttributes( { itemReviewed: '' } ) }
+					>
+						<ToolsPanelItem
+							hasValue={ () => Boolean( itemReviewed ) }
+							label={ __( 'Item reviewed', 'ever-blocks' ) }
+							panelId={ `${ clientId }-schema` }
+							isShownByDefault
+							onDeselect={ () =>
+								setAttributes( { itemReviewed: '' } )
+							}
+						>
+							<TextControl
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+								label={ __( 'Item reviewed', 'ever-blocks' ) }
+								help={ __(
+									'The product or service this testimonial is about.',
+									'ever-blocks'
+								) }
+								value={ itemReviewed }
+								onChange={ ( next ) =>
+									setAttributes( { itemReviewed: next } )
+								}
 							/>
+						</ToolsPanelItem>
+					</ToolsPanel>
+				</InspectorControls>
+			) }
 
-							<RichText
-								tagName="small"
-								placeholder={__('CEO', 'ever-blocks')}
-								value={position}
-								multiline={false}
-								className="wp-block-ever-blocks-testimonial__position"
-								onChange={(position) => setAttributes({position})}
-								keepPlaceholderOnFocus
-							/>
+			<StylePanels
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				elements={ {
+					root: {
+						values: {
+							avatarSize: {
+								control: 'unit',
+								label: __( 'Photo size', 'ever-blocks' ),
+								min: 24,
+								max: 160,
+							},
+							gap: {
+								control: 'unit',
+								label: __( 'Gap', 'ever-blocks' ),
+								min: 0,
+							},
+						},
+					},
+					quote: {
+						label: __( 'Quote', 'ever-blocks' ),
+						color: { text: true },
+						typography: {
+							fontSize: true,
+							fontAppearance: true,
+							lineHeight: true,
+							letterSpacing: true,
+						},
+					},
+					name: {
+						label: __( 'Name', 'ever-blocks' ),
+						color: { text: true },
+						typography: { fontSize: true, fontAppearance: true },
+					},
+					role: {
+						label: __( 'Role', 'ever-blocks' ),
+						color: { text: true },
+						typography: { fontSize: true, fontAppearance: true },
+					},
+					avatar: {
+						label: __( 'Photo', 'ever-blocks' ),
+						border: { radius: true, width: true, color: true },
+					},
+					rating: {
+						label: __( 'Rating', 'ever-blocks' ),
+						values: {
+							size: {
+								control: 'unit',
+								label: __( 'Size', 'ever-blocks' ),
+								min: 8,
+								max: 48,
+							},
+						},
+					},
+					filled: {
+						label: __( 'Filled', 'ever-blocks' ),
+						color: { text: 'default' },
+					},
+					empty: {
+						label: __( 'Empty', 'ever-blocks' ),
+						color: { text: 'default' },
+					},
+					mark: {
+						label: __( 'Mark', 'ever-blocks' ),
+						color: { text: true },
+						typography: { fontSize: true },
+					},
+					logo: {
+						label: __( 'Logo', 'ever-blocks' ),
+						values: {
+							width: {
+								control: 'unit',
+								label: __( 'Width', 'ever-blocks' ),
+								min: 24,
+								max: 320,
+							},
+						},
+					},
+				} }
+			/>
 
-						</div>
-
-					</div>
-				</div>
-			</Fragment>
-		)
-	}
+			<figure { ...blockProps }>
+				{ quoteMark && (
+					<span className="eb-testimonial__mark" aria-hidden="true">
+						“
+					</span>
+				) }
+				{ showRating && <Stars value={ rating } /> }
+				<RichText
+					tagName="blockquote"
+					className="eb-testimonial__quote"
+					value={ quote }
+					onChange={ ( next ) => setAttributes( { quote: next } ) }
+					placeholder={ __( 'What did they say?', 'ever-blocks' ) }
+					allowedFormats={ FORMATS }
+				/>
+				<figcaption className="eb-testimonial__author">
+					<Picture
+						url={ avatarUrl }
+						alt={ avatarAlt }
+						className="eb-testimonial__avatar"
+						label={ __( 'Photo', 'ever-blocks' ) }
+						onSelect={ ( media ) =>
+							setAttributes( {
+								avatarId: media.id,
+								avatarUrl:
+									media.sizes?.thumbnail?.url ?? media.url,
+								avatarAlt: media.alt ?? '',
+							} )
+						}
+						onRemove={ () =>
+							setAttributes( {
+								avatarId: undefined,
+								avatarUrl: undefined,
+								avatarAlt: undefined,
+							} )
+						}
+					/>
+					<span className="eb-testimonial__who">
+						<RichText
+							tagName="span"
+							className="eb-testimonial__name"
+							value={ name }
+							onChange={ ( next ) =>
+								setAttributes( { name: next } )
+							}
+							placeholder={ __( 'Name', 'ever-blocks' ) }
+							allowedFormats={ [] }
+						/>
+						<RichText
+							tagName="span"
+							className="eb-testimonial__role"
+							value={ role }
+							onChange={ ( next ) =>
+								setAttributes( { role: next } )
+							}
+							placeholder={ __( 'Role, company', 'ever-blocks' ) }
+							allowedFormats={ [ 'core/link' ] }
+						/>
+					</span>
+					{ showLogo && (
+						<Picture
+							url={ logoUrl }
+							alt={ logoAlt }
+							className="eb-testimonial__logo"
+							label={ __( 'Logo', 'ever-blocks' ) }
+							onSelect={ ( media ) =>
+								setAttributes( {
+									logoId: media.id,
+									logoUrl:
+										media.sizes?.medium?.url ?? media.url,
+									logoAlt: media.alt ?? '',
+								} )
+							}
+							onRemove={ () =>
+								setAttributes( {
+									logoId: undefined,
+									logoUrl: undefined,
+									logoAlt: undefined,
+								} )
+							}
+						/>
+					) }
+				</figcaption>
+			</figure>
+		</>
+	);
 }

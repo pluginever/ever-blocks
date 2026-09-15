@@ -1,67 +1,50 @@
 <?xml version="1.0"?>
-<ruleset name="ever-blocks">
-	<description>Rules for Ever Blocks</description>
+<ruleset name="ByteEver Coding Standards">
+	<description>ByteEver PHPCS extended.</description>
+	<rule ref="ByteEver-Default"/>
 
-    <arg name="extensions" value="php" />
-    <arg name="basepath" value="./" />
-    <file>./</file>
+	<!-- Supported PHP versions (matches plugin header). -->
+	<config name="testVersion" value="7.4-"/>
 
-    <exclude-pattern>*/build/*</exclude-pattern>
-    <exclude-pattern>*/vendor/*</exclude-pattern>
-    <exclude-pattern>*/node_modules/*</exclude-pattern>
-    <exclude-pattern>*/.dev/*</exclude-pattern>
+	<!-- Minimum supported WordPress version. -->
+	<config name="minimum_wp_version" value="6.9"/>
 
-	<arg name="colors"/>
-	<arg value="sp"/>
+	<!-- Check all PHP files in directory tree by default. -->
+	<arg name="extensions" value="php"/>
+	<file>.</file>
+	<exclude-pattern>languages/</exclude-pattern>
+	<exclude-pattern>tests/</exclude-pattern>
+	<exclude-pattern>assets/</exclude-pattern>
+	<exclude-pattern>build/</exclude-pattern>
+	<exclude-pattern>packages/</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*\.(css|js|xml)</exclude-pattern>
 
-	<!-- Include the WordPress-Extra standard. -->
-	<rule ref="WordPress-Extra">
-		<!--
-		We may want a middle ground though. The best way to do this is add the
-		entire ruleset, then rule by rule, remove ones that don't suit a project.
-		We can do this by running `phpcs` with the '-s' flag, which allows us to
-		see the names of the sniffs reporting errors.
-		Once we know the sniff names, we can opt to exclude sniffs which don't
-		suit our project like so.
-		-->
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-	</rule>
-
-	<!-- Let's also check that everything is properly documented. -->
-	<rule ref="WordPress-Docs"/>
-
-	<!-- Add in some extra rules from other standards. -->
-	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-	<rule ref="Generic.Commenting.Todo"/>
-
-	<!-- Check for PHP cross-version compatibility. -->
-	<config name="testVersion" value="5.6-"/>
-	<rule ref="PHPCompatibilityWP"/>
-
-	<!--
-	To get the optimal benefits of using WPCS, we should add a couple of
-	custom properties.
-	Adjust the values of these properties to fit our needs.
-
-	For information on additional custom properties available, check out
-	the wiki:
-	https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
-	-->
-	<config name="minimum_supported_wp_version" value="5.0.0"/>
-
-	<rule ref="WordPress.WP.I18n">
+	<!-- Core functions that return output already escaped for an HTML attribute. -->
+	<rule ref="WordPress.Security.EscapeOutput">
 		<properties>
-			<property name="text_domain" value="ever-blocks"/>
+			<property name="customEscapingFunctions" type="array">
+				<element value="get_block_wrapper_attributes"/>
+				<element value="wp_interactivity_data_wp_context"/>
+			</property>
 		</properties>
 	</rule>
 
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+	<!-- Check that the proper text domain(s) is used everywhere. -->
+	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="prefixes" type="array">
+			<property name="text_domain" type="array">
 				<element value="ever-blocks"/>
 			</property>
 		</properties>
 	</rule>
 
+	<!-- Relax method-declaration and naming rules for test files. -->
+	<rule ref="PSR2.Methods.MethodDeclaration">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
 </ruleset>

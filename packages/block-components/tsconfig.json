@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "${configDir}/build",
+		"emitDeclarationOnly": false,
+		"declarationDir": "${configDir}/build-types",
+		"types": [
+			"react"
+		]
+	},
+	"exclude": [
+		"**/test/**"
+	]
+}

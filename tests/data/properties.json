@@ -1,0 +1,87 @@
+[
+	{
+	 "block": "ever-blocks/row",
+	 "key": "columns",
+	 "expected": "--ever-blocks-row-columns"
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "gap",
+	 "expected": "--ever-blocks-row-gap"
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "minHeight",
+	 "expected": "--ever-blocks-row-min-height"
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "gridTemplateColumns",
+	 "expected": "--ever-blocks-row-grid-template-columns"
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "columns2",
+	 "expected": "--ever-blocks-row-columns2"
+	},
+	{
+	 "block": "ever-blocks/row-column",
+	 "key": "width",
+	 "expected": "--ever-blocks-row-column-width"
+	},
+	{
+	 "block": "core/paragraph",
+	 "key": "fontSize",
+	 "expected": "--core-paragraph-font-size"
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "a;color:red",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "a:b",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "a}",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "a b",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "a-b",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "--x",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "1x",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/row",
+	 "key": "",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/Row",
+	 "key": "gap",
+	 "expected": ""
+	},
+	{
+	 "block": "ever-blocks/a;b",
+	 "key": "gap",
+	 "expected": ""
+	}
+]
