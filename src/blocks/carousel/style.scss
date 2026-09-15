@@ -111,11 +111,11 @@
 	}
 
 	@media (width <= 782px) {
-		--per-view: var(--ever-blocks-carousel-per-view, 2);
+		--per-view: min(var(--ever-blocks-carousel-per-view, 2), 2);
 	}
 
 	@media (width <= 480px) {
-		--per-view: var(--ever-blocks-carousel-per-view, 1);
+		--per-view: 1;
 	}
 
 	&__status {

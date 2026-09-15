@@ -176,8 +176,6 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 			: {} ),
 	};
 
-	const numeric = [ 'columns' ];
-
 	return (
 		<>
 			<BlockControls group="other">
@@ -202,7 +200,7 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 				<ToolsPanel
 					label={ __( 'Layout', 'ever-blocks' ) }
 					panelId={ `${ clientId }-layout` }
-					resetAll={ () => setAttributes( { layout: undefined } ) }
+					resetAll={ () => setAttributes( { layout: 'slider' } ) }
 				>
 					<LayoutControl
 						label={ __( 'Layout', 'ever-blocks' ) }
@@ -222,31 +220,8 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 
 			<SettingsPanels
 				label={ __( 'Carousel', 'ever-blocks' ) }
-				attributes={ {
-					...attributes,
-					...Object.fromEntries(
-						numeric.map( ( key ) => [
-							key,
-							String( attributes[ key ] ),
-						] )
-					),
-				} }
-				setAttributes={ ( next ) =>
-					setAttributes( {
-						...next,
-						...Object.fromEntries(
-							numeric
-								.filter(
-									( key ) =>
-										key in next && undefined !== next[ key ]
-								)
-								.map( ( key ) => [
-									key,
-									Number( next[ key ] ),
-								] )
-						),
-					} )
-				}
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				controls={ settings }
 			/>
 
@@ -257,8 +232,8 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 						panelId={ `${ clientId }-icons` }
 						resetAll={ () =>
 							setAttributes( {
-								previousIcon: undefined,
-								nextIcon: undefined,
+								previousIcon: 'core/chevron-left',
+								nextIcon: 'core/chevron-right',
 							} )
 						}
 					>
@@ -267,7 +242,9 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 							value={ previousIcon }
 							panelId={ `${ clientId }-icons` }
 							onChange={ ( next ) =>
-								setAttributes( { previousIcon: next } )
+								setAttributes( {
+									previousIcon: next ?? 'core/chevron-left',
+								} )
 							}
 						/>
 						<IconPickerControl
@@ -275,7 +252,9 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 							value={ nextIcon }
 							panelId={ `${ clientId }-icons` }
 							onChange={ ( next ) =>
-								setAttributes( { nextIcon: next } )
+								setAttributes( {
+									nextIcon: next ?? 'core/chevron-right',
+								} )
 							}
 						/>
 					</ToolsPanel>

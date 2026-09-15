@@ -82,22 +82,31 @@ if ( 'columns' === $eb_layout && $eb_moving ) {
 	$eb_track = '<div class="eb-carousel__track" data-wp-watch="callbacks.measure">';
 
 	foreach ( $eb_column_html as $eb_html ) {
-		$eb_track .= sprintf( '<div class="eb-carousel__column"><div class="eb-carousel__run">%1$s</div><div class="eb-carousel__run" aria-hidden="true">%1$s</div></div>', $eb_html );
+		$eb_track .= sprintf( '<div class="eb-carousel__column"><div class="eb-carousel__run">%1$s</div><div class="eb-carousel__run" aria-hidden="true" inert>%1$s</div></div>', $eb_html );
 	}
 
 	$eb_track .= '</div>';
 } elseif ( 'row' === $eb_layout && $eb_moving ) {
 	$eb_track = sprintf(
-		'<div class="eb-carousel__track" data-wp-watch="callbacks.measure"><div class="eb-carousel__run">%1$s</div><div class="eb-carousel__run" aria-hidden="true">%1$s</div></div>',
+		'<div class="eb-carousel__track" data-wp-watch="callbacks.measure"><div class="eb-carousel__run">%1$s</div><div class="eb-carousel__run" aria-hidden="true" inert>%1$s</div></div>',
 		$content
 	);
 } elseif ( 'slider' !== $eb_layout ) {
 	$eb_track = '<div class="eb-carousel__track">' . $content . '</div>';
 } else {
+	$eb_processor = new WP_HTML_Tag_Processor( $content );
+	$eb_position  = 0;
+
+	while ( $eb_processor->next_tag( array( 'class_name' => 'eb-carousel__slide' ) ) ) {
+		++$eb_position;
+		/* translators: 1: slide number, 2: slide count. */
+		$eb_processor->set_attribute( 'aria-label', sprintf( __( '%1$d of %2$d', 'ever-blocks' ), $eb_position, $eb_count ) );
+	}
+
 	$eb_track = sprintf(
-		'<div class="eb-carousel__track" tabindex="0" data-wp-on--scroll="actions.scrolled" data-wp-on--keydown="actions.key" aria-label="%1$s">%2$s</div>',
+		'<div class="eb-carousel__track" tabindex="0" role="group" data-wp-on--scroll="actions.scrolled" data-wp-on--keydown="actions.key" aria-label="%1$s">%2$s</div>',
 		esc_attr__( 'Slides', 'ever-blocks' ),
-		$content
+		$eb_processor->get_updated_html()
 	);
 }
 
@@ -118,7 +127,7 @@ if ( $eb_arrows || $eb_dots ) {
 
 	$eb_nav = sprintf(
 		'<div class="eb-carousel__nav">%1$s%2$s%3$s</div>',
-		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--previous" data-wp-on--click="actions.previous" aria-label="%1$s">%2$s</button>', esc_attr__( 'Previous slide', 'ever-blocks' ), $eb_icon( $attributes['previousIcon'] ?? '', 'core/chevron-left' ) ) : '',
+		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--previous" data-wp-on--click="actions.previous" aria-label="%1$s"%3$s>%2$s</button>', esc_attr__( 'Previous slide', 'ever-blocks' ), $eb_icon( $attributes['previousIcon'] ?? '', 'core/chevron-left' ), $eb_loop ? '' : ' disabled' ) : '',
 		$eb_dots ? '<div class="eb-carousel__dots">' . $eb_dot_buttons . '</div>' : '',
 		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--next" data-wp-on--click="actions.next" aria-label="%1$s">%2$s</button>', esc_attr__( 'Next slide', 'ever-blocks' ), $eb_icon( $attributes['nextIcon'] ?? '', 'core/chevron-right' ) ) : ''
 	);

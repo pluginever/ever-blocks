@@ -154,14 +154,6 @@ const { actions } = store( 'ever-blocks/carousel', {
 		init() {
 			const context = getContext();
 			const root = getElement().ref;
-			const { slides, track } = parts( root );
-
-			slides.forEach( ( slide, i ) => {
-				slide.setAttribute(
-					'aria-label',
-					`${ i + 1 } / ${ slides.length }`
-				);
-			} );
 
 			if ( 'slider' !== context.layout ) {
 				root.classList.toggle(
@@ -172,6 +164,7 @@ const { actions } = store( 'ever-blocks/carousel', {
 				return;
 			}
 
+			const { track } = parts( root );
 			const measure = () => {
 				context.perView = Math.max(
 					1,
@@ -226,6 +219,7 @@ const { actions } = store( 'ever-blocks/carousel', {
 						const clone = run.cloneNode( true );
 
 						clone.setAttribute( 'aria-hidden', 'true' );
+						clone.inert = true;
 						lane.appendChild( clone );
 					}
 

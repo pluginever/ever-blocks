@@ -45,7 +45,8 @@ class CarouselTest extends TestCase {
 		$this->assertMatchesRegularExpression( '/<div class="eb-carousel is-layout-slider[^"]*"[^>]*data-wp-interactive="ever-blocks\/carousel"[^>]*role="region"/', $html );
 		$this->assertStringContainsString( '&quot;autoplay&quot;:true', $html );
 		$this->assertSame( 3, substr_count( $html, 'class="eb-carousel__slide' ) );
-		$this->assertMatchesRegularExpression( '/<div class="eb-carousel__slide[^"]*"[^>]*role="group" aria-roledescription="slide"/', $html );
+		$this->assertMatchesRegularExpression( '/<div aria-label="2 of 3" class="eb-carousel__slide[^"]*"[^>]*role="group" aria-roledescription="slide"/', $html, 'A slide is numbered before hydration.' );
+		$this->assertStringContainsString( 'aria-label="Previous slide" disabled>', $this->carousel( '{"loop":false}' ), 'Without looping the first slide has no previous.' );
 		$this->assertSame( 3, substr_count( $html, 'class="eb-carousel__dot"' ) );
 		$this->assertStringContainsString( 'class="eb-carousel__arrow eb-carousel__arrow--next"', $html );
 		$this->assertStringContainsString( 'aria-live="polite"', $html );
@@ -63,7 +64,7 @@ class CarouselTest extends TestCase {
 
 		$this->assertStringContainsString( 'is-layout-row is-moving', $row );
 		$this->assertSame( 2, substr_count( $row, 'class="eb-carousel__run"' ) );
-		$this->assertSame( 1, substr_count( $row, '<div class="eb-carousel__run" aria-hidden="true">' ) );
+		$this->assertSame( 1, substr_count( $row, '<div class="eb-carousel__run" aria-hidden="true" inert>' ) );
 
 		$columns = $this->carousel( '{"layout":"columns","columns":2,"autoplay":true}', 4 );
 
