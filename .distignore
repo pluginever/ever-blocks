@@ -15,11 +15,22 @@
 # ───────────────────────────────
 bin/
 tests/
-composer.lock
+vendor/
 node_modules/
+composer.json
+composer.lock
 package.json
 pnpm-lock.yaml
 pnpm-workspace.yaml
+phpstan-bootstrap.php
+phpunit.xml
+
+# ───────────────────────────────
+# Agent Instructions
+# ───────────────────────────────
+.claude/
+AGENTS.md
+CLAUDE.md
 
 # ───────────────────────────────
 # Sources
@@ -43,8 +54,7 @@ packages/
 *.yml
 *.zip
 .*
+!.wordpress-org/
 /*.js
 /*.json
 /*.xml
-phpunit.xml
-tools/

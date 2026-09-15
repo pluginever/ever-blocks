@@ -1,0 +1,37 @@
+name: Trunk
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: trunk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: pnpm
+
+      - name: Push to trunk
+        uses: sultann/branch-deploy-action@v1
+        with:
+          target-branch: trunk
+          ignore-file: .distignore
+          script-before: |
+            pnpm install --frozen-lockfile
+            pnpm build
