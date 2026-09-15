@@ -35,4 +35,64 @@ class PatternsTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Block attributes inside every pattern stay valid JSON when a translation carries a quote or apostrophe.
+	 *
+	 * @return void
+	 */
+	public function test_translated_strings_keep_block_attributes_parseable(): void {
+		$quote = static fn( string $translation ): string => 'D\'oh "' . $translation . '"';
+
+		add_filter( 'gettext', $quote );
+
+		$plugin = $this->plugin->get( \EverBlocks\Patterns::class );
+
+		$registry = \WP_Block_Patterns_Registry::get_instance();
+
+		foreach ( $registry->get_all_registered() as $pattern ) {
+			if ( ! in_array( 'ever-blocks', $pattern['categories'] ?? array(), true ) ) {
+				continue;
+			}
+
+			$registry->unregister( $pattern['name'] );
+		}
+
+		$plugin->register_patterns();
+
+		remove_filter( 'gettext', $quote );
+
+		foreach ( glob( EVER_BLOCKS_DIR . 'patterns/*.php' ) as $file ) {
+			$pattern = $registry->get_registered( 'ever-blocks/' . basename( $file, '.php' ) );
+
+			$this->assertIsArray( $pattern, $file );
+
+			foreach ( $this->flatten( parse_blocks( $pattern['content'] ) ) as $block ) {
+				if ( null === $block['blockName'] ) {
+					$this->assertSame( '', trim( $block['innerHTML'] ), $file . ': a block lost its name.' );
+
+					continue;
+				}
+
+				$this->assertIsArray( $block['attrs'], $file . ': ' . $block['blockName'] . ' lost its attributes.' );
+			}
+		}
+	}
+
+	/**
+	 * Flattens a block tree.
+	 *
+	 * @param array<int, array<string, mixed>> $blocks Parsed blocks.
+	 * @return array<int, array<string, mixed>> Every block, depth first.
+	 */
+	private function flatten( array $blocks ): array {
+		$flat = array();
+
+		foreach ( $blocks as $block ) {
+			$flat[] = $block;
+			$flat   = array_merge( $flat, $this->flatten( $block['innerBlocks'] ?? array() ) );
+		}
+
+		return $flat;
+	}
+
 }

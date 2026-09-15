@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignwide"><!-- wp:ever-blocks/testimonial {"quote":"<?php echo esc_js( __( 'We moved 40 client sites over in a month.', 'ever-blocks' ) ); ?>","name":"<?php echo esc_js( __( 'Name', 'ever-blocks' ) ); ?>","role":"<?php echo esc_js( __( 'Role, Company', 'ever-blocks' ) ); ?>","rating":4.5,"avatarUrl":"<?php echo esc_url( EVER_BLOCKS_URL . 'assets/images/avatar.svg' ); ?>","layout":"centered","className":"is-style-plain"} /-->
+<div class="wp-block-group alignwide"><!-- wp:ever-blocks/testimonial {"quote":"<?php echo esc_html( __( 'We moved 40 client sites over in a month.', 'ever-blocks' ) ); ?>","name":"<?php echo esc_html( __( 'Name', 'ever-blocks' ) ); ?>","role":"<?php echo esc_html( __( 'Role, Company', 'ever-blocks' ) ); ?>","rating":4.5,"avatarUrl":"<?php echo esc_url( EVER_BLOCKS_URL . 'assets/images/avatar.svg' ); ?>","layout":"centered","className":"is-style-plain"} /-->
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"}} -->
 <div class="wp-block-group"><!-- wp:image {"width":"96px","sizeSlug":"medium"} -->
 <figure class="wp-block-image size-medium is-resized"><img src="<?php echo esc_url( EVER_BLOCKS_URL . 'assets/images/logo.svg' ); ?>" alt="" style="width:96px"/></figure>

@@ -17,5 +17,5 @@ defined( 'ABSPATH' ) || exit;
 <div class="wp-block-group"><!-- wp:video -->
 <figure class="wp-block-video"></figure>
 <!-- /wp:video -->
-<!-- wp:ever-blocks/testimonial {"quote":"<?php echo esc_js( __( 'Clean markup, sane defaults, and it respects the theme. Rare.', 'ever-blocks' ) ); ?>","name":"<?php echo esc_js( __( 'Name', 'ever-blocks' ) ); ?>","role":"<?php echo esc_js( __( 'Role, Company', 'ever-blocks' ) ); ?>","rating":5,"avatarUrl":"<?php echo esc_url( EVER_BLOCKS_URL . 'assets/images/avatar.svg' ); ?>","showRating":false,"className":"is-style-plain"} /--></div>
+<!-- wp:ever-blocks/testimonial {"quote":"<?php echo esc_html( __( 'Clean markup, sane defaults, and it respects the theme. Rare.', 'ever-blocks' ) ); ?>","name":"<?php echo esc_html( __( 'Name', 'ever-blocks' ) ); ?>","role":"<?php echo esc_html( __( 'Role, Company', 'ever-blocks' ) ); ?>","rating":5,"avatarUrl":"<?php echo esc_url( EVER_BLOCKS_URL . 'assets/images/avatar.svg' ); ?>","showRating":false,"className":"is-style-plain"} /--></div>
 <!-- /wp:group -->
