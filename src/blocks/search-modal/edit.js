@@ -128,8 +128,8 @@ export default function Edit( {
 					panelId={ `${ clientId }-icons` }
 					resetAll={ () =>
 						setAttributes( {
-							triggerIcon: undefined,
-							closeIcon: undefined,
+							triggerIcon: 'core/search',
+							closeIcon: 'heroicons/x-mark',
 						} )
 					}
 				>
@@ -138,7 +138,9 @@ export default function Edit( {
 						value={ triggerIcon }
 						panelId={ `${ clientId }-icons` }
 						onChange={ ( next ) =>
-							setAttributes( { triggerIcon: next } )
+							setAttributes( {
+								triggerIcon: next ?? 'core/search',
+							} )
 						}
 					/>
 					<IconPickerControl
@@ -146,7 +148,9 @@ export default function Edit( {
 						value={ closeIcon }
 						panelId={ `${ clientId }-icons` }
 						onChange={ ( next ) =>
-							setAttributes( { closeIcon: next } )
+							setAttributes( {
+								closeIcon: next ?? 'heroicons/x-mark',
+							} )
 						}
 					/>
 				</ToolsPanel>

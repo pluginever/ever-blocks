@@ -45,21 +45,30 @@ export function SettingControl( {
 	setAttributes,
 }: Props ) {
 	const { name: blockName } = useBlockEditContext();
-	const fallback = getBlockType( blockName )?.attributes?.[ name ]?.default;
+	const schema = getBlockType( blockName )?.attributes?.[ name ];
+	const fallback = schema?.default;
 	const value = attributes[ name ];
+	const coerce = ( next: unknown ) =>
+		'number' === schema?.type && 'string' === typeof next && next.trim()
+			? Number( next )
+			: next;
 	const isDefault = ( next: unknown ) =>
 		'toggle' === setting.type
 			? Boolean( next ) === Boolean( fallback )
-			: String( next ?? '' ) === String( fallback ?? '' );
+			: String( coerce( next ) ?? '' ) === String( fallback ?? '' );
+	// The editor never re-applies a block.json default after a write, so the
+	// default is written back in full rather than as undefined.
 	const set = ( next: unknown ) =>
-		setAttributes( { [ name ]: isDefault( next ) ? undefined : next } );
+		setAttributes( {
+			[ name ]: isDefault( next ) ? fallback : coerce( next ),
+		} );
 
 	return (
 		<ToolsPanelItem
 			hasValue={ () => ! isDefault( value ) }
 			label={ setting.label }
 			panelId={ panelId }
-			onDeselect={ () => set( undefined ) }
+			onDeselect={ () => set( fallback ) }
 			isShownByDefault={ setting.isShownByDefault ?? false }
 		>
 			{ 'toggle' === setting.type && (

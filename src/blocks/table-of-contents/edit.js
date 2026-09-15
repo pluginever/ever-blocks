@@ -234,8 +234,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					panelId={ `${ clientId }-headings` }
 					resetAll={ () =>
 						setAttributes( {
-							levels: undefined,
-							minHeadings: undefined,
+							levels: [ 2, 3 ],
+							minHeadings: 2,
 						} )
 					}
 				>
@@ -248,7 +248,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						panelId={ `${ clientId }-headings` }
 						isShownByDefault
 						onDeselect={ () =>
-							setAttributes( { levels: undefined } )
+							setAttributes( { levels: [ 2, 3 ] } )
 						}
 					>
 						<fieldset className="eb-table-of-contents__levels">
@@ -282,9 +282,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						hasValue={ () => 2 !== minHeadings }
 						label={ __( 'Minimum', 'ever-blocks' ) }
 						panelId={ `${ clientId }-headings` }
-						onDeselect={ () =>
-							setAttributes( { minHeadings: undefined } )
-						}
+						onDeselect={ () => setAttributes( { minHeadings: 2 } ) }
 					>
 						<SelectControl
 							__nextHasNoMarginBottom

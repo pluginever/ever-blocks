@@ -123,7 +123,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<ToolsPanel
 					label={ __( 'Layout', 'ever-blocks' ) }
 					panelId={ `${ clientId }-layout` }
-					resetAll={ () => setAttributes( { layout: undefined } ) }
+					resetAll={ () => setAttributes( { layout: 'stacked' } ) }
 				>
 					<LayoutControl
 						label={ __( 'Layout', 'ever-blocks' ) }
@@ -141,10 +141,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					label={ __( 'Rating', 'ever-blocks' ) }
 					panelId={ `${ clientId }-rating` }
 					resetAll={ () =>
-						setAttributes( {
-							showRating: undefined,
-							rating: undefined,
-						} )
+						setAttributes( { showRating: true, rating: 5 } )
 					}
 				>
 					<ToolsPanelItem
@@ -153,10 +150,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						panelId={ `${ clientId }-rating` }
 						isShownByDefault
 						onDeselect={ () =>
-							setAttributes( {
-								showRating: undefined,
-								rating: undefined,
-							} )
+							setAttributes( { showRating: true, rating: 5 } )
 						}
 					>
 						<RangeControl
@@ -213,9 +207,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<ToolsPanel
 						label={ __( 'Schema', 'ever-blocks' ) }
 						panelId={ `${ clientId }-schema` }
-						resetAll={ () =>
-							setAttributes( { itemReviewed: undefined } )
-						}
+						resetAll={ () => setAttributes( { itemReviewed: '' } ) }
 					>
 						<ToolsPanelItem
 							hasValue={ () => Boolean( itemReviewed ) }
@@ -223,7 +215,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							panelId={ `${ clientId }-schema` }
 							isShownByDefault
 							onDeselect={ () =>
-								setAttributes( { itemReviewed: undefined } )
+								setAttributes( { itemReviewed: '' } )
 							}
 						>
 							<TextControl

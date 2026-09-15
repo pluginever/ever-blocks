@@ -33,10 +33,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					panelId={ panelId }
 					resetAll={ () =>
 						setAttributes( {
-							value: undefined,
-							max: undefined,
-							icon: undefined,
-							showLabel: undefined,
+							value: 5,
+							max: 5,
+							icon: 'heroicons/star',
+							showLabel: false,
 						} )
 					}
 				>
@@ -45,9 +45,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						label={ __( 'Value', 'ever-blocks' ) }
 						panelId={ panelId }
 						isShownByDefault
-						onDeselect={ () =>
-							setAttributes( { value: undefined } )
-						}
+						onDeselect={ () => setAttributes( { value: 5 } ) }
 					>
 						<RangeControl
 							__nextHasNoMarginBottom
@@ -66,7 +64,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						hasValue={ () => 5 !== attributes.max }
 						label={ __( 'Maximum', 'ever-blocks' ) }
 						panelId={ panelId }
-						onDeselect={ () => setAttributes( { max: undefined } ) }
+						onDeselect={ () => setAttributes( { max: 5 } ) }
 					>
 						<RangeControl
 							__nextHasNoMarginBottom
@@ -88,14 +86,16 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						label={ __( 'Icon', 'ever-blocks' ) }
 						value={ icon }
 						panelId={ panelId }
-						onChange={ ( next ) => setAttributes( { icon: next } ) }
+						onChange={ ( next ) =>
+							setAttributes( { icon: next ?? 'heroicons/star' } )
+						}
 					/>
 					<ToolsPanelItem
 						hasValue={ () => Boolean( showLabel ) }
 						label={ __( 'Label', 'ever-blocks' ) }
 						panelId={ panelId }
 						onDeselect={ () =>
-							setAttributes( { showLabel: undefined } )
+							setAttributes( { showLabel: false } )
 						}
 					>
 						<ToggleControl

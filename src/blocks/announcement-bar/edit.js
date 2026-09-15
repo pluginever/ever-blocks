@@ -70,14 +70,7 @@ function Placeholder( { clientId, setAttributes } ) {
 }
 
 function Bar( { attributes, setAttributes, clientId } ) {
-	const {
-		animation,
-		dismissible,
-		rememberDays,
-		startsAt,
-		endsAt,
-		closeIcon,
-	} = attributes;
+	const { animation, dismissible, startsAt, endsAt, closeIcon } = attributes;
 	const isStatic = 'static' === animation;
 	const isTicker = 'ticker' === animation;
 	const count = useSelect(
@@ -246,8 +239,8 @@ function Bar( { attributes, setAttributes, clientId } ) {
 					panelId={ `${ clientId }-animation` }
 					resetAll={ () =>
 						setAttributes( {
-							animation: undefined,
-							direction: undefined,
+							animation: 'static',
+							direction: 'left',
 						} )
 					}
 				>
@@ -269,19 +262,8 @@ function Bar( { attributes, setAttributes, clientId } ) {
 
 			<SettingsPanels
 				label={ __( 'Announcement bar', 'ever-blocks' ) }
-				attributes={ {
-					...attributes,
-					rememberDays: String( rememberDays ),
-				} }
-				setAttributes={ ( next ) =>
-					setAttributes( {
-						...next,
-						...( 'rememberDays' in next &&
-						undefined !== next.rememberDays
-							? { rememberDays: Number( next.rememberDays ) }
-							: {} ),
-					} )
-				}
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				controls={ settings }
 			/>
 
@@ -291,8 +273,8 @@ function Bar( { attributes, setAttributes, clientId } ) {
 					panelId={ `${ clientId }-schedule` }
 					resetAll={ () =>
 						setAttributes( {
-							startsAt: undefined,
-							endsAt: undefined,
+							startsAt: '',
+							endsAt: '',
 						} )
 					}
 				>
@@ -300,9 +282,7 @@ function Bar( { attributes, setAttributes, clientId } ) {
 						hasValue={ () => Boolean( startsAt ) }
 						label={ __( 'Start', 'ever-blocks' ) }
 						panelId={ `${ clientId }-schedule` }
-						onDeselect={ () =>
-							setAttributes( { startsAt: undefined } )
-						}
+						onDeselect={ () => setAttributes( { startsAt: '' } ) }
 					>
 						<TextControl
 							__nextHasNoMarginBottom
@@ -319,9 +299,7 @@ function Bar( { attributes, setAttributes, clientId } ) {
 						hasValue={ () => Boolean( endsAt ) }
 						label={ __( 'End', 'ever-blocks' ) }
 						panelId={ `${ clientId }-schedule` }
-						onDeselect={ () =>
-							setAttributes( { endsAt: undefined } )
-						}
+						onDeselect={ () => setAttributes( { endsAt: '' } ) }
 					>
 						<TextControl
 							__nextHasNoMarginBottom
@@ -341,7 +319,7 @@ function Bar( { attributes, setAttributes, clientId } ) {
 						label={ __( 'Close icon', 'ever-blocks' ) }
 						panelId={ `${ clientId }-icon` }
 						resetAll={ () =>
-							setAttributes( { closeIcon: undefined } )
+							setAttributes( { closeIcon: 'heroicons/x-mark' } )
 						}
 					>
 						<IconPickerControl
@@ -349,7 +327,9 @@ function Bar( { attributes, setAttributes, clientId } ) {
 							value={ closeIcon }
 							panelId={ `${ clientId }-icon` }
 							onChange={ ( next ) =>
-								setAttributes( { closeIcon: next } )
+								setAttributes( {
+									closeIcon: next ?? 'heroicons/x-mark',
+								} )
 							}
 						/>
 					</ToolsPanel>
