@@ -1,6 +1,5 @@
 .eb-announcement-bar {
 	--gap: var(--ever-blocks-announcement-bar-gap, var(--eb-spacing-sm));
-	--close: var(--ever-blocks-announcement-bar-close-size, var(--eb-icon-size));
 
 	position: relative;
 	display: flex;
@@ -24,21 +23,20 @@
 	}
 
 	&__close {
+		--close: var(--ever-blocks-announcement-bar-close-size, calc(var(--eb-icon-size) * 0.8));
+
 		display: inline-flex;
-		align-items: center;
-		justify-content: center;
 		flex: none;
-		width: calc(var(--close) + var(--eb-spacing-2xs) * 2);
-		height: calc(var(--close) + var(--eb-spacing-2xs) * 2);
 		margin-left: var(--eb-spacing-2xs);
 		padding: 0;
 		border: 0;
 		border-radius: 2px;
 		background: transparent;
 		color: inherit;
-		opacity: 0.8;
+		line-height: 0;
+		opacity: 0.7;
 		cursor: pointer;
-		transition: opacity var(--eb-transition-duration) var(--eb-transition-timing-function), background-color var(--eb-transition-duration) var(--eb-transition-timing-function);
+		transition: opacity var(--eb-transition-duration) var(--eb-transition-timing-function);
 
 		svg {
 			display: block;
@@ -49,7 +47,6 @@
 
 		&:hover {
 			opacity: 1;
-			background: color-mix(in srgb, currentcolor 12%, transparent);
 		}
 
 		&:focus-visible {

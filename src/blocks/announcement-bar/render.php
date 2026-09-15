@@ -71,7 +71,7 @@ if ( $eb_moving ) {
 
 if ( 'ticker' === $eb_animation ) {
 	$eb_track = sprintf(
-		'<div class="eb-announcement-bar__track" data-wp-watch="callbacks.measure"><div class="eb-announcement-bar__run">%1$s</div><div class="eb-announcement-bar__run" aria-hidden="true">%1$s</div></div>',
+		'<div class="eb-announcement-bar__track" data-wp-watch="callbacks.measure"><div class="eb-announcement-bar__run">%1$s</div><div class="eb-announcement-bar__run" aria-hidden="true" inert>%1$s</div></div>',
 		$content
 	);
 } elseif ( 'rotate' === $eb_animation ) {

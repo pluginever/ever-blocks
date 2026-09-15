@@ -27,12 +27,13 @@ const place = ( run, context ) => {
 
 	run.parentElement.style.height = `${ item.offsetHeight }px`;
 	run.style.transform = `translateY(-${ item.offsetTop }px)`;
-	items.forEach( ( node, i ) =>
+	items.forEach( ( node, i ) => {
 		node.setAttribute(
 			'aria-hidden',
 			i === context.index ? 'false' : 'true'
-		)
-	);
+		);
+		node.inert = i !== context.index;
+	} );
 };
 
 const step = ( root, context ) => {
@@ -45,7 +46,9 @@ const step = ( root, context ) => {
 		return;
 	}
 
-	context.index = ( context.index + 1 ) % count;
+	const direction = context.reverse ? -1 : 1;
+
+	context.index = ( context.index + direction + count ) % count;
 	place( run, context );
 };
 
@@ -144,6 +147,7 @@ store( 'ever-blocks/announcement-bar', {
 					const clone = run.cloneNode( true );
 
 					clone.setAttribute( 'aria-hidden', 'true' );
+					clone.inert = true;
 					track.appendChild( clone );
 				}
 
