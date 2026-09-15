@@ -32,6 +32,7 @@ jobs:
         with:
           target-branch: trunk
           ignore-file: .distignore
+          include-paths: .wordpress-org
           script-before: |
             pnpm install --frozen-lockfile
             pnpm build

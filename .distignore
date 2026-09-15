@@ -54,7 +54,6 @@ packages/
 *.yml
 *.zip
 .*
-!.wordpress-org/
 /*.js
 /*.json
 /*.xml
