@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ever-blocks/pricing-table",
+  "title": "Pricing Table",
+  "category": "ever-blocks",
+  "icon": "table-col-after",
+  "description": "Plans side by side, with a billing switch that changes every price at once.",
+  "keywords": [
+    "pricing",
+    "plans",
+    "price",
+    "subscription",
+    "compare"
+  ],
+  "textdomain": "ever-blocks",
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "default": "card",
+      "enum": [
+        "card",
+        "divided"
+      ]
+    },
+    "options": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    },
+    "active": {
+      "type": "string",
+      "default": ""
+    },
+    "optionsLabel": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "providesContext": {
+    "ever-blocks/pricingOptions": "options",
+    "ever-blocks/pricingActive": "active"
+  },
+  "allowedBlocks": [
+    "ever-blocks/pricing-column"
+  ],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "color": {
+      "text": true,
+      "background": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "interactivity": true,
+    "everBlocks": {
+      "elements": {
+        "switch": ".eb-pricing-table__switch",
+        "option": {
+          "selector": ".eb-pricing-table__option",
+          "states": [
+            ":hover",
+            ":focus-visible"
+          ]
+        },
+        "optionActive": ".eb-pricing-table__option[aria-checked=\"true\"]",
+        "optionBadge": ".eb-pricing-table__option-badge"
+      }
+    }
+  },
+  "selectors": {
+    "root": ".eb-pricing-table"
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": [
+    "ever-blocks-common",
+    "file:./style-index.css"
+  ],
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

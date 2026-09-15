@@ -1,0 +1,134 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ever-blocks/testimonial",
+  "title": "Testimonial",
+  "category": "ever-blocks",
+  "icon": "format-quote",
+  "description": "A customer quote with photo, name, role, rating and logo.",
+  "keywords": [
+    "quote",
+    "review",
+    "customer",
+    "testimonial"
+  ],
+  "textdomain": "ever-blocks",
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "default": "stacked",
+      "enum": [
+        "stacked",
+        "side",
+        "centered"
+      ]
+    },
+    "quote": {
+      "type": "string",
+      "role": "content"
+    },
+    "name": {
+      "type": "string",
+      "role": "content"
+    },
+    "role": {
+      "type": "string",
+      "role": "content"
+    },
+    "avatarId": {
+      "type": "number"
+    },
+    "avatarUrl": {
+      "type": "string",
+      "role": "content"
+    },
+    "avatarAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "showRating": {
+      "type": "boolean",
+      "default": true
+    },
+    "rating": {
+      "type": "number",
+      "default": 5
+    },
+    "showLogo": {
+      "type": "boolean",
+      "default": false
+    },
+    "logoId": {
+      "type": "number"
+    },
+    "logoUrl": {
+      "type": "string",
+      "role": "content"
+    },
+    "logoAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "quoteMark": {
+      "type": "boolean",
+      "default": false
+    },
+    "schema": {
+      "type": "boolean",
+      "default": false
+    },
+    "itemReviewed": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "align": [
+      "wide"
+    ],
+    "color": {
+      "text": true,
+      "background": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "shadow": true,
+    "everBlocks": {
+      "elements": {
+        "quote": ".eb-testimonial__quote",
+        "author": ".eb-testimonial__author",
+        "name": ".eb-testimonial__name",
+        "role": ".eb-testimonial__role",
+        "avatar": ".eb-testimonial__avatar",
+        "rating": ".eb-testimonial__rating",
+        "filled": ".eb-testimonial__rating .eb-rating__filled",
+        "empty": ".eb-testimonial__rating .eb-rating__empty",
+        "mark": ".eb-testimonial__mark",
+        "logo": ".eb-testimonial__logo"
+      }
+    }
+  },
+  "selectors": {
+    "root": ".eb-testimonial"
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": [
+    "ever-blocks-common",
+    "file:./style-index.css"
+  ]
+}

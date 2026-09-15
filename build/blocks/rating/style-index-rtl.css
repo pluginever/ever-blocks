@@ -1,0 +1,1 @@
+.eb-rating{align-items:center;display:flex;gap:calc(var(--size)*.4)}.eb-rating.has-text-align-center{justify-content:center}.eb-rating.has-text-align-right{justify-content:flex-end}.eb-rating__label{color:var(--eb-color-muted);font-size:calc(var(--size)*.8);font-weight:var(--eb-font-weight-medium)}

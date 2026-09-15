@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ever-blocks/pricing-price",
+  "title": "Price",
+  "category": "ever-blocks",
+  "icon": "tag",
+  "description": "A plan’s price for each billing option, set in the sidebar.",
+  "textdomain": "ever-blocks",
+  "parent": [
+    "ever-blocks/pricing-column"
+  ],
+  "attributes": {
+    "prices": {
+      "type": "object",
+      "default": {}
+    },
+    "perOption": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "usesContext": [
+    "ever-blocks/pricingOptions",
+    "ever-blocks/pricingActive"
+  ],
+  "supports": {
+    "html": false,
+    "reusable": false,
+    "color": {
+      "text": true,
+      "background": false
+    },
+    "spacing": {
+      "margin": true
+    },
+    "everBlocks": {
+      "elements": {
+        "currency": ".eb-pricing-price__currency",
+        "amount": ".eb-pricing-price__amount",
+        "period": ".eb-pricing-price__period",
+        "original": ".eb-pricing-price__original",
+        "note": ".eb-pricing-price__note"
+      }
+    }
+  },
+  "selectors": {
+    "root": ".eb-pricing-price"
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": [
+    "ever-blocks-common",
+    "file:./style-index.css"
+  ],
+  "render": "file:./render.php"
+}
