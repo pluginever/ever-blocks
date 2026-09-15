@@ -26,7 +26,7 @@ import {
 	useBlockStyles,
 	VStack,
 } from '@byteever/block-components';
-import { blankColumn, LAYOUTS } from './variations';
+import { blankColumn, LAYOUTS, OPTIONS } from './variations';
 import './editor.scss';
 
 const BLOCK = 'ever-blocks/pricing-table';
@@ -308,7 +308,7 @@ function Table( { attributes, setAttributes, clientId } ) {
 				<ToolsPanel
 					label={ __( 'Layout', 'ever-blocks' ) }
 					panelId={ `${ clientId }-layout` }
-					resetAll={ () => setAttributes( { layout: undefined } ) }
+					resetAll={ () => setAttributes( { layout: 'card' } ) }
 				>
 					<LayoutControl
 						label={ __( 'Layout', 'ever-blocks' ) }
@@ -327,9 +327,9 @@ function Table( { attributes, setAttributes, clientId } ) {
 					panelId={ `${ clientId }-options` }
 					resetAll={ () =>
 						setAttributes( {
-							options: undefined,
-							active: undefined,
-							optionsLabel: undefined,
+							options: OPTIONS,
+							active: 'yearly',
+							optionsLabel: '',
 						} )
 					}
 				>
@@ -352,7 +352,7 @@ function Table( { attributes, setAttributes, clientId } ) {
 							type: 'text',
 							label: __( 'Accessible name', 'ever-blocks' ),
 							help: __(
-								'Read to screen readers before the options.',
+								'Read to screen readers before the options. Defaults to “Billing period”.',
 								'ever-blocks'
 							),
 						},
@@ -443,7 +443,9 @@ function Table( { attributes, setAttributes, clientId } ) {
 				<Switch
 					options={ options }
 					active={ active }
-					label={ optionsLabel }
+					label={
+						optionsLabel || __( 'Billing period', 'ever-blocks' )
+					}
 					onChange={ ( slug ) => setAttributes( { active: slug } ) }
 				/>
 				<div { ...innerBlocksProps } />

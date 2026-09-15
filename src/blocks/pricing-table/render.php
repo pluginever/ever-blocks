@@ -65,7 +65,7 @@ if ( $eb_options ) {
 
 	$eb_switch = sprintf(
 		'<div class="eb-pricing-table__switch" role="radiogroup" aria-label="%1$s">%2$s</div>',
-		esc_attr( $attributes['optionsLabel'] ?? __( 'Billing period', 'ever-blocks' ) ),
+		esc_attr( is_string( $attributes['optionsLabel'] ?? null ) && '' !== trim( $attributes['optionsLabel'] ) ? $attributes['optionsLabel'] : __( 'Billing period', 'ever-blocks' ) ),
 		$eb_switch
 	);
 }

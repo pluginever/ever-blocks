@@ -168,6 +168,15 @@ export const PLANS = {
 	} ),
 };
 
+export const OPTIONS = [
+	{ slug: 'monthly', label: __( 'Monthly', 'ever-blocks' ) },
+	{
+		slug: 'yearly',
+		label: __( 'Yearly', 'ever-blocks' ),
+		badge: __( 'Save 20%', 'ever-blocks' ),
+	},
+];
+
 export const LAYOUTS = [
 	{
 		value: 'card',
@@ -190,7 +199,7 @@ export default LAYOUTS.map( ( option ) => ( {
 	title: __( 'Pricing Table', 'ever-blocks' ),
 	description: option.label,
 	icon: option.icon,
-	attributes: option.attributes,
+	attributes: { ...option.attributes, options: OPTIONS, active: 'yearly' },
 	innerBlocks: TEMPLATE,
 	scope: [ 'block' ],
 	isActive: ( attributes ) => attributes.layout === option.value,

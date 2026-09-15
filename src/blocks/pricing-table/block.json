@@ -25,28 +25,18 @@
 		},
 		"options": {
 			"type": "array",
-			"default": [
-				{
-					"slug": "monthly",
-					"label": "Monthly"
-				},
-				{
-					"slug": "yearly",
-					"label": "Yearly",
-					"badge": "Save 20%"
-				}
-			],
+			"default": [],
 			"items": {
 				"type": "object"
 			}
 		},
 		"active": {
 			"type": "string",
-			"default": "yearly"
+			"default": ""
 		},
 		"optionsLabel": {
 			"type": "string",
-			"default": "Billing period"
+			"default": ""
 		}
 	},
 	"providesContext": {
