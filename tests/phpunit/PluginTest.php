@@ -17,7 +17,7 @@ class PluginTest extends TestCase {
 	 */
 	public function test_container_memoises_instances(): void {
 		$this->assertSame( $this->plugin->get( ZIndex::class ), $this->plugin->get( ZIndex::class ) );
-		$this->assertSame( $this->plugin->styler, $this->plugin->styler );
+		$this->assertSame( $this->plugin->version, $this->plugin->version );
 	}
 
 }

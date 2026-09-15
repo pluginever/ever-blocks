@@ -8,7 +8,7 @@ namespace EverBlocks\Tests;
  *
  * Every test renders through the real `render_block` pipeline against a block
  * registered here, so the assertions cover the declaration in block.json, the
- * styler, the store and the stamped class together.
+ * compiler, the store and the stamped class together.
  */
 class StylesTest extends TestCase {
 
@@ -335,5 +335,37 @@ class StylesTest extends TestCase {
 
 		$this->assertSame( $first, $second );
 		$this->assertSame( 1, substr_count( $this->plugin_css(), 'background-color:#0000ff' ) );
+	}
+
+	/**
+	 * A theme's viewport settings change the compiled queries with no code change.
+	 *
+	 * @return void
+	 */
+	public function test_queries_follow_theme_settings(): void {
+		$filter = static function ( $theme_json ) {
+			return $theme_json->update_with(
+				array(
+					'version'  => \WP_Theme_JSON::LATEST_SCHEMA,
+					'settings' => array( 'viewport' => array( 'mobile' => '600px', 'tablet' => '900px' ) ),
+				)
+			);
+		};
+
+		add_filter( 'wp_theme_json_data_theme', $filter );
+		\WP_Theme_JSON_Resolver::clean_cached_data();
+
+		$rules = ( new \EverBlocks\Styles() )->compile(
+			array(
+				'@mobile' => array( 'everBlocks' => array( 'gap' => '1rem' ) ),
+				'@tablet' => array( 'everBlocks' => array( 'gap' => '2rem' ) ),
+			),
+			new \WP_Block_Type( 'ever-blocks/x' )
+		);
+
+		remove_filter( 'wp_theme_json_data_theme', $filter );
+		\WP_Theme_JSON_Resolver::clean_cached_data();
+
+		$this->assertSame( array( '@media (width <= 600px)', '@media (600px < width <= 900px)' ), array_column( $rules, 'query' ) );
 	}
 }

@@ -93,7 +93,7 @@ class CoreContractTest extends TestCase {
 	public function test_store_is_enqueued_under_the_expected_handle(): void {
 		wp_style_engine_get_stylesheet_from_css_rules(
 			array( array( 'selector' => '.eb-contract', 'declarations' => array( 'color' => 'red' ) ) ),
-			array( 'context' => \EverBlocks\Services\Styler::CONTEXT )
+			array( 'context' => \EverBlocks\Styles::CONTEXT )
 		);
 		wp_enqueue_stored_styles();
 

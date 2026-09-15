@@ -61,7 +61,7 @@ class ParityTest extends TestCase {
 		foreach ( $cases as $case ) {
 			$this->assertSame(
 				$case['expected'],
-				( new \EverBlocks\Services\Styler() )->get_namespace( $case['block'] ),
+				( new \EverBlocks\Styles() )->get_namespace( $case['block'] ),
 				sprintf( 'Deriving the namespace for %s.', $case['block'] )
 			);
 		}
@@ -84,7 +84,7 @@ class ParityTest extends TestCase {
 		foreach ( $cases as $case ) {
 			$this->assertSame(
 				$case['expected'],
-				( new \EverBlocks\Services\Styler() )->get_custom_property( $case['block'], $case['key'] ),
+				( new \EverBlocks\Styles() )->get_custom_property( $case['block'], $case['key'] ),
 				sprintf( 'Deriving "%s" for %s.', $case['key'], $case['block'] )
 			);
 		}
@@ -252,7 +252,7 @@ class ParityTest extends TestCase {
 	}
 
 	/**
-	 * The styler produces the rules the shared oracle records, case by case.
+	 * The server produces the rules the shared oracle records, case by case.
 	 *
 	 * The same oracle drives the editor’s compiler in `rules.test.js`, so both
 	 * halves are held to one hand-written expectation rather than to each other.
@@ -272,7 +272,7 @@ class ParityTest extends TestCase {
 		foreach ( $oracle['cases'] as $name => $case ) {
 			$this->assertSame(
 				$this->normalize( $case['rules'] ),
-				$this->normalize( ( new \EverBlocks\Services\Styler() )->compile( $case['style'], $block_type ) ),
+				$this->normalize( ( new \EverBlocks\Styles() )->compile( $case['style'], $block_type ) ),
 				sprintf( 'Compiling the "%s" case.', $name )
 			);
 		}

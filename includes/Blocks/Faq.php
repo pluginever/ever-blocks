@@ -77,8 +77,6 @@ class Faq extends Block {
 	 * @return void
 	 */
 	public function register(): void {
-		parent::register();
-
 		add_action( 'init', array( $this, 'register_style' ) );
 		add_filter( 'block_type_metadata_settings', array( $this, 'add_attribute' ), 10, 2 );
 		add_filter( 'render_block_core/accordion-heading', array( $this, 'collect_question' ), 10, 3 );

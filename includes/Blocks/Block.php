@@ -21,14 +21,21 @@ abstract class Block {
 	public string $name = '';
 
 	/**
+	 * Wires the subclass's `render()` as the block's render callback.
+	 *
+	 * @since 2.0.0
+	 */
+	public function __construct() {
+		add_filter( 'block_type_metadata_settings', array( $this, 'render_callback' ), 10, 2 );
+	}
+
+	/**
 	 * Registers hooks.
 	 *
 	 * @since 2.0.0
 	 * @return void
 	 */
-	public function register(): void {
-		add_filter( 'block_type_metadata_settings', array( $this, 'render_callback' ), 10, 2 );
-	}
+	public function register(): void {}
 
 	/**
 	 * Makes the subclass's `render()` the block's render callback when it defines one.

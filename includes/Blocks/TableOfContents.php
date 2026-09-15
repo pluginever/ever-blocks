@@ -43,8 +43,6 @@ class TableOfContents extends Block {
 	 * @return void
 	 */
 	public function register(): void {
-		parent::register();
-
 		add_filter( 'block_type_metadata_settings', array( $this, 'add_heading_settings' ), 10, 2 );
 		add_filter( 'the_content', array( $this, 'release_anchors' ), 8 );
 		add_filter( 'render_block_core/heading', array( $this, 'add_anchor' ), 10, 3 );
