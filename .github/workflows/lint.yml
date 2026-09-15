@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  php:
-    name: PHPCS and PHPStan
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -20,23 +20,6 @@ jobs:
           php-version: '8.2'
           tools: composer, cs2pr
 
-      - name: Install
-        run: composer install --no-interaction
-
-      - name: Run PHPCS
-        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
-
-      - name: Run PHPStan
-        run: composer phpstan
-
-  javascript:
-    name: ESLint, Stylelint and TypeScript
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
@@ -47,13 +30,25 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install --frozen-lockfile
+        run: |
+          composer install --no-interaction
+          pnpm install --frozen-lockfile
 
-      - name: Lint
+      - name: Build
+        run: |
+          pnpm typecheck
+          pnpm build
+
+      - name: Run PHPCS
+        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Lint JavaScript
         run: |
           pnpm lint:js
           pnpm lint:css
-          pnpm typecheck
           pnpm test:unit
 
   syntax:
