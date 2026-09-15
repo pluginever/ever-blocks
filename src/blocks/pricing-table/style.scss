@@ -2,6 +2,7 @@
 	--gap: var(--ever-blocks-pricing-table-gap, var(--eb-spacing-sm));
 	--column-width: var(--ever-blocks-pricing-table-column-width, 320px);
 	--per-row: min(var(--columns, 3), var(--ever-blocks-pricing-table-columns, 99));
+	--track: var(--ever-blocks-pricing-table-columns, auto-fit);
 
 	display: flex;
 	flex-direction: column;
@@ -12,7 +13,7 @@
 		display: grid;
 		width: 100%;
 		max-width: calc(var(--per-row) * var(--column-width) + (var(--per-row) - 1) * var(--gap));
-		grid-template-columns: repeat(var(--ever-blocks-pricing-table-columns, auto-fit), minmax(min(200px, 100%), 1fr));
+		grid-template-columns: repeat(var(--track), minmax(min(200px, 100%), 1fr));
 		gap: var(--gap);
 		align-items: stretch;
 	}
@@ -68,7 +69,12 @@
 		line-height: var(--eb-line-height-normal);
 	}
 
+	@media (width <= 782px) {
+		--track: var(--ever-blocks-pricing-table-columns-tablet, var(--ever-blocks-pricing-table-columns, auto-fit));
+	}
+
 	@media (width <= 480px) {
+		--track: var(--ever-blocks-pricing-table-columns-mobile, 1);
 
 		&__switch {
 			width: 100%;
@@ -77,10 +83,6 @@
 
 		&__option {
 			flex: 1;
-		}
-
-		&__columns {
-			grid-template-columns: minmax(0, 1fr);
 		}
 
 		.eb-pricing-column.is-featured {

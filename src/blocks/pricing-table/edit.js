@@ -370,13 +370,27 @@ function Table( { attributes, setAttributes, clientId } ) {
 								control: 'range',
 								label: __( 'Columns', 'ever-blocks' ),
 								help: __(
-									'Plans per row; more wrap to the next row. Phones always show one.',
+									'Plans per row on desktop; more wrap to the next row.',
 									'ever-blocks'
 								),
 								min: 1,
 								max: 6,
 								step: 1,
 								isShownByDefault: true,
+							},
+							columnsTablet: {
+								control: 'range',
+								label: __( 'Tablet columns', 'ever-blocks' ),
+								min: 1,
+								max: 4,
+								step: 1,
+							},
+							columnsMobile: {
+								control: 'range',
+								label: __( 'Mobile columns', 'ever-blocks' ),
+								min: 1,
+								max: 2,
+								step: 1,
 							},
 							columnWidth: {
 								control: 'unit',
