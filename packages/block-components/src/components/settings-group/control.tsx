@@ -1,6 +1,8 @@
 /**
  * WordPress dependencies
  */
+import { useBlockEditContext } from '@wordpress/block-editor';
+import { getBlockType } from '@wordpress/blocks';
 import {
 	SelectControl,
 	TextControl,
@@ -42,12 +44,19 @@ export function SettingControl( {
 	attributes,
 	setAttributes,
 }: Props ) {
+	const { name: blockName } = useBlockEditContext();
+	const fallback = getBlockType( blockName )?.attributes?.[ name ]?.default;
 	const value = attributes[ name ];
-	const set = ( next: unknown ) => setAttributes( { [ name ]: next } );
+	const isDefault = ( next: unknown ) =>
+		'toggle' === setting.type
+			? Boolean( next ) === Boolean( fallback )
+			: String( next ?? '' ) === String( fallback ?? '' );
+	const set = ( next: unknown ) =>
+		setAttributes( { [ name ]: isDefault( next ) ? undefined : next } );
 
 	return (
 		<ToolsPanelItem
-			hasValue={ () => undefined !== value }
+			hasValue={ () => ! isDefault( value ) }
 			label={ setting.label }
 			panelId={ panelId }
 			onDeselect={ () => set( undefined ) }
@@ -58,7 +67,7 @@ export function SettingControl( {
 					label={ setting.label }
 					help={ setting.help }
 					checked={ Boolean( value ) }
-					onChange={ ( next ) => set( next || undefined ) }
+					onChange={ set }
 				/>
 			) }
 
@@ -67,7 +76,7 @@ export function SettingControl( {
 					label={ setting.label }
 					help={ setting.help }
 					value={ ( value as string ) ?? '' }
-					onChange={ ( next ) => set( next || undefined ) }
+					onChange={ set }
 				/>
 			) }
 
@@ -76,7 +85,7 @@ export function SettingControl( {
 					label={ setting.label }
 					value={ ( value as string ) ?? '' }
 					options={ setting.options }
-					onChange={ ( next ) => set( next || undefined ) }
+					onChange={ set }
 				/>
 			) }
 		</ToolsPanelItem>
