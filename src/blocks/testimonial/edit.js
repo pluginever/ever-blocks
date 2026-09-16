@@ -179,6 +179,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				label={ __( 'Testimonial', 'ever-blocks' ) }
 				attributes={ attributes }
 				setAttributes={ setAttributes }
+				resets={ [ 'rating' ] }
 				controls={ {
 					showAvatar: {
 						type: 'toggle',

@@ -268,6 +268,15 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				controls={ settings }
+				resets={ [
+					'speed',
+					'direction',
+					'columns',
+					'arrows',
+					'dots',
+					'justifyContent',
+					'loop',
+				] }
 			>
 				{ isSlider && arrows && (
 					<>

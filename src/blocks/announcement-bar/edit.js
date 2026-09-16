@@ -266,6 +266,13 @@ function Bar( { attributes, setAttributes, clientId } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				controls={ settings }
+				resets={ [
+					'speed',
+					'direction',
+					'separator',
+					'separatorText',
+					'rememberDays',
+				] }
 			>
 				{ dismissible && (
 					<IconPickerControl

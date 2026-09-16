@@ -333,6 +333,7 @@ function Table( { attributes, setAttributes, clientId } ) {
 				label={ __( 'Billing switch', 'ever-blocks' ) }
 				attributes={ attributes }
 				setAttributes={ setAttributes }
+				resets={ [ 'optionsLabel' ] }
 				controls={
 					options.length > 0
 						? {

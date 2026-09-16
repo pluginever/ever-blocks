@@ -28,6 +28,8 @@ interface Props {
 	controls?: Record< string, ControlSetting >;
 	/** Further `ToolsPanelItem`s for the same panel; each takes `settingsPanelId( clientId )`. */
 	children?: ReactNode;
+	/** Attributes reset with the panel even while their control is not rendered. */
+	resets?: string[];
 }
 
 /**
@@ -50,6 +52,7 @@ export const settingsPanelId = ( clientId: string ): string =>
  * @param props.label         Panel label.
  * @param props.controls      Settings keyed by attribute.
  * @param props.children      Further items for the same panel.
+ * @param props.resets        Attributes reset even while their control is not rendered.
  * @return The panel.
  */
 export function SettingsPanels( {
@@ -58,6 +61,7 @@ export function SettingsPanels( {
 	label = '',
 	controls = {},
 	children,
+	resets = [],
 }: Props ) {
 	const { clientId, name: blockName } = useBlockEditContext();
 	const names = Object.keys( controls );
@@ -77,7 +81,10 @@ export function SettingsPanels( {
 	) => {
 		const schema = getBlockType( blockName )?.attributes ?? {};
 		const defaults = Object.fromEntries(
-			names.map( ( name ) => [ name, schema[ name ]?.default ] )
+			[ ...new Set( [ ...names, ...resets ] ) ].map( ( name ) => [
+				name,
+				schema[ name ]?.default,
+			] )
 		);
 
 		setAttributes(
