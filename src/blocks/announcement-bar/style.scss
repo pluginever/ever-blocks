@@ -19,6 +19,15 @@
 		display: none;
 	}
 
+	a:where(:not(.wp-element-button)) {
+		color: inherit;
+
+		&:hover,
+		&:focus {
+			color: inherit;
+		}
+	}
+
 	&.is-dismissible {
 		animation: eb-announcement-bar-in var(--eb-transition-duration) var(--eb-transition-timing-function);
 	}
@@ -122,7 +131,6 @@
 	&.is-animation-ticker[class*="has-separator-"] .eb-announcement::after {
 		content: var(--separator);
 		margin-left: var(--gap);
-		color: var(--eb-color-muted);
 	}
 
 	&.is-animation-ticker.is-reverse &__run {

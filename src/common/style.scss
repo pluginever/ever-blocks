@@ -17,7 +17,7 @@
 	--eb-spacing-sm: clamp(16px, 1rem + 0.75vw, 24px);
 	--eb-spacing-md: clamp(24px, 1.5rem + 0.75vw, 32px);
 	--eb-spacing-lg: clamp(32px, 2rem + 1.5vw, 48px);
-	--eb-color-muted: color-mix(in srgb, currentcolor 60%, transparent);
+	--eb-color-muted: color-mix(in srgb, currentcolor 75%, transparent);
 	--eb-color-border: color-mix(in srgb, currentcolor 15%, transparent);
 	--eb-color-surface: color-mix(in srgb, currentcolor 6%, transparent);
 	--eb-color-backdrop: rgba(0, 0, 0, 0.6);

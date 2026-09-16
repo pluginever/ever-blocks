@@ -1,11 +1,17 @@
 // The "Divided" style of the core accordion: hairlines between items, a
-// medium-weight question, a muted answer and a chevron that turns on open.
-.wp-block-accordion.is-style-divided {
+// medium-weight question and a chevron that turns on open.
+:root :where(.wp-block-accordion.is-style-divided) {
 	border-bottom: var(--eb-border-width) solid var(--eb-color-border);
+}
+
+:root :where(.wp-block-accordion.is-style-divided > .wp-block-accordion-item) {
+	border-top: var(--eb-border-width) solid var(--eb-color-border);
+}
+
+.wp-block-accordion.is-style-divided {
 
 	> .wp-block-accordion-item {
 		margin-block-start: 0;
-		border-top: var(--eb-border-width) solid var(--eb-color-border);
 	}
 
 	.wp-block-accordion-heading {
@@ -55,7 +61,6 @@
 	.wp-block-accordion-panel {
 		margin-block-start: 0;
 		padding: 0 0 var(--eb-spacing-xs);
-		color: var(--eb-color-muted);
 		line-height: var(--eb-line-height-relaxed);
 
 		> * {
