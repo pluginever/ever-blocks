@@ -145,9 +145,11 @@ return array(
 				'text' => true,
 				'background' => true,
 				'gradients' => true,
+				'link' => true,
 				'__experimentalDefaultControls' => array(
 					'background' => true,
-					'text' => true
+					'text' => true,
+					'link' => true
 				)
 			),
 			'spacing' => array(
