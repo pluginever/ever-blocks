@@ -49,7 +49,8 @@ class AnnouncementBarTest extends TestCase {
 
 		$html = $this->bar( '{"animation":"ticker","dismissible":true,"rememberDays":30,"anchor":"sale"}', 3 );
 
-		$this->assertMatchesRegularExpression( '/<div[^>]*class="[^"]*\beb-announcement-bar is-animation-ticker is-moving\b[^"]*"[^>]*role="region"/', $html );
+		$this->assertMatchesRegularExpression( '/<div hidden class="[^"]*\beb-announcement-bar is-animation-ticker is-moving\b[^"]*is-dismissible[^"]*"[^>]*role="region"/', $html );
+		$this->assertDoesNotMatchRegularExpression( '/<div[^>]*\shidden[\s>]/', $this->bar( '{}' ), 'A bar that cannot be dismissed paints without the script.' );
 		$this->assertStringContainsString( '&quot;dismiss&quot;:&quot;eb-announcement-sale&quot;', $html );
 		$this->assertStringContainsString( '&quot;days&quot;:30', $html );
 		$this->assertSame( 2, substr_count( $html, 'class="eb-announcement-bar__run"' ), 'The ticker duplicates its run once.' );

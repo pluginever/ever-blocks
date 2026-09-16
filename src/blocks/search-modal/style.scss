@@ -46,8 +46,8 @@
 		box-sizing: border-box;
 		border: 0;
 		padding: var(--eb-spacing-lg);
-		background: rgba(23, 23, 23, 0.97);
-		color: #fff;
+		background: var(--wp--preset--color--contrast, #171717);
+		color: var(--wp--preset--color--base, #fff);
 		line-height: var(--eb-line-height-normal);
 
 		&::backdrop {

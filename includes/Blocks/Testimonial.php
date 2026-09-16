@@ -36,10 +36,11 @@ class Testimonial extends Block {
 
 		$layouts = array( 'stacked', 'side', 'centered' );
 		$layout  = in_array( $attributes['layout'] ?? '', $layouts, true ) ? $attributes['layout'] : 'stacked';
-		$person  = $this->text( $attributes['name'] ?? '' );
-		$role    = $this->text( $attributes['role'] ?? '' );
+		$shown   = static fn( string $key ): bool => ! isset( $attributes[ $key ] ) || false !== $attributes[ $key ];
+		$person  = $shown( 'showName' ) ? $this->text( $attributes['name'] ?? '' ) : '';
+		$role    = $shown( 'showRole' ) ? $this->text( $attributes['role'] ?? '' ) : '';
 		$rating  = (float) min( 5, max( 0, (float) ( $attributes['rating'] ?? 5 ) ) );
-		$avatar  = $this->image( $attributes['avatarUrl'] ?? '', $attributes['avatarAlt'] ?? '', 'eb-testimonial__avatar' );
+		$avatar  = $shown( 'showAvatar' ) ? $this->image( $attributes['avatarUrl'] ?? '', $attributes['avatarAlt'] ?? '', 'eb-testimonial__avatar' ) : '';
 		$logo    = empty( $attributes['showLogo'] ) ? '' : $this->image( $attributes['logoUrl'] ?? '', $attributes['logoAlt'] ?? '', 'eb-testimonial__logo' );
 		$stars   = empty( $attributes['showRating'] ) ? '' : '<div class="eb-testimonial__rating eb-rating">' . Rating::icons( $rating ) . '</div>';
 		$who     = '';

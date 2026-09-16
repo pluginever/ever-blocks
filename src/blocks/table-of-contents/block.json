@@ -87,7 +87,12 @@
 		"color": {
 			"text": true,
 			"background": true,
-			"link": false
+			"link": false,
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
 		},
 		"spacing": {
 			"margin": true,
@@ -95,13 +100,22 @@
 		},
 		"typography": {
 			"fontSize": true,
-			"lineHeight": true
+			"lineHeight": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
 			"style": true,
-			"width": true
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
 		},
 		"interactivity": true,
 		"everBlocks": {

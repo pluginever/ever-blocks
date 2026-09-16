@@ -29,7 +29,10 @@
 		"reusable": false,
 		"color": {
 			"text": true,
-			"background": false
+			"background": false,
+			"__experimentalDefaultControls": {
+				"text": true
+			}
 		},
 		"spacing": {
 			"margin": true

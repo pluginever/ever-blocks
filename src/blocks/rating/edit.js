@@ -130,15 +130,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								label: __( 'Gap', 'ever-blocks' ),
 								min: 0,
 							},
+							filled: {
+								control: 'color',
+								label: __( 'Filled', 'ever-blocks' ),
+								isShownByDefault: true,
+							},
+							empty: {
+								control: 'color',
+								label: __( 'Empty', 'ever-blocks' ),
+								isShownByDefault: true,
+							},
 						},
-					},
-					filled: {
-						label: __( 'Filled', 'ever-blocks' ),
-						color: { text: 'default' },
-					},
-					empty: {
-						label: __( 'Empty', 'ever-blocks' ),
-						color: { text: 'default' },
 					},
 					label: {
 						label: __( 'Label', 'ever-blocks' ),

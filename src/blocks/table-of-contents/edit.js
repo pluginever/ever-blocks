@@ -361,7 +361,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					},
 					list: {
 						label: __( 'List', 'ever-blocks' ),
-						spacing: { padding: true },
+						spacing: { padding: 'default' },
 					},
 					item: {
 						label: __( 'Item', 'ever-blocks' ),
