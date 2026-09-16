@@ -7,8 +7,13 @@
 		cursor: pointer;
 
 		&.is-empty {
-			flex: none;
-			height: auto;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px dashed var(--eb-color-border);
+			color: var(--eb-color-muted);
+			font-size: 11px;
+			line-height: 1;
 		}
 
 		img {
@@ -28,17 +33,16 @@
 		}
 	}
 
-	&__logo.eb-testimonial__picture img {
-		width: var(--ever-blocks-testimonial-logo-width, 96px);
-	}
+	&__logo.eb-testimonial__picture {
 
-	&__remove {
-		flex: none;
-		font-size: 11px;
-	}
+		img {
+			width: var(--ever-blocks-testimonial-logo-width, 96px);
+		}
 
-	&:not(.is-selected) &__remove {
-		display: none;
+		&.is-empty {
+			height: calc(var(--ever-blocks-testimonial-logo-width, 96px) / 2.4);
+			border-radius: 4px;
+		}
 	}
 
 	&__quote:where(:empty)::before,

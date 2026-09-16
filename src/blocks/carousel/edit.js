@@ -19,6 +19,7 @@ import {
 	IconPickerControl,
 	LayoutControl,
 	SettingsPanels,
+	settingsPanelId,
 	StylePanels,
 	ToolsPanel,
 	useBlockStyles,
@@ -66,8 +67,15 @@ function Placeholder( { clientId, setAttributes } ) {
 }
 
 function Carousel( { attributes, setAttributes, clientId } ) {
-	const { layout, arrows, dots, autoplay, previousIcon, nextIcon } =
-		attributes;
+	const {
+		layout,
+		arrows,
+		dots,
+		justifyContent,
+		autoplay,
+		previousIcon,
+		nextIcon,
+	} = attributes;
 	const isSlider = 'slider' === layout;
 	const isRow = 'row' === layout;
 	const isColumns = 'columns' === layout;
@@ -168,6 +176,43 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 						label: __( 'Dots', 'ever-blocks' ),
 						isShownByDefault: true,
 					},
+					...( arrows || dots
+						? {
+								justifyContent: {
+									type: 'select',
+									label: __( 'Justification', 'ever-blocks' ),
+									isShownByDefault: true,
+									help: __(
+										'Where the arrows and dots sit.',
+										'ever-blocks'
+									),
+									options: [
+										{
+											label: __( 'Left', 'ever-blocks' ),
+											value: 'left',
+										},
+										{
+											label: __(
+												'Center',
+												'ever-blocks'
+											),
+											value: 'center',
+										},
+										{
+											label: __( 'Right', 'ever-blocks' ),
+											value: 'right',
+										},
+										{
+											label: __(
+												'Space between',
+												'ever-blocks'
+											),
+											value: 'space-between',
+										},
+									],
+								},
+						  }
+						: {} ),
 					loop: {
 						type: 'toggle',
 						label: __( 'Loop', 'ever-blocks' ),
@@ -223,43 +268,49 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				controls={ settings }
-			/>
-
-			{ isSlider && arrows && (
-				<InspectorControls group="settings">
-					<ToolsPanel
-						label={ __( 'Arrow icons', 'ever-blocks' ) }
-						panelId={ `${ clientId }-icons` }
-						resetAll={ () =>
-							setAttributes( {
-								previousIcon: 'core/chevron-left',
-								nextIcon: 'core/chevron-right',
-							} )
-						}
-					>
+				resets={ [
+					'speed',
+					'direction',
+					'columns',
+					'arrows',
+					'dots',
+					'justifyContent',
+					'loop',
+				] }
+			>
+				{ isSlider && arrows && (
+					<>
 						<IconPickerControl
-							label={ __( 'Previous', 'ever-blocks' ) }
+							label={ __( 'Previous icon', 'ever-blocks' ) }
 							value={ previousIcon }
-							panelId={ `${ clientId }-icons` }
+							panelId={ settingsPanelId( clientId ) }
 							onChange={ ( next ) =>
 								setAttributes( {
 									previousIcon: next ?? 'core/chevron-left',
 								} )
 							}
+							resetAllFilter={ ( next ) => ( {
+								...next,
+								previousIcon: 'core/chevron-left',
+							} ) }
 						/>
 						<IconPickerControl
-							label={ __( 'Next', 'ever-blocks' ) }
+							label={ __( 'Next icon', 'ever-blocks' ) }
 							value={ nextIcon }
-							panelId={ `${ clientId }-icons` }
+							panelId={ settingsPanelId( clientId ) }
 							onChange={ ( next ) =>
 								setAttributes( {
 									nextIcon: next ?? 'core/chevron-right',
 								} )
 							}
+							resetAllFilter={ ( next ) => ( {
+								...next,
+								nextIcon: 'core/chevron-right',
+							} ) }
 						/>
-					</ToolsPanel>
-				</InspectorControls>
-			) }
+					</>
+				) }
+			</SettingsPanels>
 
 			<StylePanels
 				attributes={ attributes }
@@ -326,6 +377,7 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 					},
 					track: {
 						label: __( 'Track', 'ever-blocks' ),
+						color: { background: true },
 						spacing: { padding: true },
 					},
 					...( isSlider
@@ -371,7 +423,10 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 			<div { ...blockProps }>
 				<div { ...innerBlocksProps } />
 				{ isSlider && ( arrows || dots ) && (
-					<div className="eb-carousel__nav" aria-hidden="true">
+					<div
+						className={ `eb-carousel__nav is-content-justification-${ justifyContent }` }
+						aria-hidden="true"
+					>
 						{ arrows && (
 							<span className="eb-carousel__arrow">
 								<IconDisplay name={ previousIcon } />

@@ -1,6 +1,5 @@
 import {
 	BlockControls,
-	InspectorControls,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
@@ -13,8 +12,8 @@ import {
 	IconDisplay,
 	IconPickerControl,
 	SettingsPanels,
+	settingsPanelId,
 	StylePanels,
-	ToolsPanel,
 	useBlockStyles,
 } from '@byteever/block-components';
 import './editor.scss';
@@ -120,41 +119,34 @@ export default function Edit( {
 						),
 					},
 				} }
-			/>
-
-			<InspectorControls group="settings">
-				<ToolsPanel
-					label={ __( 'Icons', 'ever-blocks' ) }
-					panelId={ `${ clientId }-icons` }
-					resetAll={ () =>
+			>
+				<IconPickerControl
+					label={ __( 'Button icon', 'ever-blocks' ) }
+					value={ triggerIcon }
+					panelId={ settingsPanelId( clientId ) }
+					onChange={ ( next ) =>
+						setAttributes( { triggerIcon: next ?? 'core/search' } )
+					}
+					resetAllFilter={ ( next ) => ( {
+						...next,
+						triggerIcon: 'core/search',
+					} ) }
+				/>
+				<IconPickerControl
+					label={ __( 'Close icon', 'ever-blocks' ) }
+					value={ closeIcon }
+					panelId={ settingsPanelId( clientId ) }
+					onChange={ ( next ) =>
 						setAttributes( {
-							triggerIcon: 'core/search',
-							closeIcon: 'heroicons/x-mark',
+							closeIcon: next ?? 'heroicons/x-mark',
 						} )
 					}
-				>
-					<IconPickerControl
-						label={ __( 'Trigger', 'ever-blocks' ) }
-						value={ triggerIcon }
-						panelId={ `${ clientId }-icons` }
-						onChange={ ( next ) =>
-							setAttributes( {
-								triggerIcon: next ?? 'core/search',
-							} )
-						}
-					/>
-					<IconPickerControl
-						label={ __( 'Close', 'ever-blocks' ) }
-						value={ closeIcon }
-						panelId={ `${ clientId }-icons` }
-						onChange={ ( next ) =>
-							setAttributes( {
-								closeIcon: next ?? 'heroicons/x-mark',
-							} )
-						}
-					/>
-				</ToolsPanel>
-			</InspectorControls>
+					resetAllFilter={ ( next ) => ( {
+						...next,
+						closeIcon: 'heroicons/x-mark',
+					} ) }
+				/>
+			</SettingsPanels>
 
 			<StylePanels
 				attributes={ attributes }

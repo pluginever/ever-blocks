@@ -1,6 +1,10 @@
 /**
  * WordPress dependencies
  */
+import {
+	getColorObjectByAttributeValues,
+	getColorObjectByColorValue,
+} from '@wordpress/block-editor';
 import { Button, ColorIndicator, Dropdown } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { reset } from '@wordpress/icons';
@@ -25,6 +29,8 @@ interface Props {
 	isShownByDefault?: boolean;
 }
 
+const PRESET = 'var:preset|color|';
+
 /**
  * A colour row with the state switch beside its label.
  *
@@ -48,6 +54,14 @@ export function ColorItem( {
 	isShownByDefault = false,
 }: Props ) {
 	const settings = useMultipleOriginColorsAndGradients();
+	const palette = settings.colors.flatMap(
+		( origin: { colors: Array< { slug: string; color: string } > } ) =>
+			origin.colors
+	);
+	const slug = value?.startsWith( PRESET ) && value.slice( PRESET.length );
+	const color = slug
+		? getColorObjectByAttributeValues( palette, slug, value ).color
+		: value;
 	const hasValue = () => Boolean( value );
 	const clear = () => onChange( undefined );
 
@@ -75,7 +89,7 @@ export function ColorItem( {
 							onClick={ onToggle }
 							aria-expanded={ isOpen }
 						>
-							<ColorIndicator colorValue={ value } />
+							<ColorIndicator colorValue={ color } />
 							<span
 								className="b8-color-item__name"
 								title={ label }
@@ -101,8 +115,22 @@ export function ColorItem( {
 								__experimentalIsRenderedInSidebar
 								clearable
 								enableAlpha
-								colorValue={ value }
-								onColorChange={ onChange }
+								colorValue={ color }
+								onColorChange={ (
+									next?: string,
+									preset?: string
+								) => {
+									const found =
+										preset ??
+										getColorObjectByColorValue(
+											palette,
+											next
+										)?.slug;
+
+									onChange(
+										next && found ? PRESET + found : next
+									);
+								} }
 								{ ...settings }
 							/>
 						</div>

@@ -16,6 +16,9 @@ interface Props {
 	panelId: string;
 	onChange: ( name: string | undefined ) => void;
 	isShownByDefault?: boolean;
+	resetAllFilter?: (
+		next: Record< string, unknown >
+	) => Record< string, unknown >;
 }
 
 /**
@@ -28,6 +31,7 @@ interface Props {
  * @param props.panelId          ToolsPanel the row belongs to.
  * @param props.onChange         Receives the chosen name, or undefined to clear.
  * @param props.isShownByDefault Whether the row shows before it has a value.
+ * @param props.resetAllFilter   Applied to the attributes when the panel resets.
  * @return The control.
  */
 export function IconPickerControl( {
@@ -36,6 +40,7 @@ export function IconPickerControl( {
 	panelId,
 	onChange,
 	isShownByDefault = true,
+	resetAllFilter,
 }: Props ) {
 	return (
 		<ToolsPanelItem
@@ -44,6 +49,7 @@ export function IconPickerControl( {
 			panelId={ panelId }
 			onDeselect={ () => onChange( undefined ) }
 			isShownByDefault={ isShownByDefault }
+			resetAllFilter={ resetAllFilter }
 		>
 			<IconPicker
 				value={ value }

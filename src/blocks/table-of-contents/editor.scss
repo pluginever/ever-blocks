@@ -3,7 +3,7 @@
 	&__placeholder {
 		margin: 0;
 		color: var(--eb-color-muted);
-		font-size: var(--eb-font-size);
+		font-size: 1em;
 	}
 
 	&__details:not(.is-open) > &__list,

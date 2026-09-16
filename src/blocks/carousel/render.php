@@ -30,6 +30,7 @@ $eb_speeds   = array(
 $eb_speed    = $eb_speeds[ $attributes['speed'] ?? 'normal' ] ?? $eb_speeds['normal'];
 $eb_arrows   = 'slider' === $eb_layout && ( ! isset( $attributes['arrows'] ) || $attributes['arrows'] ) && $eb_count > 1;
 $eb_dots     = 'slider' === $eb_layout && ( ! isset( $attributes['dots'] ) || $attributes['dots'] ) && $eb_count > 1;
+$eb_justify  = in_array( $attributes['justifyContent'] ?? '', array( 'left', 'center', 'right', 'space-between' ), true ) ? $attributes['justifyContent'] : 'center';
 $eb_icon     = static function ( $name, string $fallback ): string {
 	$icon = is_string( $name ) && '' !== $name ? wp_get_icon( $name, array( 'size' => null ) ) : '';
 
@@ -126,10 +127,11 @@ if ( $eb_arrows || $eb_dots ) {
 	}
 
 	$eb_nav = sprintf(
-		'<div class="eb-carousel__nav">%1$s%2$s%3$s</div>',
+		'<div class="eb-carousel__nav is-content-justification-%4$s">%1$s%2$s%3$s</div>',
 		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--previous" data-wp-on--click="actions.previous" aria-label="%1$s"%3$s>%2$s</button>', esc_attr__( 'Previous slide', 'ever-blocks' ), $eb_icon( $attributes['previousIcon'] ?? '', 'core/chevron-left' ), $eb_loop ? '' : ' disabled' ) : '',
 		$eb_dots ? '<div class="eb-carousel__dots">' . $eb_dot_buttons . '</div>' : '',
-		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--next" data-wp-on--click="actions.next" aria-label="%1$s">%2$s</button>', esc_attr__( 'Next slide', 'ever-blocks' ), $eb_icon( $attributes['nextIcon'] ?? '', 'core/chevron-right' ) ) : ''
+		$eb_arrows ? sprintf( '<button type="button" class="eb-carousel__arrow eb-carousel__arrow--next" data-wp-on--click="actions.next" aria-label="%1$s">%2$s</button>', esc_attr__( 'Next slide', 'ever-blocks' ), $eb_icon( $attributes['nextIcon'] ?? '', 'core/chevron-right' ) ) : '',
+		esc_attr( $eb_justify )
 	);
 }
 

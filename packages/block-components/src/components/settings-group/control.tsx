@@ -4,6 +4,7 @@
 import { useBlockEditContext } from '@wordpress/block-editor';
 import { getBlockType } from '@wordpress/blocks';
 import {
+	RangeControl,
 	SelectControl,
 	TextControl,
 	ToggleControl,
@@ -25,7 +26,17 @@ export type ControlSetting =
 	| {
 			type: 'select';
 			label: string;
+			help?: string;
 			options: Array< { label: string; value: string } >;
+			isShownByDefault?: boolean;
+	  }
+	| {
+			type: 'range';
+			label: string;
+			help?: string;
+			min: number;
+			max: number;
+			step?: number;
 			isShownByDefault?: boolean;
 	  };
 
@@ -69,7 +80,7 @@ export function SettingControl( {
 			label={ setting.label }
 			panelId={ panelId }
 			onDeselect={ () => set( fallback ) }
-			isShownByDefault={ setting.isShownByDefault ?? false }
+			isShownByDefault={ setting.isShownByDefault ?? true }
 		>
 			{ 'toggle' === setting.type && (
 				<ToggleControl
@@ -89,9 +100,22 @@ export function SettingControl( {
 				/>
 			) }
 
+			{ 'range' === setting.type && (
+				<RangeControl
+					label={ setting.label }
+					help={ setting.help }
+					min={ setting.min }
+					max={ setting.max }
+					step={ setting.step }
+					value={ ( value as number ) ?? fallback }
+					onChange={ set }
+				/>
+			) }
+
 			{ 'select' === setting.type && (
 				<SelectControl
 					label={ setting.label }
+					help={ setting.help }
 					value={ ( value as string ) ?? '' }
 					options={ setting.options }
 					onChange={ set }

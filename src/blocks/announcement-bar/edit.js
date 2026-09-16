@@ -23,6 +23,7 @@ import {
 	IconPickerControl,
 	LayoutControl,
 	SettingsPanels,
+	settingsPanelId,
 	StylePanels,
 	ToolsPanel,
 	ToolsPanelItem,
@@ -265,7 +266,31 @@ function Bar( { attributes, setAttributes, clientId } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				controls={ settings }
-			/>
+				resets={ [
+					'speed',
+					'direction',
+					'separator',
+					'separatorText',
+					'rememberDays',
+				] }
+			>
+				{ dismissible && (
+					<IconPickerControl
+						label={ __( 'Close icon', 'ever-blocks' ) }
+						value={ closeIcon }
+						panelId={ settingsPanelId( clientId ) }
+						onChange={ ( next ) =>
+							setAttributes( {
+								closeIcon: next ?? 'heroicons/x-mark',
+							} )
+						}
+						resetAllFilter={ ( next ) => ( {
+							...next,
+							closeIcon: 'heroicons/x-mark',
+						} ) }
+					/>
+				) }
+			</SettingsPanels>
 
 			<InspectorControls group="settings">
 				<ToolsPanel
@@ -314,26 +339,6 @@ function Bar( { attributes, setAttributes, clientId } ) {
 						/>
 					</ToolsPanelItem>
 				</ToolsPanel>
-				{ dismissible && (
-					<ToolsPanel
-						label={ __( 'Close icon', 'ever-blocks' ) }
-						panelId={ `${ clientId }-icon` }
-						resetAll={ () =>
-							setAttributes( { closeIcon: 'heroicons/x-mark' } )
-						}
-					>
-						<IconPickerControl
-							label={ __( 'Icon', 'ever-blocks' ) }
-							value={ closeIcon }
-							panelId={ `${ clientId }-icon` }
-							onChange={ ( next ) =>
-								setAttributes( {
-									closeIcon: next ?? 'heroicons/x-mark',
-								} )
-							}
-						/>
-					</ToolsPanel>
-				) }
 			</InspectorControls>
 
 			<StylePanels
@@ -356,7 +361,7 @@ function Bar( { attributes, setAttributes, clientId } ) {
 					},
 					track: {
 						label: __( 'Track', 'ever-blocks' ),
-						spacing: { padding: true },
+						spacing: { padding: 'default' },
 					},
 					...( isTicker
 						? {

@@ -1,3 +1,17 @@
+:root :where(.eb-testimonial) {
+	margin: 0;
+	padding: var(--eb-spacing-md);
+	border: var(--eb-border-width) solid var(--eb-color-border);
+	border-radius: var(--eb-border-radius);
+	line-height: var(--eb-line-height-normal);
+}
+
+:root :where(.eb-testimonial.is-style-bubble) {
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+}
+
 .eb-testimonial {
 	--avatar: var(--ever-blocks-testimonial-avatar-size, 48px);
 	--gap: var(--ever-blocks-testimonial-gap, var(--eb-spacing-xs));
@@ -6,15 +20,12 @@
 	display: flex;
 	flex-direction: column;
 	gap: var(--gap);
-	margin: 0;
-	padding: var(--eb-spacing-md);
-	border: var(--eb-border-width) solid var(--eb-color-border);
-	border-radius: 8px;
 	box-sizing: border-box;
-	line-height: var(--eb-line-height-normal);
 
 	&__rating {
 		--ever-blocks-rating-size: var(--ever-blocks-testimonial-rating-size, 18px);
+		--ever-blocks-rating-filled: var(--ever-blocks-testimonial-rating-filled);
+		--ever-blocks-rating-empty: var(--ever-blocks-testimonial-rating-empty);
 	}
 
 	&__quote {
@@ -22,7 +33,7 @@
 		padding: 0;
 		border: 0;
 		background: none;
-		font-size: var(--eb-font-size);
+		font-size: 1em;
 		font-style: normal;
 		font-weight: 400;
 		line-height: var(--eb-line-height-normal);
@@ -62,12 +73,12 @@
 	}
 
 	&__name {
-		font-size: calc(var(--eb-font-size) * 0.9375);
+		font-size: 0.9375em;
 		font-weight: var(--eb-font-weight-medium);
 	}
 
 	&__role {
-		font-size: calc(var(--eb-font-size) * 0.875);
+		font-size: 0.875em;
 		color: var(--eb-color-muted);
 	}
 
@@ -161,23 +172,7 @@
 		}
 	}
 
-	&.is-style-plain {
-		padding: 0 0 0 var(--eb-spacing-sm);
-		border: 0;
-		border-left: 2px solid var(--eb-color-border);
-		border-radius: 0;
-
-		&.eb-testimonial--centered,
-		&.eb-testimonial--side {
-			padding: 0;
-			border: 0;
-		}
-	}
-
 	&.is-style-bubble {
-		padding: 0;
-		border: 0;
-		border-radius: 0;
 
 		.eb-testimonial__quote {
 			position: relative;
@@ -199,24 +194,6 @@
 
 		.eb-testimonial__author {
 			padding-left: var(--eb-spacing-2xs);
-		}
-	}
-
-	&.is-style-dark {
-		background: #171717;
-		color: #fff;
-		border-color: #171717;
-
-		.eb-testimonial__role {
-			color: rgba(255, 255, 255, 0.65);
-		}
-
-		.eb-rating__empty {
-			color: rgba(255, 255, 255, 0.25);
-		}
-
-		.eb-testimonial__mark {
-			color: rgba(255, 255, 255, 0.12);
 		}
 	}
 }

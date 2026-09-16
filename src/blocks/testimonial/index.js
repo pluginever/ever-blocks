@@ -9,12 +9,7 @@ registerBlockType( metadata.name, {
 	icon: quote,
 	edit: Edit,
 	save: () => null,
-	styles: [
-		{ name: 'card', label: __( 'Card', 'ever-blocks' ), isDefault: true },
-		{ name: 'plain', label: __( 'Plain', 'ever-blocks' ) },
-		{ name: 'bubble', label: __( 'Bubble', 'ever-blocks' ) },
-		{ name: 'dark', label: __( 'Dark', 'ever-blocks' ) },
-	],
+	styles: [ { name: 'bubble', label: __( 'Bubble', 'ever-blocks' ) } ],
 	example: {
 		attributes: {
 			quote: __(

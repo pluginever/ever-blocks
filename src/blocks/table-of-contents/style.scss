@@ -1,10 +1,13 @@
+:root :where(.eb-table-of-contents) {
+	line-height: var(--eb-line-height-normal);
+}
+
 .eb-table-of-contents {
 	box-sizing: border-box;
-	line-height: var(--eb-line-height-normal);
 
 	&__title {
 		margin: 0 0 var(--eb-spacing-2xs);
-		font-size: var(--eb-font-size);
+		font-size: 1em;
 		font-weight: var(--eb-font-weight-medium);
 		line-height: var(--eb-line-height-snug);
 	}

@@ -1,11 +1,13 @@
 import {
+	BlockControls,
 	InspectorControls,
+	MediaReplaceFlow,
 	MediaUpload,
 	MediaUploadCheck,
 	RichText,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { Button, RangeControl, TextControl } from '@wordpress/components';
+import { TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import {
 	IconDisplay,
@@ -31,45 +33,26 @@ const LAYOUTS = [
 
 const FORMATS = [ 'core/bold', 'core/italic', 'core/link' ];
 
-function Picture( { url, alt, className, label, onSelect, onRemove } ) {
+function Picture( { id, url, alt, className, label, onSelect } ) {
 	return (
 		<MediaUploadCheck>
 			<MediaUpload
 				allowedTypes={ [ 'image' ] }
-				value={ undefined }
+				value={ id }
 				onSelect={ onSelect }
-				render={ ( { open } ) =>
-					url ? (
-						<button
-							type="button"
-							className={ `${ className } eb-testimonial__picture` }
-							onClick={ open }
-							aria-label={ label }
-						>
-							<img src={ url } alt={ alt } />
-						</button>
-					) : (
-						<Button
-							variant="secondary"
-							size="compact"
-							className={ `${ className } eb-testimonial__picture is-empty` }
-							onClick={ open }
-						>
-							{ label }
-						</Button>
-					)
-				}
+				render={ ( { open } ) => (
+					<button
+						type="button"
+						className={ `${ className } eb-testimonial__picture${
+							url ? '' : ' is-empty'
+						}` }
+						onClick={ open }
+						aria-label={ label }
+					>
+						{ url ? <img src={ url } alt={ alt } /> : label }
+					</button>
+				) }
 			/>
-			{ url && (
-				<Button
-					variant="link"
-					size="small"
-					className="eb-testimonial__remove"
-					onClick={ onRemove }
-				>
-					{ __( 'Remove', 'ever-blocks' ) }
-				</Button>
-			) }
 		</MediaUploadCheck>
 	);
 }
@@ -98,13 +81,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		layout,
 		quote,
+		showName,
 		name,
+		showRole,
 		role,
+		showAvatar,
+		avatarId,
 		avatarUrl,
 		avatarAlt,
 		showRating,
 		rating,
 		showLogo,
+		logoId,
 		logoUrl,
 		logoAlt,
 		quoteMark,
@@ -117,8 +105,57 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	useBlockStyles( attributes );
 
+	const selectAvatar = ( media ) =>
+		setAttributes( {
+			avatarId: media.id,
+			avatarUrl: media.sizes?.thumbnail?.url ?? media.url,
+			avatarAlt: media.alt ?? '',
+		} );
+	const resetAvatar = () =>
+		setAttributes( {
+			avatarId: undefined,
+			avatarUrl: undefined,
+			avatarAlt: undefined,
+		} );
+	const selectLogo = ( media ) =>
+		setAttributes( {
+			logoId: media.id,
+			logoUrl: media.sizes?.medium?.url ?? media.url,
+			logoAlt: media.alt ?? '',
+		} );
+	const resetLogo = () =>
+		setAttributes( {
+			logoId: undefined,
+			logoUrl: undefined,
+			logoAlt: undefined,
+		} );
+
 	return (
 		<>
+			<BlockControls group="other">
+				{ showAvatar && (
+					<MediaReplaceFlow
+						name={ __( 'Photo', 'ever-blocks' ) }
+						mediaId={ avatarId }
+						mediaURL={ avatarUrl }
+						allowedTypes={ [ 'image' ] }
+						accept="image/*"
+						onSelect={ selectAvatar }
+						onReset={ resetAvatar }
+					/>
+				) }
+				{ showLogo && (
+					<MediaReplaceFlow
+						name={ __( 'Logo', 'ever-blocks' ) }
+						mediaId={ logoId }
+						mediaURL={ logoUrl }
+						allowedTypes={ [ 'image' ] }
+						accept="image/*"
+						onSelect={ selectLogo }
+						onReset={ resetLogo }
+					/>
+				) }
+			</BlockControls>
 			<InspectorControls group="settings">
 				<ToolsPanel
 					label={ __( 'Layout', 'ever-blocks' ) }
@@ -136,54 +173,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						}
 					/>
 				</ToolsPanel>
-
-				<ToolsPanel
-					label={ __( 'Rating', 'ever-blocks' ) }
-					panelId={ `${ clientId }-rating` }
-					resetAll={ () =>
-						setAttributes( { showRating: true, rating: 5 } )
-					}
-				>
-					<ToolsPanelItem
-						hasValue={ () => 5 !== rating || ! showRating }
-						label={ __( 'Stars', 'ever-blocks' ) }
-						panelId={ `${ clientId }-rating` }
-						isShownByDefault
-						onDeselect={ () =>
-							setAttributes( { showRating: true, rating: 5 } )
-						}
-					>
-						<RangeControl
-							__nextHasNoMarginBottom
-							__next40pxDefaultSize
-							label={ __( 'Stars', 'ever-blocks' ) }
-							help={ __(
-								'Zero hides the rating.',
-								'ever-blocks'
-							) }
-							min={ 0 }
-							max={ 5 }
-							step={ 0.5 }
-							value={ showRating ? rating : 0 }
-							onChange={ ( next ) =>
-								setAttributes( {
-									rating: next || undefined,
-									showRating: next > 0,
-								} )
-							}
-						/>
-					</ToolsPanelItem>
-				</ToolsPanel>
 			</InspectorControls>
 
 			<SettingsPanels
 				label={ __( 'Testimonial', 'ever-blocks' ) }
 				attributes={ attributes }
 				setAttributes={ setAttributes }
+				resets={ [ 'rating' ] }
 				controls={ {
+					showAvatar: {
+						type: 'toggle',
+						label: __( 'Photo', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
+					showRating: {
+						type: 'toggle',
+						label: __( 'Rating', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
+					...( showRating
+						? {
+								rating: {
+									type: 'range',
+									label: __( 'Stars', 'ever-blocks' ),
+									min: 0,
+									max: 5,
+									step: 0.5,
+									isShownByDefault: true,
+								},
+						  }
+						: {} ),
+					showName: {
+						type: 'toggle',
+						label: __( 'Name', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
+					showRole: {
+						type: 'toggle',
+						label: __( 'Role', 'ever-blocks' ),
+						isShownByDefault: true,
+					},
 					showLogo: {
 						type: 'toggle',
-						label: __( 'Company logo', 'ever-blocks' ),
+						label: __( 'Logo', 'ever-blocks' ),
 						isShownByDefault: true,
 					},
 					quoteMark: {
@@ -191,24 +223,37 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						label: __( 'Quotation mark', 'ever-blocks' ),
 						isShownByDefault: true,
 					},
-					schema: {
-						type: 'toggle',
-						label: __( 'Review schema', 'ever-blocks' ),
-						help: __(
-							'Adds Review structured data. Needs the reviewed item’s name.',
-							'ever-blocks'
-						),
-					},
 				} }
 			/>
 
-			{ schema && (
-				<InspectorControls group="settings">
-					<ToolsPanel
-						label={ __( 'Schema', 'ever-blocks' ) }
+			<InspectorControls group="settings">
+				<ToolsPanel
+					label={ __( 'Schema', 'ever-blocks' ) }
+					panelId={ `${ clientId }-schema` }
+					resetAll={ () =>
+						setAttributes( { schema: false, itemReviewed: '' } )
+					}
+				>
+					<ToolsPanelItem
+						hasValue={ () => Boolean( schema ) }
+						label={ __( 'Review schema', 'ever-blocks' ) }
 						panelId={ `${ clientId }-schema` }
-						resetAll={ () => setAttributes( { itemReviewed: '' } ) }
+						isShownByDefault
+						onDeselect={ () => setAttributes( { schema: false } ) }
 					>
+						<ToggleControl
+							label={ __( 'Review schema', 'ever-blocks' ) }
+							help={ __(
+								'Adds Review structured data. Needs the reviewed item’s name.',
+								'ever-blocks'
+							) }
+							checked={ Boolean( schema ) }
+							onChange={ ( next ) =>
+								setAttributes( { schema: next } )
+							}
+						/>
+					</ToolsPanelItem>
+					{ schema && (
 						<ToolsPanelItem
 							hasValue={ () => Boolean( itemReviewed ) }
 							label={ __( 'Item reviewed', 'ever-blocks' ) }
@@ -219,8 +264,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							}
 						>
 							<TextControl
-								__nextHasNoMarginBottom
-								__next40pxDefaultSize
 								label={ __( 'Item reviewed', 'ever-blocks' ) }
 								help={ __(
 									'The product or service this testimonial is about.',
@@ -232,9 +275,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								}
 							/>
 						</ToolsPanelItem>
-					</ToolsPanel>
-				</InspectorControls>
-			) }
+					) }
+				</ToolsPanel>
+			</InspectorControls>
 
 			<StylePanels
 				attributes={ attributes }
@@ -288,15 +331,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								min: 8,
 								max: 48,
 							},
+							filled: {
+								control: 'color',
+								label: __( 'Filled', 'ever-blocks' ),
+								isShownByDefault: true,
+							},
+							empty: {
+								control: 'color',
+								label: __( 'Empty', 'ever-blocks' ),
+								isShownByDefault: true,
+							},
 						},
-					},
-					filled: {
-						label: __( 'Filled', 'ever-blocks' ),
-						color: { text: 'default' },
-					},
-					empty: {
-						label: __( 'Empty', 'ever-blocks' ),
-						color: { text: 'default' },
 					},
 					mark: {
 						label: __( 'Mark', 'ever-blocks' ),
@@ -332,74 +377,64 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					placeholder={ __( 'What did they say?', 'ever-blocks' ) }
 					allowedFormats={ FORMATS }
 				/>
-				<figcaption className="eb-testimonial__author">
-					<Picture
-						url={ avatarUrl }
-						alt={ avatarAlt }
-						className="eb-testimonial__avatar"
-						label={ __( 'Photo', 'ever-blocks' ) }
-						onSelect={ ( media ) =>
-							setAttributes( {
-								avatarId: media.id,
-								avatarUrl:
-									media.sizes?.thumbnail?.url ?? media.url,
-								avatarAlt: media.alt ?? '',
-							} )
-						}
-						onRemove={ () =>
-							setAttributes( {
-								avatarId: undefined,
-								avatarUrl: undefined,
-								avatarAlt: undefined,
-							} )
-						}
-					/>
-					<span className="eb-testimonial__who">
-						<RichText
-							tagName="span"
-							className="eb-testimonial__name"
-							value={ name }
-							onChange={ ( next ) =>
-								setAttributes( { name: next } )
-							}
-							placeholder={ __( 'Name', 'ever-blocks' ) }
-							allowedFormats={ [] }
-						/>
-						<RichText
-							tagName="span"
-							className="eb-testimonial__role"
-							value={ role }
-							onChange={ ( next ) =>
-								setAttributes( { role: next } )
-							}
-							placeholder={ __( 'Role, company', 'ever-blocks' ) }
-							allowedFormats={ [ 'core/link' ] }
-						/>
-					</span>
-					{ showLogo && (
-						<Picture
-							url={ logoUrl }
-							alt={ logoAlt }
-							className="eb-testimonial__logo"
-							label={ __( 'Logo', 'ever-blocks' ) }
-							onSelect={ ( media ) =>
-								setAttributes( {
-									logoId: media.id,
-									logoUrl:
-										media.sizes?.medium?.url ?? media.url,
-									logoAlt: media.alt ?? '',
-								} )
-							}
-							onRemove={ () =>
-								setAttributes( {
-									logoId: undefined,
-									logoUrl: undefined,
-									logoAlt: undefined,
-								} )
-							}
-						/>
-					) }
-				</figcaption>
+				{ ( showAvatar || showName || showRole || showLogo ) && (
+					<figcaption className="eb-testimonial__author">
+						{ showAvatar && (
+							<Picture
+								id={ avatarId }
+								url={ avatarUrl }
+								alt={ avatarAlt }
+								className="eb-testimonial__avatar"
+								label={ __( 'Photo', 'ever-blocks' ) }
+								onSelect={ selectAvatar }
+							/>
+						) }
+						{ ( showName || showRole ) && (
+							<span className="eb-testimonial__who">
+								{ showName && (
+									<RichText
+										tagName="span"
+										className="eb-testimonial__name"
+										value={ name }
+										onChange={ ( next ) =>
+											setAttributes( { name: next } )
+										}
+										placeholder={ __(
+											'Name',
+											'ever-blocks'
+										) }
+										allowedFormats={ [] }
+									/>
+								) }
+								{ showRole && (
+									<RichText
+										tagName="span"
+										className="eb-testimonial__role"
+										value={ role }
+										onChange={ ( next ) =>
+											setAttributes( { role: next } )
+										}
+										placeholder={ __(
+											'Role, company',
+											'ever-blocks'
+										) }
+										allowedFormats={ [ 'core/link' ] }
+									/>
+								) }
+							</span>
+						) }
+						{ showLogo && (
+							<Picture
+								id={ logoId }
+								url={ logoUrl }
+								alt={ logoAlt }
+								className="eb-testimonial__logo"
+								label={ __( 'Logo', 'ever-blocks' ) }
+								onSelect={ selectLogo }
+							/>
+						) }
+					</figcaption>
+				) }
 			</figure>
 		</>
 	);

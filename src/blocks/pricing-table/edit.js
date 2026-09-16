@@ -20,6 +20,7 @@ import {
 	HStack,
 	LayoutControl,
 	SettingsPanels,
+	settingsPanelId,
 	StylePanels,
 	ToolsPanel,
 	ToolsPanelItem,
@@ -178,6 +179,11 @@ function Options( { options, active, setAttributes, panelId } ) {
 			panelId={ panelId }
 			isShownByDefault
 			onDeselect={ () => setAttributes( { options: [] } ) }
+			resetAllFilter={ ( next ) => ( {
+				...next,
+				options: OPTIONS,
+				active: 'yearly',
+			} ) }
 		>
 			{ options.map( ( option, index ) => (
 				<VStack
@@ -321,44 +327,38 @@ function Table( { attributes, setAttributes, clientId } ) {
 						}
 					/>
 				</ToolsPanel>
-
-				<ToolsPanel
-					label={ __( 'Billing switch', 'ever-blocks' ) }
-					panelId={ `${ clientId }-options` }
-					resetAll={ () =>
-						setAttributes( {
-							options: OPTIONS,
-							active: 'yearly',
-							optionsLabel: '',
-						} )
-					}
-				>
-					<Options
-						options={ options }
-						active={ active }
-						setAttributes={ setAttributes }
-						panelId={ `${ clientId }-options` }
-					/>
-				</ToolsPanel>
 			</InspectorControls>
 
-			{ options.length > 0 && (
-				<SettingsPanels
-					label={ __( 'Switch', 'ever-blocks' ) }
-					attributes={ attributes }
+			<SettingsPanels
+				label={ __( 'Billing switch', 'ever-blocks' ) }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				resets={ [ 'optionsLabel' ] }
+				controls={
+					options.length > 0
+						? {
+								optionsLabel: {
+									type: 'text',
+									label: __(
+										'Accessible name',
+										'ever-blocks'
+									),
+									help: __(
+										'Read to screen readers before the options. Defaults to “Billing period”.',
+										'ever-blocks'
+									),
+								},
+						  }
+						: {}
+				}
+			>
+				<Options
+					options={ options }
+					active={ active }
 					setAttributes={ setAttributes }
-					controls={ {
-						optionsLabel: {
-							type: 'text',
-							label: __( 'Accessible name', 'ever-blocks' ),
-							help: __(
-								'Read to screen readers before the options. Defaults to “Billing period”.',
-								'ever-blocks'
-							),
-						},
-					} }
+					panelId={ settingsPanelId( clientId ) }
 				/>
-			) }
+			</SettingsPanels>
 
 			<StylePanels
 				attributes={ attributes }

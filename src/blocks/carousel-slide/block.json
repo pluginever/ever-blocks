@@ -20,7 +20,12 @@
 		"inserter": false,
 		"color": {
 			"text": true,
-			"background": true
+			"background": true,
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
 		},
 		"spacing": {
 			"padding": true
@@ -29,7 +34,13 @@
 			"color": true,
 			"radius": true,
 			"style": true,
-			"width": true
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
 		},
 		"layout": {
 			"allowSwitching": false,

@@ -47,7 +47,7 @@ export function ValuesGroup( {
 					panelId={ panelId }
 					value={ values[ key ] }
 					onReset={ () => set( key, undefined ) }
-					isShownByDefault={ control.isShownByDefault ?? false }
+					isShownByDefault={ control.isShownByDefault ?? true }
 				>
 					{ renderControl(
 						control,
@@ -73,7 +73,7 @@ export function ValuesGroup( {
 								} )
 							}
 							isShownByDefault={
-								control.isShownByDefault ?? false
+								control.isShownByDefault ?? true
 							}
 						/>
 					) ) }

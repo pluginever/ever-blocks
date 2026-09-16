@@ -74,7 +74,7 @@ store( 'ever-blocks/announcement-bar', {
 			const context = getContext();
 			const root = getElement().ref.closest( '.eb-announcement-bar' );
 
-			root.hidden = true;
+			context.hidden = true;
 			stop( root );
 
 			if ( ! context.dismiss ) {
@@ -113,11 +113,11 @@ store( 'ever-blocks/announcement-bar', {
 					);
 
 					if ( until > Date.now() ) {
-						root.hidden = true;
-
 						return;
 					}
 				} catch {}
+
+				context.hidden = false;
 			}
 
 			start( root, context );
@@ -125,14 +125,13 @@ store( 'ever-blocks/announcement-bar', {
 			return () => stop( root );
 		},
 		measure() {
+			const context = getContext();
 			const track = getElement().ref;
 			const run = track.querySelector( '.eb-announcement-bar__run' );
 
-			if ( ! run ) {
+			if ( ! run || context.hidden ) {
 				return;
 			}
-
-			const context = getContext();
 
 			const fill = () => {
 				const runs = track.querySelectorAll(
