@@ -17,7 +17,6 @@ bin/
 tests/
 vendor/
 node_modules/
-composer.json
 composer.lock
 package.json
 pnpm-lock.yaml
