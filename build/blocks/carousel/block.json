@@ -37,6 +37,16 @@
       "type": "boolean",
       "default": true
     },
+    "justifyContent": {
+      "type": "string",
+      "default": "center",
+      "enum": [
+        "left",
+        "center",
+        "right",
+        "space-between"
+      ]
+    },
     "autoplay": {
       "type": "boolean",
       "default": false
@@ -86,7 +96,12 @@
     ],
     "color": {
       "text": true,
-      "background": true
+      "background": true,
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
     },
     "spacing": {
       "margin": true,

@@ -20,7 +20,12 @@ return array(
 			'inserter' => false,
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'padding' => true,
@@ -139,7 +144,11 @@ return array(
 			'color' => array(
 				'text' => true,
 				'background' => true,
-				'gradients' => true
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -147,13 +156,22 @@ return array(
 			),
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true
+				'lineHeight' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			),
 			'position' => array(
 				'sticky' => true
@@ -227,6 +245,16 @@ return array(
 				'type' => 'boolean',
 				'default' => true
 			),
+			'justifyContent' => array(
+				'type' => 'string',
+				'default' => 'center',
+				'enum' => array(
+					'left',
+					'center',
+					'right',
+					'space-between'
+				)
+			),
 			'autoplay' => array(
 				'type' => 'boolean',
 				'default' => false
@@ -276,7 +304,12 @@ return array(
 			),
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -338,7 +371,12 @@ return array(
 			'inserter' => false,
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'padding' => true
@@ -347,7 +385,13 @@ return array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			),
 			'layout' => array(
 				'allowSwitching' => false,
@@ -406,7 +450,12 @@ return array(
 			'inserter' => false,
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'padding' => true
@@ -415,7 +464,13 @@ return array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			),
 			'shadow' => true,
 			'everBlocks' => array(
@@ -470,7 +525,10 @@ return array(
 			'reusable' => false,
 			'color' => array(
 				'text' => true,
-				'background' => false
+				'background' => false,
+				'__experimentalDefaultControls' => array(
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true
@@ -555,7 +613,12 @@ return array(
 			),
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -626,7 +689,12 @@ return array(
 			'anchor' => true,
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -637,8 +705,6 @@ return array(
 			),
 			'everBlocks' => array(
 				'elements' => array(
-					'filled' => '.eb-rating__filled',
-					'empty' => '.eb-rating__empty',
 					'label' => '.eb-rating__label'
 				)
 			)
@@ -707,7 +773,12 @@ return array(
 			),
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -839,7 +910,12 @@ return array(
 			'color' => array(
 				'text' => true,
 				'background' => true,
-				'link' => false
+				'link' => false,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -847,13 +923,22 @@ return array(
 			),
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true
+				'lineHeight' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			),
 			'interactivity' => true,
 			'everBlocks' => array(
@@ -913,13 +998,25 @@ return array(
 				'type' => 'string',
 				'role' => 'content'
 			),
+			'showName' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
 			'name' => array(
 				'type' => 'string',
 				'role' => 'content'
 			),
+			'showRole' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
 			'role' => array(
 				'type' => 'string',
 				'role' => 'content'
+			),
+			'showAvatar' => array(
+				'type' => 'boolean',
+				'default' => true
 			),
 			'avatarId' => array(
 				'type' => 'number'
@@ -976,7 +1073,12 @@ return array(
 			),
 			'color' => array(
 				'text' => true,
-				'background' => true
+				'background' => true,
+				'gradients' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
 			),
 			'spacing' => array(
 				'margin' => true,
@@ -984,13 +1086,22 @@ return array(
 			),
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true
+				'lineHeight' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
 				'radius' => true,
 				'style' => true,
-				'width' => true
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
 			),
 			'shadow' => true,
 			'everBlocks' => array(
@@ -1001,8 +1112,6 @@ return array(
 					'role' => '.eb-testimonial__role',
 					'avatar' => '.eb-testimonial__avatar',
 					'rating' => '.eb-testimonial__rating',
-					'filled' => '.eb-testimonial__rating .eb-rating__filled',
-					'empty' => '.eb-testimonial__rating .eb-rating__empty',
 					'mark' => '.eb-testimonial__mark',
 					'logo' => '.eb-testimonial__logo'
 				)

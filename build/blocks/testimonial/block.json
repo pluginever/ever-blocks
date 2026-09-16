@@ -27,13 +27,25 @@
       "type": "string",
       "role": "content"
     },
+    "showName": {
+      "type": "boolean",
+      "default": true
+    },
     "name": {
       "type": "string",
       "role": "content"
     },
+    "showRole": {
+      "type": "boolean",
+      "default": true
+    },
     "role": {
       "type": "string",
       "role": "content"
+    },
+    "showAvatar": {
+      "type": "boolean",
+      "default": true
     },
     "avatarId": {
       "type": "number"
@@ -90,7 +102,12 @@
     ],
     "color": {
       "text": true,
-      "background": true
+      "background": true,
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
     },
     "spacing": {
       "margin": true,
@@ -98,13 +115,22 @@
     },
     "typography": {
       "fontSize": true,
-      "lineHeight": true
+      "lineHeight": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
     },
     "__experimentalBorder": {
       "color": true,
       "radius": true,
       "style": true,
-      "width": true
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": true,
+        "style": true,
+        "width": true
+      }
     },
     "shadow": true,
     "everBlocks": {
@@ -115,8 +141,6 @@
         "role": ".eb-testimonial__role",
         "avatar": ".eb-testimonial__avatar",
         "rating": ".eb-testimonial__rating",
-        "filled": ".eb-testimonial__rating .eb-rating__filled",
-        "empty": ".eb-testimonial__rating .eb-rating__empty",
         "mark": ".eb-testimonial__mark",
         "logo": ".eb-testimonial__logo"
       }

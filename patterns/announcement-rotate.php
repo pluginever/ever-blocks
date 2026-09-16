@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:ever-blocks/announcement-bar {"animation":"rotate","direction":"up","dismissible":true,"align":"full","className":"is-style-line"} -->
+<!-- wp:ever-blocks/announcement-bar {"animation":"rotate","direction":"up","dismissible":true,"align":"full","backgroundColor":"base","textColor":"contrast","style":{"border":{"bottom":{"width":"1px"}}}} -->
 <!-- wp:ever-blocks/announcement -->
 <!-- wp:paragraph --><p><?php echo esc_html__( 'Free shipping on every order this week', 'ever-blocks' ); ?></p><!-- /wp:paragraph -->
 <!-- /wp:ever-blocks/announcement -->

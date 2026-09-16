@@ -35,7 +35,12 @@
     "anchor": true,
     "color": {
       "text": true,
-      "background": true
+      "background": true,
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
     },
     "spacing": {
       "margin": true,
@@ -46,8 +51,6 @@
     },
     "everBlocks": {
       "elements": {
-        "filled": ".eb-rating__filled",
-        "empty": ".eb-rating__empty",
         "label": ".eb-rating__label"
       }
     }

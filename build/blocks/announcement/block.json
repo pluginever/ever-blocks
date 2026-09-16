@@ -17,7 +17,12 @@
     "inserter": false,
     "color": {
       "text": true,
-      "background": true
+      "background": true,
+      "gradients": true,
+      "__experimentalDefaultControls": {
+        "background": true,
+        "text": true
+      }
     },
     "spacing": {
       "padding": true,

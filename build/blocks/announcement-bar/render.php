@@ -42,24 +42,26 @@ $eb_sep_text   = 'custom' === $eb_separator && is_string( $attributes['separator
 $eb_key        = 'eb-announcement-' . ( is_string( $attributes['anchor'] ?? null ) && '' !== $attributes['anchor'] ? sanitize_key( $attributes['anchor'] ) : substr( md5( wp_json_encode( $attributes ) . $content ), 0, 8 ) );
 
 $eb_wrapper = array(
-	'class'               => 'eb-announcement-bar is-animation-' . $eb_animation . ( $eb_moving ? ' is-moving' : '' ) . ( in_array( $eb_direction, array( 'right', 'down' ), true ) ? ' is-reverse' : '' ) . ( 'none' === $eb_separator ? '' : ' has-separator-' . $eb_separator ),
-	'style'               => '' === $eb_sep_text ? null : '--ever-blocks-announcement-bar-separator:' . wp_json_encode( $eb_sep_text ),
-	'role'                => 'region',
-	'aria-label'          => __( 'Announcement', 'ever-blocks' ),
-	'data-wp-interactive' => 'ever-blocks/announcement-bar',
-	'data-wp-context'     => (string) wp_json_encode(
+	'class'                => 'eb-announcement-bar is-animation-' . $eb_animation . ( $eb_moving ? ' is-moving' : '' ) . ( in_array( $eb_direction, array( 'right', 'down' ), true ) ? ' is-reverse' : '' ) . ( 'none' === $eb_separator ? '' : ' has-separator-' . $eb_separator ) . ( $eb_dismiss ? ' is-dismissible' : '' ),
+	'style'                => '' === $eb_sep_text ? null : '--ever-blocks-announcement-bar-separator:' . wp_json_encode( $eb_sep_text ),
+	'role'                 => 'region',
+	'aria-label'           => __( 'Announcement', 'ever-blocks' ),
+	'data-wp-interactive'  => 'ever-blocks/announcement-bar',
+	'data-wp-context'      => (string) wp_json_encode(
 		array(
 			'animation' => $eb_animation,
 			'interval'  => $eb_speed[0],
 			'speed'     => $eb_speed[1],
 			'reverse'   => in_array( $eb_direction, array( 'right', 'down' ), true ),
 			'dismiss'   => $eb_dismiss ? $eb_key : '',
+			'hidden'    => $eb_dismiss,
 			'days'      => max( 0, (int) ( $attributes['rememberDays'] ?? 7 ) ),
 			'index'     => 0,
 			'count'     => $eb_count,
 		)
 	),
-	'data-wp-init'        => 'callbacks.init',
+	'data-wp-bind--hidden' => 'context.hidden',
+	'data-wp-init'         => 'callbacks.init',
 );
 
 if ( $eb_moving ) {
