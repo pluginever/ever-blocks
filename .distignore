@@ -54,5 +54,7 @@ packages/
 *.zip
 .*
 /*.js
-/*.json
+/package.json
+/tsconfig.json
+/tsconfig.base.json
 /*.xml
