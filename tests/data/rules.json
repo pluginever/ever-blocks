@@ -251,6 +251,29 @@
 				}
 			]
 		},
+		"element-color-preset": {
+			"style": {
+				"elements": {
+					"input": {
+						"color": {
+							"text": "var:preset|color|primary",
+							"background": "var:preset|color|base"
+						}
+					}
+				}
+			},
+			"rules": [
+				{
+					"selector": "& .eb-test__input",
+					"declarations": {
+						"background-color": "var(--wp--preset--color--base)",
+						"color": "var(--wp--preset--color--primary)"
+					},
+					"query": "",
+					"important": false
+				}
+			]
+		},
 		"element-pseudo": {
 			"style": {
 				"elements": {

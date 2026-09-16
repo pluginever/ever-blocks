@@ -8,7 +8,7 @@ export {
 } from './components/icon-picker';
 export { IconDisplay } from './components/icon-display';
 export { StylePanels } from './components/style-panels';
-export { SettingsPanels } from './components/settings-panels';
+export { SettingsPanels, settingsPanelId } from './components/settings-panels';
 export { LayoutControl } from './components/layout-control';
 
 /**

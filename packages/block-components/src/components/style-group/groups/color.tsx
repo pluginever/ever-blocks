@@ -24,11 +24,11 @@ export function ColorGroup( {
 		<div className="b8-style-group__colors">
 			{ controls.text && (
 				<ColorItem
-					label={ __( 'Text', 'ever-blocks' ) }
+					label={ __( 'Color', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ color.text as string | undefined }
 					onChange={ ( next ) => set( 'text', next ) }
-					isShownByDefault={ 'default' === controls.text }
+					isShownByDefault
 				/>
 			) }
 			{ controls.background && (
@@ -37,7 +37,7 @@ export function ColorGroup( {
 					panelId={ panelId }
 					value={ color.background as string | undefined }
 					onChange={ ( next ) => set( 'background', next ) }
-					isShownByDefault={ 'default' === controls.background }
+					isShownByDefault
 				/>
 			) }
 		</div>

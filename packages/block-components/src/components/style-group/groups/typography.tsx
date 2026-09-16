@@ -36,7 +36,7 @@ export function TypographyGroup( {
 		<>
 			{ controls.fontSize && (
 				<Item
-					isShownByDefault={ 'default' === controls.fontSize }
+					isShownByDefault
 					label={ __( 'Font size', 'ever-blocks' ) }
 					panelId={ panelId }
 					value={ typography.fontSize }
