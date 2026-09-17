@@ -124,8 +124,7 @@
           "states": [
             ":hover"
           ]
-        },
-        "dotActive": ".eb-carousel__dot[aria-current]"
+        }
       }
     }
   },

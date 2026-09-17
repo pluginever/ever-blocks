@@ -5,27 +5,36 @@
   "title": "Price",
   "category": "ever-blocks",
   "icon": "tag",
-  "description": "A plan’s price for each billing option, set in the sidebar.",
+  "description": "A plan’s price: currency, amount, period, an original price and a note.",
   "textdomain": "ever-blocks",
   "parent": [
     "ever-blocks/pricing-column"
   ],
   "attributes": {
-    "prices": {
-      "type": "object",
-      "default": {}
+    "currency": {
+      "type": "string",
+      "default": ""
     },
-    "perOption": {
-      "type": "boolean",
-      "default": false
+    "amount": {
+      "type": "string",
+      "default": ""
+    },
+    "period": {
+      "type": "string",
+      "default": ""
+    },
+    "original": {
+      "type": "string",
+      "default": ""
+    },
+    "note": {
+      "type": "string",
+      "default": ""
     }
   },
-  "usesContext": [
-    "ever-blocks/pricingOptions",
-    "ever-blocks/pricingActive"
-  ],
   "supports": {
     "html": false,
+    "inserter": false,
     "reusable": false,
     "color": {
       "text": true,

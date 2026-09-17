@@ -334,8 +334,7 @@ return array(
 						'states' => array(
 							':hover'
 						)
-					),
-					'dotActive' => '.eb-carousel__dot[aria-current]'
+					)
 				)
 			)
 		),
@@ -419,7 +418,7 @@ return array(
 		'title' => 'Pricing Column',
 		'category' => 'ever-blocks',
 		'icon' => 'table-col-after',
-		'description' => 'One plan: its badge and featured state, with any blocks inside.',
+		'description' => 'One plan: its billing option, badge and featured state, with any blocks inside.',
 		'textdomain' => 'ever-blocks',
 		'parent' => array(
 			'ever-blocks/pricing-table'
@@ -501,29 +500,36 @@ return array(
 		'title' => 'Price',
 		'category' => 'ever-blocks',
 		'icon' => 'tag',
-		'description' => 'A plan’s price for each billing option, set in the sidebar.',
+		'description' => 'A plan’s price: currency, amount, period, an original price and a note.',
 		'textdomain' => 'ever-blocks',
 		'parent' => array(
 			'ever-blocks/pricing-column'
 		),
 		'attributes' => array(
-			'prices' => array(
-				'type' => 'object',
-				'default' => array(
-					
-				)
+			'currency' => array(
+				'type' => 'string',
+				'default' => ''
 			),
-			'perOption' => array(
-				'type' => 'boolean',
-				'default' => false
+			'amount' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'period' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'original' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'note' => array(
+				'type' => 'string',
+				'default' => ''
 			)
-		),
-		'usesContext' => array(
-			'ever-blocks/pricingOptions',
-			'ever-blocks/pricingActive'
 		),
 		'supports' => array(
 			'html' => false,
+			'inserter' => false,
 			'reusable' => false,
 			'color' => array(
 				'text' => true,
@@ -563,7 +569,7 @@ return array(
 		'title' => 'Pricing Table',
 		'category' => 'ever-blocks',
 		'icon' => 'table-col-after',
-		'description' => 'Plans side by side, with a billing switch that changes every price at once.',
+		'description' => 'Plans side by side, with a billing switch that shows the columns for one option at a time.',
 		'keywords' => array(
 			'pricing',
 			'plans',
@@ -637,7 +643,6 @@ return array(
 							':focus-visible'
 						)
 					),
-					'optionActive' => '.eb-pricing-table__option[aria-checked="true"]',
 					'optionBadge' => '.eb-pricing-table__option-badge'
 				)
 			)
