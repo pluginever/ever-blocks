@@ -437,16 +437,28 @@ function Table( { attributes, setAttributes, clientId } ) {
 								},
 								option: {
 									label: __( 'Option', 'ever-blocks' ),
+									values: {
+										selectedText: {
+											control: 'color',
+											label: __(
+												'Selected text',
+												'ever-blocks'
+											),
+										},
+										selectedBackground: {
+											control: 'color',
+											label: __(
+												'Selected background',
+												'ever-blocks'
+											),
+										},
+									},
 									color: { text: true, background: true },
 									typography: {
 										fontSize: true,
 										fontAppearance: true,
 									},
 									spacing: { padding: true },
-								},
-								optionActive: {
-									label: __( 'Active', 'ever-blocks' ),
-									color: { text: true, background: true },
 								},
 								optionBadge: {
 									label: __( 'Badge', 'ever-blocks' ),

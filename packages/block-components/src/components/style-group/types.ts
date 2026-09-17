@@ -53,9 +53,14 @@ export interface ValuesProps {
 	/** The block's own values at the default state, keyed by value name. */
 	values: StyleObject;
 	onChange: ( next: StyleObject ) => void;
-	/** The block's own colours at the selected state. */
-	colors: StyleObject;
-	onColorsChange: ( next: StyleObject ) => void;
+	controls: Record< string, ValueControl >;
+	panelId: string;
+}
+
+export interface ColorValuesProps {
+	/** The block's own colours at the selected state, keyed by value name. */
+	values: StyleObject;
+	onChange: ( next: StyleObject ) => void;
 	controls: Record< string, ValueControl >;
 	panelId: string;
 }

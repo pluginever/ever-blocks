@@ -10,15 +10,13 @@ import { RangeControl } from '@wordpress/components';
 import { UnitControl, useCustomUnits } from '../../../experimental';
 import { ColorItem } from '../color-item';
 import { Item } from '../item';
-import type { ValueControl, ValuesProps } from '../types';
+import type { ColorValuesProps, ValueControl, ValuesProps } from '../types';
 
 const DEFAULT_UNITS = [ 'px', '%', 'em', 'rem', 'vw', 'vh' ];
 
 export function ValuesGroup( {
 	values,
 	onChange,
-	colors: colorValues,
-	onColorsChange,
 	controls,
 	panelId,
 }: ValuesProps ) {
@@ -30,56 +28,60 @@ export function ValuesGroup( {
 	const set = ( key: string, next: unknown ) =>
 		onChange( { ...values, [ key ]: next } );
 
-	const entries = Object.entries( controls );
-	const colors = entries.filter(
-		( [ , control ] ) => 'color' === control.control
-	);
-	const others = entries.filter(
-		( [ , control ] ) => 'color' !== control.control
-	);
-
 	return (
 		<>
-			{ others.map( ( [ key, control ] ) => (
-				<Item
+			{ Object.entries( controls )
+				.filter( ( [ , control ] ) => 'color' !== control.control )
+				.map( ( [ key, control ] ) => (
+					<Item
+						key={ key }
+						label={ control.label }
+						panelId={ panelId }
+						value={ values[ key ] }
+						onReset={ () => set( key, undefined ) }
+						isShownByDefault={ control.isShownByDefault ?? true }
+					>
+						{ renderControl(
+							control,
+							values[ key ],
+							( next ) => set( key, next ),
+							units
+						) }
+					</Item>
+				) ) }
+		</>
+	);
+}
+
+export function ColorValuesGroup( {
+	values,
+	onChange,
+	controls,
+	panelId,
+}: ColorValuesProps ) {
+	const colors = Object.entries( controls ).filter(
+		( [ , control ] ) => 'color' === control.control
+	);
+
+	if ( ! colors.length ) {
+		return null;
+	}
+
+	return (
+		<div className="b8-style-group__colors">
+			{ colors.map( ( [ key, control ] ) => (
+				<ColorItem
 					key={ key }
 					label={ control.label }
 					panelId={ panelId }
-					value={ values[ key ] }
-					onReset={ () => set( key, undefined ) }
+					value={ values[ key ] as string | undefined }
+					onChange={ ( next ) =>
+						onChange( { ...values, [ key ]: next } )
+					}
 					isShownByDefault={ control.isShownByDefault ?? true }
-				>
-					{ renderControl(
-						control,
-						values[ key ],
-						( next ) => set( key, next ),
-						units
-					) }
-				</Item>
+				/>
 			) ) }
-
-			{ colors.length > 0 && (
-				<div className="b8-style-group__colors">
-					{ colors.map( ( [ key, control ] ) => (
-						<ColorItem
-							key={ key }
-							label={ control.label }
-							panelId={ panelId }
-							value={ colorValues[ key ] as string | undefined }
-							onChange={ ( next ) =>
-								onColorsChange( {
-									...colorValues,
-									[ key ]: next,
-								} )
-							}
-							isShownByDefault={
-								control.isShownByDefault ?? true
-							}
-						/>
-					) ) }
-				</div>
-			) }
-		</>
+		</div>
 	);
 }
 

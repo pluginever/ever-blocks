@@ -374,7 +374,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						spacing: { padding: true },
 					},
 					current: {
-						label: __( 'Current', 'ever-blocks' ),
+						label: __( 'Current heading', 'ever-blocks' ),
 						color: { text: true, background: true },
 						typography: {
 							fontAppearance: true,

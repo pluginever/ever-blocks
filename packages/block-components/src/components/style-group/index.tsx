@@ -14,7 +14,7 @@ import { BorderGroup } from './groups/border';
 import { ColorGroup } from './groups/color';
 import { SpacingGroup } from './groups/spacing';
 import { TypographyGroup } from './groups/typography';
-import { ValuesGroup } from './groups/values';
+import { ColorValuesGroup, ValuesGroup } from './groups/values';
 import { getDeclaration } from '../../utils/block-declaration';
 import { getNamespace } from '../../utils/style-css';
 import {
@@ -144,10 +144,6 @@ export function StyleGroup( {
 					onChange={ ( next ) =>
 						write( basePath, { ...base, [ namespace ]: next } )
 					}
-					colors={ readStyle( stated, [ namespace ] ) }
-					onColorsChange={ ( next ) =>
-						write( statePath, { ...stated, [ namespace ]: next } )
-					}
 					controls={ values }
 					panelId={ panelId }
 				/>
@@ -157,6 +153,16 @@ export function StyleGroup( {
 					value={ stated }
 					onChange={ ( next ) => write( statePath, next ) }
 					controls={ color }
+					panelId={ panelId }
+				/>
+			) }
+			{ values && (
+				<ColorValuesGroup
+					values={ readStyle( stated, [ namespace ] ) }
+					onChange={ ( next ) =>
+						write( statePath, { ...stated, [ namespace ]: next } )
+					}
+					controls={ values }
 					panelId={ panelId }
 				/>
 			) }

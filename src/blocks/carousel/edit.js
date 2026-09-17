@@ -408,11 +408,14 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 											min: 4,
 											max: 24,
 										},
+										currentBackground: {
+											control: 'color',
+											label: __(
+												'Current slide',
+												'ever-blocks'
+											),
+										},
 									},
-									color: { background: true },
-								},
-								dotActive: {
-									label: __( 'Active', 'ever-blocks' ),
 									color: { background: true },
 								},
 						  }

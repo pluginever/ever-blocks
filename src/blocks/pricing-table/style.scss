@@ -54,8 +54,8 @@
 		}
 
 		&[aria-checked="true"] {
-			color: inherit;
-			background: var(--wp--preset--color--base, #fff);
+			color: var(--ever-blocks-pricing-table-option-selected-text, inherit);
+			background: var(--ever-blocks-pricing-table-option-selected-background, var(--wp--preset--color--base, #fff));
 			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 		}
 	}
