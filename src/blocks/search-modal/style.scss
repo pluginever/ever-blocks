@@ -24,8 +24,16 @@
 }
 
 .eb-search-modal {
-	display: inline-flex;
+	display: flex;
 	line-height: 0;
+
+	&.aligncenter {
+		justify-content: center;
+	}
+
+	&.alignright {
+		justify-content: flex-end;
+	}
 
 	&__trigger {
 

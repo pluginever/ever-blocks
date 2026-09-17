@@ -1,13 +1,12 @@
 import {
-	BlockControls,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { getCSSValueFromRawStyle } from '@wordpress/style-engine';
 import {
 	IconDisplay,
 	IconPickerControl,
@@ -44,20 +43,16 @@ const ICON_SIZE = {
 	max: 96,
 };
 
-export default function Edit( {
-	attributes,
-	setAttributes,
-	clientId,
-	isSelected,
-} ) {
-	const [ pinned, setPinned ] = useState( false );
+export default function Edit( { attributes, setAttributes, clientId } ) {
+	const [ isOpen, setIsOpen ] = useState( false );
 	const hasSelectedChild = useSelect(
 		( select ) =>
 			select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
 		[ clientId ]
 	);
-	const showDialog = pinned || isSelected || hasSelectedChild;
+	const showDialog = isOpen || hasSelectedChild;
 	const { triggerLabel, triggerIcon, closeIcon, overlay } = attributes;
+	const label = triggerLabel || __( 'Search', 'ever-blocks' );
 	const blockProps = useBlockProps( {
 		className: `eb-search-modal eb-search-modal--${ overlay }`,
 	} );
@@ -70,17 +65,6 @@ export default function Edit( {
 
 	return (
 		<>
-			<BlockControls group="block">
-				<ToolbarGroup>
-					<ToolbarButton
-						isPressed={ pinned }
-						onClick={ () => setPinned( ! pinned ) }
-					>
-						{ __( 'Dialog', 'ever-blocks' ) }
-					</ToolbarButton>
-				</ToolbarGroup>
-			</BlockControls>
-
 			<SettingsPanels
 				label={ __( 'Search modal', 'ever-blocks' ) }
 				attributes={ attributes }
@@ -200,29 +184,47 @@ export default function Edit( {
 			/>
 
 			<div { ...blockProps }>
-				<span
+				<button
+					type="button"
 					className="eb-search-modal__trigger"
-					role="img"
-					aria-label={ triggerLabel || __( 'Search', 'ever-blocks' ) }
+					aria-label={ label }
+					aria-haspopup="dialog"
+					aria-expanded={ showDialog }
+					onClick={ () => setIsOpen( true ) }
 				>
 					<IconDisplay name={ triggerIcon } />
-				</span>
+				</button>
 
 				<div
-					className="eb-search-modal__preview"
-					data-label={ __( 'Dialog contents', 'ever-blocks' ) }
+					className="eb-search-modal__overlay"
 					hidden={ ! showDialog }
+					style={ {
+						background: getCSSValueFromRawStyle(
+							attributes.style?.elements?.backdrop?.color
+								?.background
+						),
+					} }
 				>
-					<div className="eb-search-modal__dialog">
+					<dialog
+						open
+						className="eb-search-modal__dialog"
+						aria-label={ label }
+						onKeyDown={ ( event ) => {
+							if ( 'Escape' === event.key ) {
+								setIsOpen( false );
+							}
+						} }
+					>
 						<div { ...innerBlocksProps } />
-						<span
+						<button
+							type="button"
 							className="eb-search-modal__close"
-							role="img"
 							aria-label={ __( 'Close search', 'ever-blocks' ) }
+							onClick={ () => setIsOpen( false ) }
 						>
 							<IconDisplay name={ closeIcon } />
-						</span>
-					</div>
+						</button>
+					</dialog>
 				</div>
 			</div>
 		</>

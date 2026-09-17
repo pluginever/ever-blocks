@@ -1,33 +1,21 @@
-// The dialog is hidden on the page until opened, so the canvas shows its
-// contents in a preview box styled by the same element selectors.
-.eb-search-modal__preview {
-	position: relative;
-	width: 100%;
-	margin-top: 16px;
+// The dialog is hidden on the page until opened; on the canvas it opens over
+// the editor from the trigger, with this wrapper standing in for `::backdrop`.
+.eb-search-modal__overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background: var(--eb-color-backdrop);
 
-	&::before {
-		content: attr(data-label);
-		display: block;
-		margin-bottom: 8px;
-		font-size: 11px;
-		font-weight: 500;
-		line-height: 1.4;
-		text-transform: uppercase;
-		color: color-mix(in srgb, currentcolor 60%, transparent);
+	&[hidden] {
+		display: none;
 	}
 
-	.eb-search-modal__dialog {
-		position: relative;
-		display: block;
-		width: 100%;
-		max-width: none;
-		height: auto;
-		max-height: none;
-		margin: 0;
-		inset: auto;
+	.eb-search-modal--full & {
+		background: transparent;
 	}
-}
 
-.wp-block-ever-blocks-search-modal {
-	display: block;
+	.eb-search-modal__dialog[open] {
+		position: fixed;
+		inset: 0;
+	}
 }
