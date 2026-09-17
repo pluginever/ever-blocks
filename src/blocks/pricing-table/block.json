@@ -5,7 +5,7 @@
 	"title": "Pricing Table",
 	"category": "ever-blocks",
 	"icon": "table-col-after",
-	"description": "Plans side by side, with a billing switch that changes every price at once.",
+	"description": "Plans side by side, with a billing switch that shows the columns for one option at a time.",
 	"keywords": [
 		"pricing",
 		"plans",

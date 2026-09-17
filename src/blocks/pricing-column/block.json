@@ -5,7 +5,7 @@
 	"title": "Pricing Column",
 	"category": "ever-blocks",
 	"icon": "table-col-after",
-	"description": "One plan: its badge and featured state, with any blocks inside.",
+	"description": "One plan: its billing option, badge and featured state, with any blocks inside.",
 	"textdomain": "ever-blocks",
 	"parent": [
 		"ever-blocks/pricing-table"

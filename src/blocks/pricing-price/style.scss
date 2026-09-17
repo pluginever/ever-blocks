@@ -1,14 +1,7 @@
 .eb-pricing-price {
-
-	&__row {
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--eb-spacing-2xs) / 2);
-
-		&[hidden] {
-			display: none;
-		}
-	}
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--eb-spacing-2xs) / 2);
 
 	&__line {
 		display: flex;

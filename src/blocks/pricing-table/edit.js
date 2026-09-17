@@ -273,14 +273,31 @@ function Options( { options, active, setAttributes, panelId } ) {
 
 function Table( { attributes, setAttributes, clientId } ) {
 	const { layout, options, active, optionsLabel } = attributes;
-	const count = useSelect(
-		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
-		[ clientId ]
+	const { count, perRow } = useSelect(
+		( select ) => {
+			const columns = select( blockEditorStore ).getBlocks( clientId );
+			const shown = ( slug ) =>
+				columns.filter(
+					( column ) =>
+						! column.attributes.option ||
+						column.attributes.option === slug
+				).length;
+
+			return {
+				count: columns.length,
+				perRow: Math.max(
+					...( options.length ? options : [ {} ] ).map( ( option ) =>
+						shown( option.slug )
+					)
+				),
+			};
+		},
+		[ clientId, options ]
 	);
 	const { insertBlocks } = useDispatch( blockEditorStore );
 	const blockProps = useBlockProps( {
 		className: `eb-pricing-table is-layout-${ layout }`,
-		style: { '--columns': count },
+		style: { '--columns': perRow },
 	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'eb-pricing-table__columns' },
@@ -304,7 +321,9 @@ function Table( { attributes, setAttributes, clientId } ) {
 						icon={ plus }
 						label={ __( 'Add column', 'ever-blocks' ) }
 						onClick={ () =>
-							addColumns( [ blankColumn( options ) ] )
+							addColumns( [
+								blankColumn( options.length ? active : '' ),
+							] )
 						}
 					/>
 				</ToolbarGroup>

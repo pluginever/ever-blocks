@@ -26,16 +26,13 @@ export default function Edit( {
 } ) {
 	const { featured, badge, option } = attributes;
 	const tableOptions = context[ 'ever-blocks/pricingOptions' ] ?? [];
-	const shown =
-		! option ||
-		! tableOptions.length ||
-		option === context[ 'ever-blocks/pricingActive' ];
-	const { parentId, index, isSelected, options } = useSelect(
+	const active = context[ 'ever-blocks/pricingActive' ];
+	const shown = ! option || ! tableOptions.length || option === active;
+	const { parentId, index, isSelected } = useSelect(
 		( select ) => {
 			const {
 				getBlockRootClientId,
 				getBlockIndex,
-				getBlockAttributes,
 				hasSelectedInnerBlock,
 				isBlockSelected,
 			} = select( blockEditorStore );
@@ -47,7 +44,6 @@ export default function Edit( {
 				isSelected:
 					isBlockSelected( clientId ) ||
 					hasSelectedInnerBlock( clientId, true ),
-				options: getBlockAttributes( rootClientId )?.options ?? [],
 			};
 		},
 		[ clientId ]
@@ -57,6 +53,7 @@ export default function Edit( {
 		className: `eb-pricing-column${ featured ? ' is-featured' : '' }${
 			shown ? '' : ' is-inactive'
 		}`,
+		hidden: ! shown && ! isSelected,
 	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'eb-pricing-column__content' },
@@ -83,7 +80,7 @@ export default function Edit( {
 						onClick={ () =>
 							insertBlocks(
 								createBlocksFromInnerBlocksTemplate( [
-									blankColumn( options ),
+									blankColumn( option ),
 								] ),
 								index + 1,
 								parentId
@@ -113,7 +110,7 @@ export default function Edit( {
 									type: 'select',
 									label: __( 'Show for', 'ever-blocks' ),
 									help: __(
-										'Only for this billing option; leave on every option when just the price changes.',
+										'The billing option this plan belongs to; the switch shows one option’s columns at a time.',
 										'ever-blocks'
 									),
 									isShownByDefault: true,

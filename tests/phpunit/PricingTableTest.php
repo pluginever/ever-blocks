@@ -33,7 +33,7 @@ class PricingTableTest extends TestCase {
 			'<!-- wp:ever-blocks/pricing-table ' . $attributes . ' -->'
 			. '<!-- wp:ever-blocks/pricing-column ' . $column . ' -->'
 			. '<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Team</h3><!-- /wp:heading -->'
-			. '<!-- wp:ever-blocks/pricing-price {"perOption":true,"prices":{"monthly":{"currency":"$","amount":"29"},"yearly":{"currency":"$","amount":"24","original":"$29"},"default":{"amount":"19"}}} /-->'
+			. '<!-- wp:ever-blocks/pricing-price {"currency":"$","amount":"24","original":"$29"} /-->'
 			. '<!-- wp:list --><ul class="wp-block-list"><!-- wp:list-item --><li>5 sites</li><!-- /wp:list-item --><!-- wp:list-item {"className":"is-style-excluded"} --><li class="is-style-excluded">White label</li><!-- /wp:list-item --></ul><!-- /wp:list -->'
 			. '<!-- /wp:ever-blocks/pricing-column -->'
 			. '<!-- /wp:ever-blocks/pricing-table -->'
@@ -41,7 +41,7 @@ class PricingTableTest extends TestCase {
 	}
 
 	/**
-	 * The switch is a radiogroup whose active option decides which price row and column are visible; without options there is no switch.
+	 * The switch is a radiogroup whose active option decides which columns are visible; without options there is no switch.
 	 *
 	 * @return void
 	 */
@@ -54,16 +54,14 @@ class PricingTableTest extends TestCase {
 		$this->assertMatchesRegularExpression( '/<div class="eb-pricing-table__switch" role="radiogroup" aria-label="Billing period">/', $html );
 		$this->assertMatchesRegularExpression( '/<button aria-checked="false" tabindex="-1"[^>]*data-option="monthly"/', $html );
 		$this->assertMatchesRegularExpression( '/<button aria-checked="true" tabindex="0"[^>]*data-option="yearly"/', $html );
-		$this->assertMatchesRegularExpression( '/<div hidden class="eb-pricing-price__row" data-wp-context="[^"]*monthly/', $html );
-		$this->assertMatchesRegularExpression( '/<div class="eb-pricing-price__row" data-wp-context="[^"]*yearly/', $html );
 		$this->assertStringContainsString( '<s class="eb-pricing-price__original"><span class="screen-reader-text">Was </span>$29</s>', $html );
-		$this->assertStringNotContainsString( '>19<', $html, 'The default price is not shown when options exist.' );
 
-		$plain = $this->table( '{"options":[]}' );
+		$plain = $this->table( '{"options":[]}', '{"option":"monthly"}' );
 
 		$this->assertStringNotContainsString( 'role="radiogroup"', $plain );
 		$this->assertStringNotContainsString( 'data-wp-interactive', $plain );
-		$this->assertStringContainsString( '<span class="eb-pricing-price__amount">19</span>', $plain );
+		$this->assertStringNotContainsString( '<div hidden', $plain, 'Without options every column shows.' );
+		$this->assertStringContainsString( '<span class="eb-pricing-price__amount">24</span>', $plain );
 	}
 
 	/**

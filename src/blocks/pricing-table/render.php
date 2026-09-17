@@ -29,9 +29,25 @@ $eb_switch = '';
 
 $eb_layout = in_array( $attributes['layout'] ?? '', array( 'card', 'divided' ), true ) ? $attributes['layout'] : 'card';
 
+$eb_per_row = 0;
+
+foreach ( $eb_slugs ? $eb_slugs : array( '' ) as $eb_slug ) {
+	$eb_shown = 0;
+
+	foreach ( $block->parsed_block['innerBlocks'] ?? array() as $eb_column ) {
+		$eb_for = $eb_column['attrs']['option'] ?? '';
+
+		if ( '' === $eb_for || $eb_for === $eb_slug ) {
+			++$eb_shown;
+		}
+	}
+
+	$eb_per_row = max( $eb_per_row, $eb_shown );
+}
+
 $eb_wrapper = array(
 	'class' => 'eb-pricing-table is-layout-' . $eb_layout,
-	'style' => '--columns:' . count( $block->parsed_block['innerBlocks'] ?? array() ),
+	'style' => '--columns:' . $eb_per_row,
 );
 
 if ( $eb_options ) {
