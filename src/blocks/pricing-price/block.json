@@ -34,6 +34,7 @@
 	},
 	"supports": {
 		"html": false,
+		"inserter": false,
 		"reusable": false,
 		"color": {
 			"text": true,
