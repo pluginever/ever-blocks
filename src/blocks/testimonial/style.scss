@@ -6,6 +6,10 @@
 	line-height: var(--eb-line-height-normal);
 }
 
+:root :where(.eb-testimonial--centered) {
+	text-align: center;
+}
+
 :root :where(.eb-testimonial.is-style-bubble) {
 	padding: 0;
 	border: 0;
@@ -148,7 +152,6 @@
 
 	&--centered {
 		align-items: center;
-		text-align: center;
 
 		.eb-testimonial__quote {
 			font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);

@@ -109,6 +109,8 @@ const { actions } = store( 'ever-blocks/carousel', {
 			context.index = index;
 
 			dots.forEach( ( dot, i ) => {
+				dot.hidden = i > last;
+
 				if ( i === index ) {
 					dot.setAttribute( 'aria-current', 'true' );
 				} else {

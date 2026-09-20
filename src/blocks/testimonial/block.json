@@ -116,6 +116,7 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"textAlign": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

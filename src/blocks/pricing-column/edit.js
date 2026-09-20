@@ -27,7 +27,8 @@ export default function Edit( {
 	const { featured, badge, option } = attributes;
 	const tableOptions = context[ 'ever-blocks/pricingOptions' ] ?? [];
 	const active = context[ 'ever-blocks/pricingActive' ];
-	const shown = ! option || ! tableOptions.length || option === active;
+	const shown =
+		! tableOptions.some( ( o ) => o.slug === option ) || option === active;
 	const { parentId, index, isSelected } = useSelect(
 		( select ) => {
 			const {

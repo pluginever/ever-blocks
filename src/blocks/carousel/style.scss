@@ -1,5 +1,5 @@
 .eb-carousel {
-	--per-view: var(--ever-blocks-carousel-per-view, 3);
+	--per-view: var(--ever-blocks-carousel-per-view, 1);
 	--gap: var(--ever-blocks-carousel-gap, var(--eb-spacing-sm));
 	--peek: var(--ever-blocks-carousel-peek, 0px);
 
@@ -124,7 +124,7 @@
 	}
 
 	@media (width <= 782px) {
-		--per-view: min(var(--ever-blocks-carousel-per-view, 2), 2);
+		--per-view: min(var(--ever-blocks-carousel-per-view, 1), 2);
 	}
 
 	@media (width <= 480px) {

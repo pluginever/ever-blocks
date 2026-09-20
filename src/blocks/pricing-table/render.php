@@ -37,7 +37,7 @@ foreach ( $eb_slugs ? $eb_slugs : array( '' ) as $eb_slug ) {
 	foreach ( $block->parsed_block['innerBlocks'] ?? array() as $eb_column ) {
 		$eb_for = $eb_column['attrs']['option'] ?? '';
 
-		if ( '' === $eb_for || $eb_for === $eb_slug ) {
+		if ( $eb_for === $eb_slug || ! in_array( $eb_for, $eb_slugs, true ) ) {
 			++$eb_shown;
 		}
 	}
