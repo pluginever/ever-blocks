@@ -151,8 +151,8 @@ function Options( { options, active, setAttributes, panelId } ) {
 	const update = ( next ) => {
 		const patch = { options: next };
 
-		if ( next.length && ! next.some( ( o ) => o.slug === active ) ) {
-			patch.active = next[ 0 ].slug;
+		if ( ! next.some( ( o ) => o.slug === active ) ) {
+			patch.active = next[ 0 ]?.slug ?? '';
 		}
 
 		setAttributes( patch );
@@ -276,10 +276,11 @@ function Table( { attributes, setAttributes, clientId } ) {
 	const { count, perRow } = useSelect(
 		( select ) => {
 			const columns = select( blockEditorStore ).getBlocks( clientId );
+			const slugs = options.map( ( option ) => option.slug );
 			const shown = ( slug ) =>
 				columns.filter(
 					( column ) =>
-						! column.attributes.option ||
+						! slugs.includes( column.attributes.option ) ||
 						column.attributes.option === slug
 				).length;
 

@@ -61,6 +61,7 @@ class PricingTableTest extends TestCase {
 		$this->assertStringNotContainsString( 'role="radiogroup"', $plain );
 		$this->assertStringNotContainsString( 'data-wp-interactive', $plain );
 		$this->assertStringNotContainsString( '<div hidden', $plain, 'Without options every column shows.' );
+		$this->assertStringContainsString( '--columns:1', $plain, 'A column tagged with a removed option still counts.' );
 		$this->assertStringContainsString( '<span class="eb-pricing-price__amount">24</span>', $plain );
 	}
 
