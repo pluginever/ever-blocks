@@ -13,7 +13,8 @@
 		pointer-events: none;
 	}
 
-	&.is-layout-columns .eb-carousel__track {
+	&.is-layout-columns .eb-carousel__track,
+	&.is-layout-columns.is-moving .eb-carousel__track {
 		display: block;
 		column-count: var(--columns, 3);
 		height: auto;
@@ -27,8 +28,10 @@
 		gap: var(--gap);
 	}
 
-	&.is-layout-columns .eb-carousel__slide {
+	&.is-layout-columns .eb-carousel__slide,
+	&.is-layout-columns.is-moving .eb-carousel__slide {
 		flex: none;
+		margin-bottom: var(--gap);
 	}
 
 	&.is-layout-columns .block-list-appender {

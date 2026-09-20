@@ -84,6 +84,10 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
 	);
+	const perView = Math.max(
+		1,
+		parseInt( attributes.style?.everBlocks?.perView, 10 ) || 1
+	);
 	const { insertBlock } = useDispatch( blockEditorStore );
 	const blockProps = useBlockProps( {
 		className: `eb-carousel is-layout-${ layout }${
@@ -437,15 +441,23 @@ function Carousel( { attributes, setAttributes, clientId } ) {
 						) }
 						{ dots && (
 							<span className="eb-carousel__dots">
-								{ Array.from( { length: count }, ( _, i ) => (
-									<span
-										key={ i }
-										className="eb-carousel__dot"
-										aria-current={
-											0 === i ? 'true' : undefined
-										}
-									/>
-								) ) }
+								{ Array.from(
+									{
+										length: Math.max(
+											1,
+											count - perView + 1
+										),
+									},
+									( _, i ) => (
+										<span
+											key={ i }
+											className="eb-carousel__dot"
+											aria-current={
+												0 === i ? 'true' : undefined
+											}
+										/>
+									)
+								) }
 							</span>
 						) }
 						{ arrows && (
