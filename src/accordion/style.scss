@@ -8,6 +8,10 @@
 	border-top: var(--eb-border-width) solid var(--eb-color-border);
 }
 
+:root :where(.wp-block-accordion.is-style-divided .wp-block-accordion-heading__toggle) {
+	padding: var(--eb-spacing-xs) 0;
+}
+
 .wp-block-accordion.is-style-divided {
 
 	> .wp-block-accordion-item {
@@ -23,7 +27,6 @@
 
 	.wp-block-accordion-heading__toggle {
 		gap: var(--eb-spacing-2xs);
-		padding: var(--eb-spacing-xs) 0;
 
 		&:hover .wp-block-accordion-heading__toggle-title {
 			text-decoration: none;

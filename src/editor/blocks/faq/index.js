@@ -42,10 +42,21 @@ registerBlockVariation( BLOCK, {
 } );
 
 function addAttribute( settings, name ) {
-	if (
-		'core/accordion-heading' === name ||
-		'core/accordion-panel' === name
-	) {
+	if ( 'core/accordion-heading' === name ) {
+		return {
+			...settings,
+			usesContext: [ ...( settings.usesContext ?? [] ), CONTEXT ],
+			supports: {
+				...settings.supports,
+				typography: {
+					...settings.supports?.typography,
+					textAlign: true,
+				},
+			},
+		};
+	}
+
+	if ( 'core/accordion-panel' === name ) {
 		return {
 			...settings,
 			usesContext: [ ...( settings.usesContext ?? [] ), CONTEXT ],

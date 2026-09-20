@@ -118,7 +118,7 @@ class Faq extends Block {
 	}
 
 	/**
-	 * Adds the schema attribute to the accordion and hands it to the heading and panel as context.
+	 * Adds the schema attribute and context to the accordion blocks, and title alignment to the heading.
 	 *
 	 * @since 2.0.0
 	 * @param array<string, mixed> $settings Block type settings.
@@ -138,6 +138,10 @@ class Faq extends Block {
 
 		if ( in_array( $name, array( 'core/accordion-heading', 'core/accordion-panel' ), true ) ) {
 			$settings['uses_context'][] = self::CONTEXT;
+		}
+
+		if ( 'core/accordion-heading' === $name ) {
+			$settings['supports']['typography']['textAlign'] = true;
 		}
 
 		return $settings;
