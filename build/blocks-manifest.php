@@ -1094,6 +1094,7 @@ return array(
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
+				'textAlign' => true,
 				'__experimentalDefaultControls' => array(
 					'fontSize' => true
 				)
